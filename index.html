@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Protocolo Vida Real em 15 Dias · Kinetic Red</title>
+    <title>Protocolo Vida Real · 15 Dias · Versão Aprimorada</title>
     <!-- Google Fonts: Space Grotesk -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,7 +11,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* ---------- DESIGN SYSTEM · KINETIC RED (baseado no original) ---------- */
         * {
             margin: 0;
             padding: 0;
@@ -20,48 +19,52 @@
 
         body {
             font-family: 'Space Grotesk', sans-serif;
-            background-color: #09090B;      /* rich black */
-            color: #FAFAFA;                  /* off-white */
+            background-color: #0F0F0F;
+            color: #FAFAFA;
             line-height: 1.5;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* ▩ NOISE TEXTURE */
         body::after {
             content: '';
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSczMDAnIGhlaWdodD0nMzAwJz48ZmlsdGVyIGlkPSdub2lzZScgeD0nMCcgeT0nMCc+PGZlVHVyYnVsZW5jZSB0eXBlPSdmcmFjdGFsTm9pc2UnIGJhc2VGcmVxdWVuY3k9JzAuOCcgbnVtT2N0YXZlcz0nNCcvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnIGZpbHRlcj0ndXJsKCNub2lzZSknIG9wYWNpdHk9JzAuMDMnLz48L3N2Zz4=');
-            opacity: 0.03;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSczMDAnIGhlaWdodD0nMzAwJz48ZmlsdGVyIGlkPSdub2lzZScgeD0nMCcgeT0nMCc+PGZlVHVyYnVsZW5jZSB0eXBlPSdmcmFjdGFsTm9pc2UnIGJhc2VGcmVxdWVuY3k9JzAuOCcgbnVtT2N0YXZlcz0nNCcvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnIGZpbHRlcj0ndXJsKCNub2lzZSknIG9wYWNpdHk9JzAuMDInLz48L3N2Zz4=');
+            opacity: 0.02;
             mix-blend-mode: overlay;
             z-index: 9999;
         }
 
-        /* ▩ CONTAINER */
         .container {
             max-width: 95vw;
             margin: 0 auto;
             padding: 0 20px;
         }
 
-        /* ▩ TIPOGRAFIA */
+        .hero .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 3;
+        }
+
         h1, h2, h3, .h1, .h2, .h3, .btn, .card h3, .faq-question {
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: -0.02em;
         }
 
-        /* HEADLINE REDUZIDA (solicitação do usuário) */
         h1, .h1 {
-            font-size: clamp(2.2rem, 8vw, 5.5rem);
+            font-size: clamp(2.2rem, 8vw, 8rem);
             line-height: 1.1;
             margin-bottom: 1rem;
         }
 
         h2, .h2 {
-            font-size: clamp(2rem, 6vw, 4rem);
+            font-size: clamp(2rem, 6vw, 5rem);
             line-height: 1.1;
             margin-bottom: 1.5rem;
         }
@@ -69,16 +72,15 @@
 
         p {
             font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: #A1A1AA;
+            color: #CCCCCC;
+            line-height: 1.6;
         }
 
-        /* CORES ATUALIZADAS: vermelho no lugar do amarelo ácido */
-        .text-accent { color: #E30613; }        /* vermelho vibrante */
-        .bg-accent { background-color: #E30613; }
-        .border-accent { border-color: #E30613; }
+        .text-accent { color: #E63946; }
+        .bg-accent { background-color: #E63946; }
+        .border-accent { border-color: #E63946; }
         .border-dark { border-color: #3F3F46; }
 
-        /* ▩ BOTÕES */
         .btn {
             display: inline-block;
             font-weight: 700;
@@ -95,9 +97,9 @@
             border-radius: 0;
         }
         .btn-primary {
-            background: #E30613;
+            background: #E63946;
             color: #FFFFFF;
-            border-color: #E30613;
+            border-color: #E63946;
         }
         .btn-primary:hover { transform: scale(1.05); }
         .btn-primary:active { transform: scale(0.95); }
@@ -107,16 +109,15 @@
             border-color: #FAFAFA;
         }
 
-        /* ▩ CARDS — hover agora com vermelho */
         .card {
             border: 2px solid #3F3F46;
-            background: #09090B;
+            background: #0F0F0F;
             padding: 2rem;
             transition: all 0.3s ease;
         }
         .card:hover {
-            background: #E30613;
-            border-color: #E30613;
+            background: #E63946;
+            border-color: #E63946;
             color: #FFFFFF;
         }
         .card:hover p,
@@ -126,11 +127,10 @@
         }
         .card i {
             font-size: 2.5rem;
-            color: #E30613;
+            color: #E63946;
             margin-bottom: 1rem;
         }
 
-        /* ▩ GRIDS */
         .grid {
             display: grid;
             gap: 2rem;
@@ -142,14 +142,13 @@
             .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
         }
 
-        /* ▩ MARQUEE — cor do texto alterada para vermelho */
         .marquee {
             overflow: hidden;
             white-space: nowrap;
             border-top: 2px solid #3F3F46;
             border-bottom: 2px solid #3F3F46;
             padding: 1rem 0;
-            background: #09090B;
+            background: #0F0F0F;
         }
         .marquee-content {
             display: inline-block;
@@ -160,7 +159,7 @@
             font-size: clamp(1.5rem, 5vw, 3rem);
             font-weight: 700;
             text-transform: uppercase;
-            color: #E30613;                     /* vermelho */
+            color: #E63946;
         }
         .marquee-content span i {
             color: #FAFAFA;
@@ -171,10 +170,9 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* ▩ TIMER */
         .timer-bar {
-            background: #09090B;
-            border-bottom: 2px solid #E30613;
+            background: #0F0F0F;
+            border-bottom: 2px solid #E63946;
             color: #FAFAFA;
             text-align: center;
             padding: 0.75rem;
@@ -186,18 +184,47 @@
         .timer-bar span {
             background: #27272A;
             padding: 0.25rem 1rem;
-            color: #E30613;
+            color: #E63946;
             font-size: 1.5rem;
             margin-left: 0.5rem;
         }
 
-        /* ▩ HERO — sem o número de fundo (removido) */
         .hero {
             padding: 4rem 0;
             position: relative;
+            isolation: isolate;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                rgba(230, 57, 70, 0.02) 0px,
+                rgba(230, 57, 70, 0.02) 2px,
+                transparent 2px,
+                transparent 8px
+            );
+            pointer-events: none;
+            z-index: 1;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -20%; left: -10%;
+            width: 70%;
+            height: 140%;
+            background: radial-gradient(circle at 30% 30%, rgba(230,57,70,0.05), transparent 70%);
+            pointer-events: none;
+            z-index: 1;
+            transform: rotate(-10deg);
+        }
+        .hero .container {
+            position: relative;
+            z-index: 3;
         }
 
-        /* ▩ REVEAL */
         .reveal {
             opacity: 0;
             transform: translateY(30px);
@@ -208,7 +235,6 @@
             transform: translateY(0);
         }
 
-        /* ▩ FAQ */
         .faq-item {
             border: 2px solid #3F3F46;
             margin-bottom: 1rem;
@@ -223,7 +249,7 @@
             align-items: center;
         }
         .faq-question i {
-            color: #E30613;
+            color: #E63946;
             transition: transform 0.3s;
         }
         .faq-item.active .faq-question i {
@@ -234,14 +260,13 @@
             padding: 0 1.5rem;
             overflow: hidden;
             transition: max-height 0.3s, padding 0.3s;
-            color: #A1A1AA;
+            color: #CCCCCC;
         }
         .faq-item.active .faq-answer {
             max-height: 300px;
             padding: 0 1.5rem 1.5rem;
         }
 
-        /* ▩ AUTORIDADE */
         .autoridade {
             display: flex;
             gap: 2rem;
@@ -253,14 +278,18 @@
             width: 150px;
             height: 150px;
             border-radius: 50%;
-            border: 4px solid #E30613;
+            border: 4px solid #E63946;
             overflow: hidden;
             flex-shrink: 0;
         }
-        .autoridade-img img { width: 100%; height: 100%; object-fit: cover; }
+        .autoridade-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 30%;
+        }
         @media (max-width:768px){ .autoridade{ flex-direction:column; text-align:center; } }
 
-        /* ▩ PREÇO */
         .preco-original {
             text-decoration: line-through; 
             font-weight: bold;
@@ -270,19 +299,17 @@
         .preco-atual {
             font-size: clamp(3rem, 10vw, 6rem);
             font-weight: 900;
-            color: #E30613;
+            color: #E63946;
             line-height: 1;
         }
 
-        /* ▩ GARANTIA */
         .garantia {
-            border: 2px solid #E30613;
+            border: 2px solid #E63946;
             padding: 3rem;
             text-align: center;
         }
-        .garantia i { font-size: 4rem; color: #E30613; margin-bottom: 1rem; }
+        .garantia i { font-size: 4rem; color: #E63946; margin-bottom: 1rem; }
 
-        /* ▩ FOOTER */
         footer {
             padding: 2rem 0;
             border-top: 2px solid #3F3F46;
@@ -290,30 +317,189 @@
             color: #666;
         }
 
-        /* ▩ UTILITÁRIOS */
         .text-center { text-align: center; }
         .mt-2 { margin-top: 2rem; }
         .mb-2 { margin-bottom: 2rem; }
         .py-4 { padding-top: 4rem; padding-bottom: 4rem; }
         .border-bottom { border-bottom: 2px solid #3F3F46; }
+
+        /* Bullet list - padrão para desktop */
+        .bullet-list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .bullet-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(230, 57, 70, 0.05);
+            padding: 0.75rem 1.5rem;
+            border: 1px solid #3F3F46;
+        }
+        .bullet-item i {
+            color: #E63946;
+            font-size: 1.5rem;
+        }
+        .bullet-item span {
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 1rem;
+        }
+
+        /* Ajuste para mobile: dois por linha com mesma largura */
+        @media (max-width: 768px) {
+            .bullet-list {
+                gap: 1rem;
+            }
+            .bullet-item {
+                flex: 1 1 calc(50% - 1rem);
+                justify-content: center;
+                padding: 0.75rem 0.5rem;
+                text-align: center;
+            }
+            .bullet-item i {
+                font-size: 1.2rem;
+            }
+            .bullet-item span {
+                font-size: 0.9rem;
+            }
+        }
+
+        .destaque-frase {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 700;
+            text-align: center;
+            margin: 3rem 0;
+            padding: 2rem;
+            border-top: 2px solid #E63946;
+            border-bottom: 2px solid #E63946;
+        }
+        .destaque-frase p {
+            color: #FAFAFA;
+            font-size: inherit;
+        }
+
+        /* Timer extra */
+        .timer-extra {
+            background: #E63946;
+            border: 2px solid #FFFFFF;
+            padding: 2rem;
+            text-align: center;
+            max-width: 600px;
+            margin: 2rem auto;
+        }
+        .timer-extra p {
+            color: #0F0F0F;
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .timer-extra .contador {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #0F0F0F;
+            font-family: monospace;
+            background: #FFFFFF;
+            display: inline-block;
+            padding: 1rem 2rem;
+            border: 2px solid #0F0F0F;
+        }
+
+        /* Selo de garantia destacado */
+        .garantia-destaque {
+            border: 4px solid #E63946;
+            background: #0F0F0F;
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 0 30px rgba(230,57,70,0.3);
+        }
+        .garantia-destaque i {
+            font-size: 6rem;
+            color: #E63946;
+            margin-bottom: 1rem;
+        }
+        .garantia-destaque h2 {
+            font-size: clamp(2rem, 5vw, 4rem);
+            margin-bottom: 1rem;
+        }
+        .garantia-destaque p {
+            font-size: 1.4rem;
+            color: #CCCCCC;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .garantia-destaque .risco-zero {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #E63946;
+            margin-top: 2rem;
+            text-transform: uppercase;
+        }
+
+        /* Botão flutuante para mobile */
+        .cta-flutuante {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: #E63946;
+            padding: 1rem;
+            text-align: center;
+            z-index: 9999;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            border-top: 2px solid #FFFFFF;
+        }
+        .cta-flutuante a {
+            color: #0F0F0F;
+            font-weight: 900;
+            font-size: 1.4rem;
+            text-decoration: none;
+            text-transform: uppercase;
+            display: block;
+        }
+        .cta-flutuante a:hover {
+            opacity: 0.9;
+        }
+        @media (max-width: 768px) {
+            .cta-flutuante {
+                transform: translateY(0);
+            }
+            body {
+                padding-bottom: 80px;
+            }
+        }
     </style>
 </head>
 <body>
 
-    <!-- TIMER STICKY -->
+    <!-- Botão flutuante (mobile) -->
+    <div class="cta-flutuante">
+        <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer">👉 QUERO EMAGRECER AGORA</a>
+    </div>
+
     <div class="timer-bar" id="timerBar">
         ⏳ Oferta especial termina em: <span id="contador">48:00:00</span>
     </div>
 
-    <!-- HERO (sem número de fundo) -->
     <section class="hero">
         <div class="container">
             <div class="reveal">
-                <!-- Headline com fonte reduzida (clamp ajustado) -->
-                <h1>CHEGA DE PARECER UMA BEXIGA: <span class="text-accent">DESINCHE E DESTRAVE O METABOLISMO EM 15 DIAS</span> — COMENDO COMIDA DE VERDADE.</h1>
-                <p class="text-muted" style="font-size: 1.3rem;">Não, você não vai fazer dieta do alface. Você vai seguir um protocolo simples com <strong>substituições inteligentes</strong> — feito pra sua rotina corrida, sem neurose, sem efeito sanfona e sem dieta milagrosa.</p>
-                <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">QUERO ENTRAR NO PROTOCOLO POR R$ 46,97</a>
-                <p class="text-muted mt-2"><i class="fas fa-lock"></i> Compra segura | 12x de R$ 4,70</p>
+                <h1>DESINCHE E DESTRAVE SEU METABOLISMO EM 15 DIAS</h1>
+                <h2 class="text-accent">COMENDO COMIDA DE VERDADE</h2>
+                
+                <div class="bullet-list">
+                    <div class="bullet-item"><i class="fas fa-check-circle"></i> <span>SEM PASSAR FOME</span></div>
+                    <div class="bullet-item"><i class="fas fa-check-circle"></i> <span>SEM EFEITO SANFONA</span></div>
+                    <div class="bullet-item"><i class="fas fa-check-circle"></i> <span>SEM NEUROSE</span></div>
+                    <div class="bullet-item"><i class="fas fa-check-circle"></i> <span>SEM DIETA MILAGROSA</span></div>
+                </div>
+
+                <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">QUERO ENTRAR NO PROTOCOLO</a>
             </div>
             <div class="text-center mt-2 reveal">
                 <div class="autoridade-img" style="margin: 0 auto;">
@@ -324,104 +510,103 @@
         </div>
     </section>
 
-    <!-- MARQUEE 1 -->
     <div class="marquee">
         <div class="marquee-content">
-            <span>15 DIAS <i class="fas fa-circle"></i> RESET METABÓLICO <i class="fas fa-circle"></i> 4 REGRAS <i class="fas fa-circle"></i> R$ 46,97 <i class="fas fa-circle"></i> 12X R$ 4,70 <i class="fas fa-circle"></i> DESINCHAR <i class="fas fa-circle"></i> DESTRAVAR <i class="fas fa-circle"></i> </span>
-            <span>15 DIAS <i class="fas fa-circle"></i> RESET METABÓLICO <i class="fas fa-circle"></i> 4 REGRAS <i class="fas fa-circle"></i> R$ 46,97 <i class="fas fa-circle"></i> 12X R$ 4,70 <i class="fas fa-circle"></i> DESINCHAR <i class="fas fa-circle"></i> DESTRAVAR <i class="fas fa-circle"></i> </span>
+            <span>15 DIAS <i class="fas fa-circle"></i> RESET METABÓLICO <i class="fas fa-circle"></i> 4 REGRAS <i class="fas fa-circle"></i> DESINCHAR <i class="fas fa-circle"></i> DESTRAVAR <i class="fas fa-circle"></i></span>
+            <span>15 DIAS <i class="fas fa-circle"></i> RESET METABÓLICO <i class="fas fa-circle"></i> 4 REGRAS <i class="fas fa-circle"></i> DESINCHAR <i class="fas fa-circle"></i> DESTRAVAR <i class="fas fa-circle"></i></span>
         </div>
     </div>
 
-    <!-- SEÇÃO DOR -->
     <section class="py-4">
         <div class="container">
-            <h2 class="reveal">A REALIDADE QUE NINGUÉM CONTA</h2>
+            <h2 class="reveal">EU JÁ SEI O QUE VOCÊ ESTÁ SENTINDO</h2>
             <div class="grid grid-2">
                 <div class="card reveal">
-                    <i class="fas fa-utensils"></i>
-                    <h3>A DIETA QUE DESMORONA</h3>
-                    <p>Você começa segunda cheio de gás, corta tudo que gosta, faz dieta da alface, do ovo... e nada. A rotina aperta e o plano vai por água abaixo.</p>
+                    <i class="fas fa-weight-scale"></i>
+                    <h3>MEDO DA BALANÇA</h3>
+                    <p>Você evita se pesar, sabe que o número vai te frustrar. As roupas não servem mais e você se sente preso no corpo errado.</p>
                 </div>
                 <div class="card reveal">
-                    <i class="fas fa-brain"></i>
-                    <h3>A CULPA QUE VEM DEPOIS</h3>
-                    <p>"Falta de disciplina", "não nasci pra isso". Mentira. O problema não é você — é o plano impossível que te empurraram.</p>
+                    <i class="fas fa-users"></i>
+                    <h3>VERGONHA DE FOTOS</h3>
+                    <p>Você sempre pede para os outros tirarem outra foto, ou pior, só aparece em fotos de grupo porque não tem jeito.</p>
                 </div>
                 <div class="card reveal">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>O EFEITO SANFONA</h3>
-                    <p>Você sai do trilho um dia, se sente um fracasso, desiste — e em duas semanas recupera tudo. O efeito sanfona destruindo sua autoestima e metabolismo.</p>
+                    <i class="fas fa-clock"></i>
+                    <h3>DIETAS QUE NUNCA FUNCIONAM</h3>
+                    <p>Você começa segunda, passa fome, e no fim de semana desiste. Aí vem a culpa e a sensação de que é impossível mudar.</p>
                 </div>
                 <div class="card reveal">
-                    <i class="fas fa-chalkboard-teacher"></i>
-                    <h3>O GURU DA INTERNET</h3>
-                    <p>"É só ter disciplina". Disciplina sem estratégia vira castigo. E castigo ninguém sustenta.</p>
+                    <i class="fas fa-hand"></i>
+                    <h3>DEPENDÊNCIA DE INDICAÇÃO</h3>
+                    <p>Você só consegue emagrecer quando alguém te empurra, mas na primeira dificuldade, volta tudo. Falta um método real.</p>
                 </div>
             </div>
-            <p class="text-center" style="font-size: 2rem; font-weight: 700; margin-top: 3rem;">"Você não precisa de outra dieta milagrosa. Precisa de um método que funcione no mundo real."</p>
+
+            <div class="destaque-frase reveal">
+                <p>Dieta milagrosa não existe. É mentira de quem quer te enganar.<br> <span class="text-accent">O que existe é um método que funciona no mundo real.</span></p>
+            </div>
+
         </div>
     </section>
 
-    <!-- PROTOCOLO -->
     <section class="py-4 border-bottom">
         <div class="container">
             <h2 class="reveal">O PROTOCOLO VIDA REAL EM 15 DIAS</h2>
-            <p class="text-muted" style="font-size: 1.4rem;">Não é um jejum milagroso, nem mounjaro em forma de chá. É um <strong class="text-accent">Reset Metabólico de 15 dias</strong> pra você desinchar rápido, perder medidas e destravar o efeito sanfona — comendo comida de verdade.</p>
+            <p class="text-muted" style="font-size: 1.4rem;">Não é jejum maluco, nem remédio disfarçado de chá. É um <strong class="text-accent">Reset Metabólico prático</strong> baseado em 4 pilares:</p>
             <div class="grid grid-4">
                 <div class="card text-center reveal">
                     <i class="fas fa-ban"></i>
                     <h3>ZERO AÇÚCAR</h3>
-                    <p>Pra matar a fome falsa, reduzir compulsão e acabar com a retenção.</p>
+                    <p>Mata a fome falsa e reseta o paladar.</p>
                 </div>
                 <div class="card text-center reveal">
                     <i class="fas fa-tint"></i>
                     <h3>META HÍDRICA</h3>
-                    <p>Água na medida certa pra desinchar e acelerar o metabolismo.</p>
+                    <p>Água na medida certa para acelerar a queima.</p>
                 </div>
                 <div class="card text-center reveal">
                     <i class="fas fa-walking"></i>
-                    <h3>MOVIMENTO</h3>
-                    <p>Nada de treino de atleta. Movimento que dá pra manter na rotina.</p>
+                    <h3>MOVIMENTO VIÁVEL</h3>
+                    <p>Nada de treinos de atleta. Apenas o essencial.</p>
                 </div>
                 <div class="card text-center reveal">
                     <i class="fas fa-bed"></i>
                     <h3>SONO REGULADO</h3>
-                    <p>Metabolismo ruim e sono ruim andam juntos. Vamos ajustar.</p>
+                    <p>Onde a verdadeira queima de gordura acontece.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ENTREGÁVEIS -->
     <section class="py-4">
         <div class="container">
             <h2 class="reveal">VOCÊ LEVA TUDO ISSO</h2>
             <div class="grid grid-2">
                 <div class="card reveal">
                     <i class="fas fa-fire"></i>
-                    <h3>Guia de Execução</h3>
-                    <p>Guia personalizado de acordo com suas informações, para que você execute sem confusão.</p>
+                    <h3>Guia de Execução 15D</h3>
+                    <p>Seu mapa exato e direto ao ponto. Sem confusão.</p>
                 </div>
                 <div class="card reveal">
                     <i class="fas fa-exchange-alt"></i>
-                    <h3>Guia de Substituições Inteligentes <span class="text-accent">🎁BÔNUS🎁</span></h3>
-                    <p>Liberdade pra comer o que gosta com estratégia, sem sair da dieta.</p>
+                    <h3>Guia de Substituições Inteligentes <span class="text-accent">🎁BÔNUS</span></h3>
+                    <p>Liberdade para comer o que gosta com estratégia.</p>
                 </div>
                 <div class="card reveal">
                     <i class="fas fa-chart-line"></i>
-                    <h3>Tracker de Hábitos de 15 Dias <span class="text-accent">🎁BÔNUS🎁</span></h3>
-                    <p>Sistema de acompanhamento diário pra você enxergar progresso.</p>
+                    <h3>Tracker de Hábitos <span class="text-accent">🎁BÔNUS</span></h3>
+                    <p>Sistema visual para acompanhar seu progresso diário.</p>
                 </div>
                 <div class="card reveal">
                     <i class="fab fa-whatsapp"></i>
-                    <h3>Grupo VIP no WhatsApp <span class="text-accent">🎁BÔNUS🎁</span></h3>
-                    <p>Áudios diários do Victor Gedda: orientação, ajuste, motivação e suporte para tirar todas suas dúvidas.</p>
+                    <h3>Grupo VIP no WhatsApp <span class="text-accent">🎁BÔNUS</span></h3>
+                    <p>Áudios diários e suporte direto com Victor Gedda.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- AUTORIDADE -->
     <section class="py-4 border-bottom">
         <div class="container">
             <h2 class="reveal">QUEM É VICTOR GEDDA?</h2>
@@ -430,42 +615,48 @@
                     <img src="https://i.imgur.com/reDcNsn.png" alt="Victor Gedda">
                 </div>
                 <div>
-                    <p style="font-size: 1.3rem;">Victor Gedda é nutricionista e referência em <strong>Trindade/Goiânia</strong>. Enquanto muitos profissionais empurram cardápio engessado e culpam o paciente, Gedda construiu uma estratégia validada e comprovada pelos seus alunos: <strong class="text-accent">O MÉTODO VIDA REAL</strong> — comida de verdade, rotina possível, consistência, substituições inteligentes e zero mimimi.</p>
+                    <p style="font-size: 1.3rem;">Nutricionista (CRN1-25468) e referência em Trindade/Goiânia. Mais de 10 anos de experiência e centenas de alunos que conquistaram resultados reais comendo comida de verdade, sem sofrimento. Criador do <strong class="text-accent">Método Vida Real</strong>.</p>
                     <p class="text-muted" style="margin-top: 1rem;">Agora com um protocolo para te preparar para a vida real!</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- MARQUEE 2 -->
     <div class="marquee">
         <div class="marquee-content">
-            <span>GARANTIA 7 DIAS <i class="fas fa-circle"></i> RISCO ZERO <i class="fas fa-circle"></i> SATISFAÇÃO TOTAL <i class="fas fa-circle"></i> DEVOLUÇÃO 100% <i class="fas fa-circle"></i> </span>
-            <span>GARANTIA 7 DIAS <i class="fas fa-circle"></i> RISCO ZERO <i class="fas fa-circle"></i> SATISFAÇÃO TOTAL <i class="fas fa-circle"></i> DEVOLUÇÃO 100% <i class="fas fa-circle"></i> </span>
+            <span>GARANTIA 7 DIAS <i class="fas fa-circle"></i> RISCO ZERO <i class="fas fa-circle"></i> SATISFAÇÃO TOTAL <i class="fas fa-circle"></i> DEVOLUÇÃO 100% <i class="fas fa-circle"></i></span>
+            <span>GARANTIA 7 DIAS <i class="fas fa-circle"></i> RISCO ZERO <i class="fas fa-circle"></i> SATISFAÇÃO TOTAL <i class="fas fa-circle"></i> DEVOLUÇÃO 100% <i class="fas fa-circle"></i></span>
         </div>
     </div>
 
-    <!-- PREÇO -->
     <section class="py-4 text-center">
         <div class="container">
-            <h2 class="reveal">INVESTIMENTO</h2>
-            <p class="reveal" style="font-size: 1.8rem;">Pegue o valor de uma pizza e invista no método que realmente funciona!</p>
+            <h2 class="reveal">O PREÇO DA MUDANÇA</h2>
+            <p class="reveal" style="font-size: 1.8rem;">Menos que uma pizza por mês para finalmente transformar seu corpo e sua saúde.</p>
             <p class="preco-original reveal">R$ 89,90</p>
-            <span class="preco-atual reveal">R$ 46,97 no Pix</span>
+            <span class="preco-atual reveal">R$ 46,97</span>
             <p class="reveal" style="font-size: 1.8rem; font-weight: 700;">ou 12x de R$ 4,70</p>
-            <p class="reveal text-accent" style="font-size: 1.5rem; font-weight: 700;">🎯 Você economiza R$ 42,93 (mais de 50% de desconto!)</p>
+            <p class="reveal text-accent" style="font-size: 1.5rem; font-weight: 700;">🔥 Você economiza R$ 42,93 (mais de 50% de desconto!)</p>
             <p class="reveal text-muted" style="max-width: 600px; margin: 2rem auto;">Menos que um lanche no fim de semana. Pra você finalmente executar algo que dê resultado.</p>
-            <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer" class="btn btn-primary reveal">🔍 QUERO ENTRAR NO DESAFIO E COMEÇAR HOJE</a>
+
+            <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer" class="btn btn-primary reveal">🔍 QUERO COMEÇAR AGORA</a>
         </div>
     </section>
 
-    <!-- GARANTIA -->
+    <!-- Timer extra -->
+    <div class="timer-extra reveal">
+        <p>⏳ ÚLTIMAS HORAS COM ESTE PREÇO!</p>
+        <div class="contador" id="contador2">48:00:00</div>
+    </div>
+
+    <!-- Selo de garantia destacado -->
     <section class="py-4">
         <div class="container">
-            <div class="garantia reveal">
+            <div class="garantia-destaque reveal">
                 <i class="fas fa-shield-alt"></i>
-                <h2 style="margin-bottom: 1rem;">GARANTIA INCONDICIONAL DE 7 DIAS</h2>
-                <p style="font-size: 1.2rem; color: #A1A1AA;">Você tem 7 dias para testar. Se por qualquer motivo não se adaptar, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia. O risco é todo nosso.</p>
+                <h2>GARANTIA INCONDICIONAL DE 7 DIAS</h2>
+                <p>Se você seguir o protocolo por 7 dias e não notar resultados, devolvemos 100% do seu dinheiro. Sem perguntas, sem burocracia.</p>
+                <div class="risco-zero">O RISCO É TODO NOSSO</div>
             </div>
         </div>
     </section>
@@ -481,51 +672,68 @@
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        O Protocolo é feito pra rotina corrida. Você não vai virar chef de cozinha. Vai trabalhar com substituições inteligentes e refeições simples. A meta é executar rápido, não cozinhar gourmet.
+                        Sim. O protocolo é feito para a rotina corrida. Você vai aprender substituições inteligentes e refeições simples que levam minutos para preparar.
                     </div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>2️⃣ "Vou passar fome ou sofrer com restrição?"</span>
+                        <span>2️⃣ "Vou passar fome?"</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        Zero. A proposta não é restrição extrema. Você vai comer comida de verdade com estratégia — justamente pra reduzir a compulsão, a fome de ansiedade e aquela vontade de beliscar toda hora.
+                        Zero. A ideia é justamente acabar com a fome falsa e a ansiedade por comida. Você vai comer bem e com estratégia.
                     </div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>3️⃣ "Serve pra homem e mulher? Tem diferença?"</span>
+                        <span>3️⃣ "E se eu não gostar de cozinhar?"</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        Serve. O método foi criado pra homens e mulheres de 25 a 55 anos que querem desinchar, perder medidas e sair do efeito sanfona. As regras são universais.
+                        O guia de substituições inteligentes mostra opções práticas e rápidas, inclusive com comidas prontas saudáveis. Você não vira chef de cozinha.
                     </div>
                 </div>
                 <div class="faq-item">
                     <div class="faq-question">
-                        <span>4️⃣ "Como recebo o acesso depois da compra?"</span>
+                        <span>4️⃣ "Preciso fazer exercícios pesados?"</span>
                         <i class="fas fa-chevron-down"></i>
                     </div>
                     <div class="faq-answer">
-                        Imediato. Após a confirmação do pagamento, você recebe no e-mail o acesso completo às instruções e o convite para entrar no Grupo VIP do WhatsApp.
+                        Não. O movimento é pensado para ser viável: caminhadas leves e atividades simples. Nada de treino de atleta.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>5️⃣ "O que acontece depois dos 15 dias?"</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Você terá resetado seu metabolismo e aprendido o método. Pode repetir o ciclo ou seguir com as novas escolhas saudáveis.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>6️⃣ "Como recebo o acesso?"</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        Imediato. Após a confirmação do pagamento, você recebe no e-mail o acesso completo e o convite para o Grupo VIP no WhatsApp.
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ÚLTIMO CTA -->
     <section class="py-4 text-center border-bottom">
         <div class="container">
             <h2 class="reveal">VAGAS LIMITADAS PARA O GRUPO VIP</h2>
-            <p class="reveal" style="font-size: 1.5rem;">Quando o grupo lotar, a entrada fecha. Garanta sua vaga agora.</p>
-            <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer" class="btn btn-primary reveal">QUERO GARANTIR MINHA VAGA POR R$ 46,97</a>
+            <p class="reveal" style="font-size: 1.5rem;">Garanta sua vaga agora antes que o preço suba.</p>
+            <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer" class="btn btn-primary reveal">👉 QUERO ENTRAR AGORA</a>
             <p class="text-muted mt-2 reveal">12x de R$ 4,70 | Compra segura</p>
         </div>
     </section>
 
-    <!-- RODAPÉ -->
+    <!-- Rodapé simplificado -->
     <footer>
         <div class="container">
             <p>Protocolo Vida Real em 15 Dias - Todos os direitos reservados</p>
@@ -534,27 +742,35 @@
     </footer>
 
     <script>
-        // TIMER 48h
         let tempoRestante = 48 * 60 * 60;
         const contadorSpan = document.getElementById('contador');
+        const contadorSpan2 = document.getElementById('contador2');
+
         function atualizarTimer() {
             const horas = Math.floor(tempoRestante / 3600);
             const minutos = Math.floor((tempoRestante % 3600) / 60);
             const segundos = tempoRestante % 60;
-            contadorSpan.innerText = `${horas.toString().padStart(2,'0')}:${minutos.toString().padStart(2,'0')}:${segundos.toString().padStart(2,'0')}`;
-            if (tempoRestante > 0) tempoRestante--;
-            else clearInterval(intervalo);
+            const tempoStr = `${horas.toString().padStart(2,'0')}:${minutos.toString().padStart(2,'0')}:${segundos.toString().padStart(2,'0')}`;
+            if (contadorSpan) contadorSpan.innerText = tempoStr;
+            if (contadorSpan2) contadorSpan2.innerText = tempoStr;
+
+            if (tempoRestante > 0) {
+                tempoRestante--;
+            } else {
+                clearInterval(intervalo);
+                const finalStr = '00:00:00';
+                if (contadorSpan) contadorSpan.innerText = finalStr;
+                if (contadorSpan2) contadorSpan2.innerText = finalStr;
+            }
         }
         const intervalo = setInterval(atualizarTimer, 1000);
 
-        // FAQ
         document.querySelectorAll('.faq-question').forEach(q => {
             q.addEventListener('click', e => {
                 q.parentElement.classList.toggle('active');
             });
         });
 
-        // SCROLL REVEAL
         function reveal() {
             document.querySelectorAll('.reveal').forEach(el => {
                 const rect = el.getBoundingClientRect();
@@ -564,7 +780,6 @@
         window.addEventListener('scroll', reveal);
         reveal();
 
-        // REDUZIR MOVIMENTO
         const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
         if (mediaQuery.matches) {
             document.querySelectorAll('.marquee-content').forEach(el => el.style.animation = 'none');
