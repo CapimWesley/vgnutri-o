@@ -24,7 +24,7 @@
             line-height: 1.5;
             position: relative;
             overflow-x: hidden;
-            padding-bottom: 110px; /* Espaço para o botão flutuante */
+            padding-bottom: 110px;
         }
 
         body::after {
@@ -448,7 +448,7 @@
             text-transform: uppercase;
         }
 
-        /* Botão flutuante - sem urgência */
+        /* Botão flutuante */
         .cta-flutuante {
             position: fixed;
             bottom: 0;
@@ -557,6 +557,25 @@
             padding: 0.8rem 1.5rem;
             border: 2px solid #0F0F0F;
         }
+
+        /* Ajustes específicos para mobile no timer */
+        @media (max-width: 768px) {
+            .vagas-timer {
+                padding: 1rem;
+            }
+            .vagas-timer p {
+                font-size: 1.2rem;
+            }
+            .vagas-timer .contador {
+                font-size: 2.5rem;
+                padding: 0.5rem 1rem;
+                max-width: 100%;
+                white-space: nowrap;
+                overflow-x: auto;
+                display: inline-block;
+            }
+        }
+
         strong {
             color: #FFFFFF;
             font-weight: 700;
@@ -565,7 +584,7 @@
 </head>
 <body>
 
-    <!-- Botão flutuante (sem urgência) -->
+    <!-- Botão flutuante -->
     <div class="cta-flutuante">
         <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer">👉 QUERO EMAGRECER AGORA</a>
     </div>
