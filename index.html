@@ -1,205 +1,372 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Protocolo Vida Real · 15 Dias · Versão Aprimorada</title>
-    <!-- Google Fonts: Space Grotesk -->
+    <!-- Google Fonts: Space Grotesk — pesos usados: 400, 500, 700 apenas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <style>
-        * {
+        /* ============================================================
+           RESET
+        ============================================================ */
+        *, *::before, *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        body {
-            font-family: 'Space Grotesk', sans-serif;
-            background-color: #0F0F0F;
-            color: #FAFAFA;
-            line-height: 1.5;
-            position: relative;
-            overflow-x: hidden;
-            padding-bottom: 110px;
+        /* ============================================================
+           TOKENS — únicas fontes de verdade de cor, espaço e tipo
+        ============================================================ */
+        :root {
+            --accent:      #E63946;
+            --accent-dim:  rgba(230, 57, 70, 0.15);
+            --bg:          #0F0F0F;
+            --bg-2:        #1A1A1A;
+            --border:      #3F3F46;
+            --text:        #FAFAFA;
+            --text-muted:  #AAAAAA;
+            --text-body:   #CCCCCC;
+
+            /* Escala tipográfica — única para toda a página */
+            --fs-h1:   clamp(2.2rem, 7vw, 5rem);
+            --fs-h2:   clamp(1.6rem, 3.5vw, 2.6rem);
+            --fs-h3:   clamp(1rem,   2vw,   1.3rem);
+            --fs-lead: clamp(1rem,   1.8vw, 1.15rem);
+            --fs-body: clamp(0.9rem, 1.6vw, 1.05rem);
+            --fs-sm:   0.825rem;
+
+            /* Espaçamento de seção — único */
+            --section-py: clamp(3rem, 6vw, 5rem);
+
+            /* Container */
+            --container-w: 1200px;
+            --container-px: clamp(1rem, 5vw, 2rem);
         }
 
+        /* ============================================================
+           BASE
+        ============================================================ */
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.55;
+            overflow-x: hidden;
+            padding-bottom: 70px; /* espaço para botão flutuante */
+        }
+
+        /* grain overlay */
         body::after {
             content: '';
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
+            inset: 0;
             pointer-events: none;
             background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSczMDAnIGhlaWdodD0nMzAwJz48ZmlsdGVyIGlkPSdub2lzZScgeD0nMCcgeT0nMCc+PGZlVHVyYnVsZW5jZSB0eXBlPSdmcmFjdGFsTm9pc2UnIGJhc2VGcmVxdWVuY3k9JzAuOCcgbnVtT2N0YXZlcz0nNCcvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPScxMDAlJyBoZWlnaHQ9JzEwMCUnIGZpbHRlcj0ndXJsKCNub2lzZSknIG9wYWNpdHk9JzAuMDInLz48L3N2Zz4=');
-            opacity: 0.02;
+            opacity: 0.025;
             mix-blend-mode: overlay;
-            z-index: 9999;
+            z-index: 9998;
         }
 
-        .container {
-            max-width: 95vw;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .hero .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-            position: relative;
-            z-index: 3;
-        }
-
-        h1, h2, h3, .h1, .h2, .h3, .btn, .card h3, .faq-question {
+        /* ============================================================
+           TIPOGRAFIA — hierarquia consistente em todo o site
+        ============================================================ */
+        h1, h2, h3,
+        .btn, .faq-question {
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: -0.02em;
+            line-height: 1.1;
         }
 
-        h1, .h1 {
-            font-size: clamp(2.2rem, 8vw, 8rem);
-            line-height: 1.1;
-            margin-bottom: 1rem;
-        }
-
-        h2, .h2 {
-            font-size: clamp(2rem, 6vw, 5rem);
-            line-height: 1.1;
-            margin-bottom: 1.5rem;
-        }
-        h3, .h3 { font-size: clamp(1.5rem, 4vw, 2.5rem); line-height: 1.2; }
+        h1 { font-size: var(--fs-h1); margin-bottom: 1rem; }
+        h2 { font-size: var(--fs-h2); margin-bottom: 1.5rem; }
+        h3 { font-size: var(--fs-h3); margin-bottom: 0.75rem; }
 
         p {
-            font-size: clamp(1rem, 2.5vw, 1.3rem);
-            color: #CCCCCC;
-            line-height: 1.6;
+            font-size: var(--fs-body);
+            color: var(--text-body);
+            line-height: 1.65;
         }
 
-        .text-accent { color: #E63946; }
-        .bg-accent { background-color: #E63946; }
-        .border-accent { border-color: #E63946; }
-        .border-dark { border-color: #3F3F46; }
+        p.lead {
+            font-size: var(--fs-lead);
+            color: var(--text-body);
+        }
 
+        .text-sm   { font-size: var(--fs-sm); }
+        .text-muted { color: var(--text-muted); }
+        .text-accent { color: var(--accent); }
+        .text-white  { color: var(--text); }
+        .text-center { text-align: center; }
+
+        strong { color: var(--text); font-weight: 700; }
+
+        /* ============================================================
+           EYEBROW — rótulo de seção padronizado para todos os blocos
+        ============================================================ */
+        .section-eyebrow {
+            display: block;
+            font-size: var(--fs-sm);
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.6rem;
+        }
+
+        /* ============================================================
+           CONTAINER — largura única em toda a página
+        ============================================================ */
+        .container {
+            max-width: var(--container-w);
+            margin: 0 auto;
+            padding: 0 var(--container-px);
+        }
+
+        /* ============================================================
+           SEÇÃO — padding único para todas as seções
+        ============================================================ */
+        .section {
+            padding: var(--section-py) 0;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .section:last-of-type { border-bottom: none; }
+
+        /* ============================================================
+           BOTÕES
+        ============================================================ */
         .btn {
             display: inline-block;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            padding: 1rem 2.5rem;
-            border: 2px solid #3F3F46;
+            padding: 0.9rem 2.2rem;
+            border: 2px solid var(--border);
             background: transparent;
-            color: #FAFAFA;
+            color: var(--text);
             text-decoration: none;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            font-size: 1.2rem;
+            font-size: var(--fs-body);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
             border-radius: 0;
-        }
-        .btn-primary {
-            background: #E63946;
-            color: #FFFFFF;
-            border-color: #E63946;
-        }
-        .btn-primary:hover { transform: scale(1.05); }
-        .btn-primary:active { transform: scale(0.95); }
-        .btn-outline:hover {
-            background: #FAFAFA;
-            color: #000000;
-            border-color: #FAFAFA;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease;
         }
 
+        .btn-primary {
+            background: #22c55e;
+            border-color: #22c55e;
+            color: #031a09;
+            font-weight: 900;
+            border-radius: 100px;
+            padding: 1.1rem 3rem;
+            font-size: clamp(1rem, 2vw, 1.15rem);
+            letter-spacing: 0.04em;
+            position: relative;
+            box-shadow: 0 0 12px rgba(34,197,94,0.35), 0 0 28px rgba(34,197,94,0.12);
+        }
+
+        .btn-primary:hover  { transform: scale(1.04); background: #16a34a; border-color: #16a34a; box-shadow: 0 0 18px rgba(34,197,94,0.45), 0 0 40px rgba(34,197,94,0.18); }
+        .btn-primary:active { transform: scale(0.96); }
+
+        /* ── Green Beam nos botões CTA ── */
+        .btn-beam-svg {
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            pointer-events: none;
+            z-index: 0;
+            overflow: visible;
+        }
+
+        .btn-beam-rect--outer-glow {
+            fill: none;
+            stroke: #22c55e;
+            stroke-width: 10;
+            stroke-linecap: round;
+            filter: blur(7px);
+            opacity: 0.5;
+        }
+
+        .btn-beam-rect--mid-glow {
+            fill: none;
+            stroke: #4ade80;
+            stroke-width: 5;
+            stroke-linecap: round;
+            filter: blur(2px);
+            opacity: 0.85;
+        }
+
+        .btn-beam-rect--core {
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 2;
+            stroke-linecap: round;
+            opacity: 1;
+        }
+
+        .btn-beam-rect--hot {
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 1;
+            stroke-linecap: round;
+            filter: blur(1px);
+            opacity: 0.9;
+        }
+
+        @media (max-width: 480px) {
+            .btn-beam-svg { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .btn { width: 100%; text-align: center; }
+        }
+
+        /* ============================================================
+           CARDS — sistema uniforme
+        ============================================================ */
         .card {
-            border: 2px solid #3F3F46;
-            background: #0F0F0F;
-            padding: 2rem;
-            transition: all 0.3s ease;
+            border: 2px solid var(--border);
+            background: var(--bg);
+            padding: 1.75rem;
+            transition: background 0.25s ease, border-color 0.25s ease;
         }
+
         .card:hover {
-            background: #E63946;
-            border-color: #E63946;
-            color: #FFFFFF;
+            background: var(--accent);
+            border-color: var(--accent);
         }
+
         .card:hover p,
         .card:hover h3,
-        .card:hover i {
-            color: #FFFFFF;
-        }
-        .card i {
-            font-size: 2.5rem;
-            color: #E63946;
-            margin-bottom: 1rem;
+        .card:hover i,
+        .card:hover strong {
+            color: #fff;
         }
 
-        .grid {
-            display: grid;
-            gap: 2rem;
+        /* Ícone menor que o h3 para hierarquia interna clara */
+        .card > i {
+            font-size: 1.6rem; /* deliberadamente menor que --fs-h3 max */
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+            display: block;
         }
+
+        /* ============================================================
+           GRID
+        ============================================================ */
+        .grid   { display: grid; gap: 1.5rem; }
         .grid-2 { grid-template-columns: repeat(2, 1fr); }
-        .grid-3 { grid-template-columns: repeat(3, 1fr); }
         .grid-4 { grid-template-columns: repeat(4, 1fr); }
-        @media (max-width: 768px) {
-            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+
+        @media (max-width: 900px) {
+            .grid-4 { grid-template-columns: repeat(2, 1fr); }
         }
 
+        @media (max-width: 600px) {
+            .grid-2,
+            .grid-4 { grid-template-columns: 1fr; }
+        }
+
+        /* ============================================================
+           MARQUEE
+        ============================================================ */
         .marquee {
             overflow: hidden;
+            border-top: 2px solid var(--border);
+            border-bottom: 2px solid var(--border);
+            padding: 0.85rem 0;
+            background: var(--bg);
+        }
+
+        .marquee-track {
+            display: flex;
+            align-items: center;
+            width: max-content;
+            will-change: transform;
+            animation: marquee-scroll var(--marquee-dur, 30s) linear infinite;
+        }
+
+        .marquee:hover .marquee-track { animation-play-state: paused; }
+
+        .marquee-group {
+            display: flex;
+            align-items: center;
             white-space: nowrap;
-            border-top: 2px solid #3F3F46;
-            border-bottom: 2px solid #3F3F46;
-            padding: 1rem 0;
-            background: #0F0F0F;
+            flex-shrink: 0;
         }
-        .marquee-content {
-            display: inline-block;
-            animation: marquee 30s linear infinite;
-        }
-        .marquee-content span {
-            margin-right: 3rem;
-            font-size: clamp(1.5rem, 5vw, 3rem);
+
+        .marquee-group span {
+            display: inline-flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            font-size: clamp(0.85rem, 2vw, 1.3rem);
             font-weight: 700;
             text-transform: uppercase;
-            color: #E63946;
-        }
-        .marquee-content span i {
-            color: #FAFAFA;
-            margin: 0 1rem;
-        }
-        @keyframes marquee {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            color: var(--accent);
         }
 
+        .marquee-group span i {
+            color: var(--text);
+            margin-left: 1.25rem;
+            font-size: 0.5em;
+        }
+
+        @keyframes marquee-scroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(var(--marquee-dist, -2000px)); }
+        }
+
+        /* ============================================================
+           TIMER BAR
+        ============================================================ */
         .timer-bar {
-            background: #0F0F0F;
-            border-bottom: 2px solid #E63946;
-            color: #FAFAFA;
+            background: var(--bg);
+            border-bottom: 2px solid var(--accent);
+            color: var(--text);
             text-align: center;
-            padding: 0.75rem;
+            padding: 0.65rem 1rem;
             font-weight: 700;
+            font-size: var(--fs-sm);
             position: sticky;
             top: 0;
-            z-index: 100;
-        }
-        .timer-bar span {
-            background: #27272A;
-            padding: 0.25rem 1rem;
-            color: #E63946;
-            font-size: 1.5rem;
-            margin-left: 0.5rem;
+            z-index: 200;
         }
 
+        .timer-bar .countdown {
+            display: inline-block;
+            background: var(--bg-2);
+            color: var(--accent);
+            font-size: 1.1rem;
+            padding: 0.2rem 0.75rem;
+            margin-left: 0.4rem;
+        }
+
+        /* ============================================================
+           HERO
+        ============================================================ */
         .hero {
-            padding: 4rem 0;
+            padding: var(--section-py) 0;
+            border-bottom: 2px solid var(--border);
             position: relative;
             isolation: isolate;
             overflow: hidden;
+            text-align: center;
         }
+
         .hero::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            inset: 0;
             background: repeating-linear-gradient(
                 45deg,
                 rgba(230, 57, 70, 0.02) 0px,
@@ -210,423 +377,854 @@
             pointer-events: none;
             z-index: 1;
         }
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: -20%; left: -10%;
-            width: 70%;
-            height: 140%;
-            background: radial-gradient(circle at 30% 30%, rgba(230,57,70,0.05), transparent 70%);
-            pointer-events: none;
-            z-index: 1;
-            transform: rotate(-10deg);
-        }
-        .hero .container {
-            position: relative;
-            z-index: 3;
-        }
 
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease, transform 0.6s ease;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .hero .container { position: relative; z-index: 2; }
 
-        /* FAQ - Cards modernos */
-        .faq-container {
-            max-width: 900px;
+        .autoridade-img {
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            overflow: hidden;
             margin: 0 auto;
         }
-        .faq-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .faq-card {
-            background: #1A1A1A;
-            border: 1px solid #3F3F46;
-            transition: all 0.3s ease;
-        }
-        .faq-card:hover {
-            border-color: #E63946;
-            box-shadow: 0 0 15px rgba(230, 57, 70, 0.2);
-        }
-        .faq-question {
-            padding: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-weight: 600;
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: -0.02em;
-            color: #FAFAFA;
-        }
-        .faq-question i {
-            color: #E63946;
-            font-size: 1.5rem;
-            transition: transform 0.3s ease;
-        }
-        .faq-card.active .faq-question i {
-            transform: rotate(45deg);
-        }
-        .faq-answer {
-            max-height: 0;
-            overflow: hidden;
-            padding: 0 1.5rem;
-            background: #131313;
-            color: #CCCCCC;
-            font-size: 1rem;
-            line-height: 1.6;
-            transition: max-height 0.3s ease, padding 0.3s ease;
-        }
-        .faq-card.active .faq-answer {
-            max-height: 300px;
-            padding: 0 1.5rem 1.5rem 1.5rem;
-        }
-        .faq-question span {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        .faq-question span i.fa-circle-question {
-            color: #E63946;
-            font-size: 1.3rem;
-        }
-        @media (max-width: 768px) {
-            .faq-question {
-                font-size: 1rem;
-            }
-        }
 
-        .autoridade {
-            display: flex;
-            gap: 2rem;
-            align-items: center;
-            border: 2px solid #3F3F46;
-            padding: 2rem;
-        }
-        .autoridade-img {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            border: 4px solid #E63946;
-            overflow: hidden;
-            flex-shrink: 0;
-        }
         .autoridade-img img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             object-position: center 30%;
         }
-        @media (max-width:768px){ .autoridade{ flex-direction:column; text-align:center; } }
 
-        .preco-original {
-            text-decoration: line-through; 
-            font-weight: bold;
-            color: #A1A1AA;
-            font-size: 2rem;
-        }
-        .preco-atual {
-            font-size: clamp(3rem, 10vw, 6rem);
-            font-weight: 900;
-            color: #E63946;
-            line-height: 1;
-        }
-
-        .garantia {
-            border: 2px solid #E63946;
-            padding: 3rem;
-            text-align: center;
-        }
-        .garantia i { font-size: 4rem; color: #E63946; margin-bottom: 1rem; }
-
-        footer {
-            padding: 2rem 0;
-            border-top: 2px solid #3F3F46;
-            text-align: center;
-            color: #666;
-        }
-
-        .text-center { text-align: center; }
-        .mt-2 { margin-top: 2rem; }
-        .mb-2 { margin-bottom: 2rem; }
-        .py-4 { padding-top: 4rem; padding-bottom: 4rem; }
-        .border-bottom { border-bottom: 2px solid #3F3F46; }
-
+        /* Bullet list do hero */
         .bullet-list {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 2rem;
-            margin: 2rem 0;
+            gap: 0.75rem;
+            margin: 1.5rem 0 2rem;
         }
+
         .bullet-item {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            background: rgba(230, 57, 70, 0.05);
-            padding: 0.75rem 1.5rem;
-            border: 1px solid #3F3F46;
-        }
-        .bullet-item i {
-            color: #E63946;
-            font-size: 1.5rem;
-        }
-        .bullet-item span {
-            font-weight: 500;
+            gap: 0.5rem;
+            background: var(--accent-dim);
+            padding: 0.55rem 1.1rem;
+            border: 1px solid var(--border);
+            font-size: var(--fs-sm);
+            font-weight: 700;
             text-transform: uppercase;
-            font-size: 1rem;
+        }
+
+        .bullet-item i { color: var(--accent); font-size: 0.9rem; }
+
+        @media (max-width: 480px) {
+            .bullet-item { flex: 1 1 calc(50% - 0.75rem); justify-content: center; }
+        }
+
+        /* ============================================================
+           DESTAQUE FRASE (divisória entre cards e próxima seção)
+        ============================================================ */
+        .destaque-frase {
+            position: relative;
+            margin: 2.5rem 0 0;
+            padding: 1.75rem 2rem;
+            text-align: center;
+        }
+
+        /* Linhas vermelhas que atravessam a tela inteira */
+        .destaque-frase::before,
+        .destaque-frase::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100vw;
+            height: 2px;
+            background: var(--accent);
+        }
+
+        .destaque-frase::before { top: 0; }
+        .destaque-frase::after  { bottom: 0; }
+
+        .destaque-frase p {
+            font-size: var(--fs-lead);
+            color: var(--text);
+            font-weight: 500;
+        }
+
+        /* ============================================================
+           SEÇÃO: QUEM É VICTOR GEDDA
+           — integrado ao sistema (sem inline styles)
+        ============================================================ */
+        /* ============================================================
+           SEÇÃO: QUEM É VICTOR GEDDA
+           Desktop: foto esquerda | credenciais direita
+           Mobile:  foto de fundo com gradiente + conteúdo sobreposto
+        ============================================================ */
+        .mentor-section {
+            padding: var(--section-py) 0;
+            border-bottom: 2px solid var(--border);
+            background: var(--bg);
+        }
+
+        /* ── DESKTOP ── */
+        .mentor-card {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            border: 2px solid #E63946;
+            box-shadow:
+                0 0 8px  2px rgba(230, 57, 70, 0.7),
+                0 0 20px 4px rgba(230, 57, 70, 0.35),
+                inset 0 0 12px rgba(230, 57, 70, 0.08);
+            overflow: visible;
+            position: relative;
+        }
+
+        /* Wrapper interno para clip sem cortar o glow externo */
+        .mentor-card__inner {
+            display: flex;
+            align-items: stretch;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        /* Pontinho que percorre a borda — usa CSS Motion Path */
+        /* ── SVG Comet Beam — borda neon com rastro ── */
+        .beam-svg {
+            position: absolute;
+            top: -1px;
+            left: -1px;
+            width: calc(100% + 2px);
+            height: calc(100% + 2px);
+            pointer-events: none;
+            z-index: 20;
+            overflow: visible;
+        }
+
+        /* Camada de glow externo (blur grande) */
+        .beam-rect--outer-glow {
+            fill: none;
+            stroke: #ff2040;
+            stroke-width: 12;
+            stroke-linecap: round;
+            filter: blur(8px);
+            opacity: 0.7;
+        }
+
+        .beam-rect--mid-glow {
+            fill: none;
+            stroke: #ff4060;
+            stroke-width: 6;
+            stroke-linecap: round;
+            filter: blur(3px);
+            opacity: 0.9;
+        }
+
+        /* Camada principal — linha nítida branco-quente */
+        .beam-rect--core {
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            opacity: 1;
+        }
+
+        /* Camada interna — reforço do brilho */
+        .beam-rect--hot {
+            fill: none;
+            stroke: #ffffff;
+            stroke-width: 1;
+            stroke-linecap: round;
+            filter: blur(1px);
+            opacity: 0.95;
         }
 
         @media (max-width: 768px) {
-            .bullet-list {
+            .beam-svg { display: none; }
+            .mentor-card { overflow: hidden; }
+        }
+
+        /* Foto — coluna esquerda */
+        .mentor-card__photo {
+            flex: 0 0 42%;
+            position: relative;
+            min-height: 480px;
+        }
+
+        .mentor-card__photo img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+
+        /* Gradiente lateral para fundir com o conteúdo */
+        .mentor-card__photo::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                to right,
+                transparent 60%,
+                var(--bg) 100%
+            );
+        }
+
+        /* Conteúdo — coluna direita */
+        .mentor-card__content {
+            flex: 1;
+            padding: clamp(2rem, 4vw, 3rem) clamp(2rem, 4vw, 3.5rem);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        /* Badge "NUTRICIONISTA" topo */
+        .mentor-card__role {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--accent);
+            color: #fff;
+            font-size: var(--fs-sm);
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 0.3rem 0.8rem;
+            align-self: flex-start;
+        }
+
+        /* Nome grande */
+        .mentor-card__name {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            line-height: 1;
+            color: var(--text);
+            margin: 0;
+        }
+
+        /* Frase curta */
+        .mentor-card__tagline {
+            font-size: var(--fs-lead);
+            color: var(--text-body);
+            line-height: 1.55;
+            border-left: 3px solid var(--accent);
+            padding-left: 1rem;
+            margin: 0;
+        }
+
+        /* Lista de credenciais */
+        .mentor-card__credentials {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.65rem;
+            margin: 0;
+            padding: 0;
+        }
+
+        .mentor-card__credentials li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.7rem;
+            font-size: var(--fs-body);
+            color: var(--text-body);
+            line-height: 1.45;
+        }
+
+        .mentor-card__credentials li i {
+            color: var(--accent);
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+            flex-shrink: 0;
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            .mentor-card {
+                border: none;
+                position: relative;
+                min-height: 520px;
+            }
+
+            .mentor-card__inner {
+                flex-direction: column;
+                position: relative;
+                min-height: 520px;
+            }
+
+            /* Foto vira background da seção inteira */
+            .mentor-card__photo {
+                position: absolute;
+                inset: 0;
+                flex: none;
+                min-height: unset;
+                z-index: 0;
+            }
+
+            /* Gradiente de baixo para cima no mobile */
+            .mentor-card__photo::after {
+                background: linear-gradient(
+                    to top,
+                    rgba(15,15,15,0.97) 40%,
+                    rgba(15,15,15,0.55) 75%,
+                    transparent 100%
+                );
+            }
+
+            /* Conteúdo fica sobre a foto */
+            .mentor-card__content {
+                position: relative;
+                z-index: 1;
+                margin-top: auto;
+                padding: 2rem 1.25rem 2rem;
                 gap: 1rem;
             }
-            .bullet-item {
-                flex: 1 1 calc(50% - 1rem);
-                justify-content: center;
-                padding: 0.75rem 0.5rem;
-                text-align: center;
-            }
-            .bullet-item i {
-                font-size: 1.2rem;
-            }
-            .bullet-item span {
-                font-size: 0.9rem;
-            }
+
+            .mentor-card__role { align-self: flex-start; }
+
+            .mentor-card__name { font-size: clamp(1.8rem, 8vw, 2.6rem); }
         }
 
-        .destaque-frase {
-            font-size: clamp(1.5rem, 4vw, 2.5rem);
-            font-weight: 700;
-            text-align: center;
-            margin: 3rem 0;
-            padding: 2rem;
-            border-top: 2px solid #E63946;
-            border-bottom: 2px solid #E63946;
-        }
-        .destaque-frase p {
-            color: #FAFAFA;
-            font-size: inherit;
+        /* ============================================================
+           RESULTADOS (carousel)
+        ============================================================ */
+        .resultados-section {
+            padding: var(--section-py) 0;
+            border-bottom: 2px solid var(--border);
         }
 
-        .garantia-destaque {
-            border: 4px solid #E63946;
-            background: #0F0F0F;
-            padding: 3rem;
-            text-align: center;
+        .carousel-wrapper {
             position: relative;
-            box-shadow: 0 0 30px rgba(230,57,70,0.3);
+            max-width: 900px;
+            margin: 0 auto;
+            overflow: hidden;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 20px rgba(230,57,70,0.5), 0 0 50px rgba(230,57,70,0.2);
         }
-        .garantia-destaque i {
-            font-size: 6rem;
-            color: #E63946;
-            margin-bottom: 1rem;
+
+        .carousel-track {
+            display: flex;
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
         }
-        .garantia-destaque h2 {
-            font-size: clamp(2rem, 5vw, 4rem);
-            margin-bottom: 1rem;
+
+        .carousel-slide {
+            min-width: 100%;
+            position: relative;
         }
-        .garantia-destaque p {
+
+        .carousel-slide img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .slide-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            padding: 2rem 1.25rem 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .slide-badge {
+            background: var(--accent);
+            color: #fff;
+            font-weight: 700;
+            font-size: var(--fs-sm);
+            text-transform: uppercase;
+            padding: 0.25rem 0.7rem;
+        }
+
+        .slide-counter {
+            color: var(--text-muted);
+            font-size: var(--fs-sm);
+            font-weight: 500;
+        }
+
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(230,57,70,0.9);
+            border: none;
+            color: #fff;
+            width: 44px;
+            height: 44px;
             font-size: 1.4rem;
-            color: #CCCCCC;
-            max-width: 700px;
+            cursor: pointer;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .carousel-btn:hover { background: var(--accent); }
+        .carousel-btn.prev  { left: 0; }
+        .carousel-btn.next  { right: 0; }
+
+        .carousel-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: var(--border);
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .dot.active { background: var(--accent); }
+
+        @media (max-width: 480px) {
+            .carousel-btn { width: 34px; height: 34px; font-size: 1.1rem; }
+        }
+
+        /* ============================================================
+           PRICING
+        ============================================================ */
+        .pricing-section {
+            padding: var(--section-py) 0;
+            border-bottom: 2px solid var(--border);
+            text-align: center;
+        }
+
+        .preco-original {
+            text-decoration: line-through;
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: var(--fs-lead);
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        /* FIX: era <span> (inline), agora div para semântica correta */
+        .preco-atual {
+            display: block;
+            font-size: clamp(3rem, 9vw, 5.5rem);
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+
+        .preco-parcelamento {
+            font-size: var(--fs-lead);
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .preco-economia {
+            font-size: var(--fs-lead);
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1.75rem;
+        }
+
+        /* Vagas / info de compra */
+        .vagas-info {
+            border: 2px solid var(--accent);
+            padding: 2rem 1.5rem;
+            margin: 2rem auto 0;
+            max-width: 560px;
+            text-align: center;
+        }
+
+        .progress-bar {
+            background: var(--bg-2);
+            height: 16px;
+            width: 100%;
+            margin: 0.75rem 0;
+            border: 1px solid var(--border);
+        }
+
+        .progress-fill {
+            background: var(--accent);
+            height: 100%;
+        }
+
+        .selo-seguranca {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            margin: 1.25rem 0 0.75rem;
+            font-size: var(--fs-body);
+            color: var(--text-body);
+            line-height: 1.4;
+        }
+
+        .selo-seguranca i {
+            color: var(--accent);
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .bandeiras {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.25rem;
+            margin: 1.25rem 0 0.5rem;
+            font-size: 2rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+
+        .vagas-timer {
+            background: var(--accent);
+            border: 2px solid #fff;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .vagas-timer p {
+            color: var(--bg);
+            font-weight: 700;
+            font-size: var(--fs-lead);
+            margin-bottom: 0.75rem;
+        }
+
+        .vagas-timer .contador {
+            font-size: clamp(2rem, 7vw, 3.5rem);
+            font-weight: 700;
+            color: var(--bg);
+            font-family: monospace;
+            background: #fff;
+            display: inline-block;
+            padding: 0.6rem 1.25rem;
+            border: 2px solid var(--bg);
+        }
+
+        /* ============================================================
+           GARANTIA
+        ============================================================ */
+        .garantia-destaque {
+            border: 3px solid var(--accent);
+            background: var(--bg);
+            padding: clamp(1.75rem, 5vw, 3rem);
+            text-align: center;
+            box-shadow: 0 0 30px rgba(230,57,70,0.25);
+        }
+
+        .garantia-destaque i {
+            font-size: clamp(3rem, 8vw, 5rem);
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        /* FIX: usa var(--fs-h2) igual a todos os outros h2 do site */
+        .garantia-destaque h2 {
+            font-size: var(--fs-h2);
+            margin-bottom: 1rem;
+        }
+
+        .garantia-destaque p {
+            font-size: var(--fs-lead);
+            max-width: 620px;
             margin: 0 auto;
         }
-        .garantia-destaque .risco-zero {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #E63946;
-            margin-top: 2rem;
+
+        .risco-zero {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 700;
+            color: var(--accent);
+            margin-top: 1.5rem;
             text-transform: uppercase;
+            letter-spacing: -0.02em;
         }
 
-        /* Botão flutuante */
+        /* ============================================================
+           FAQ
+        ============================================================ */
+        .faq-container { max-width: 860px; margin: 0 auto; }
+
+        .faq-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .faq-card {
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            transition: border-color 0.25s;
+        }
+
+        .faq-card:hover { border-color: var(--accent); }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: var(--fs-body);
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .faq-question span {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .faq-question i.fa-circle-question { color: var(--accent); }
+        .faq-question i.fa-plus {
+            color: var(--accent);
+            font-size: 1.1rem;
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+
+        .faq-card.active .faq-question i.fa-plus { transform: rotate(45deg); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            padding: 0 1.5rem;
+            background: #111;
+            color: var(--text-body);
+            font-size: var(--fs-body);
+            line-height: 1.65;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-card.active .faq-answer {
+            max-height: 300px;
+            padding: 0 1.5rem 1.25rem;
+        }
+
+        /* ============================================================
+           BOTÃO FLUTUANTE
+        ============================================================ */
         .cta-flutuante {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background: #E63946;
-            padding: 0.75rem 1rem;
+            background: var(--accent);
+            padding: 0.7rem 1rem;
             text-align: center;
             z-index: 9999;
-            border-top: 2px solid #FFFFFF;
-            box-shadow: 0 -5px 15px rgba(0,0,0,0.5);
+            border-top: 2px solid #fff;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.5);
         }
+
         .cta-flutuante a {
-            color: #0F0F0F;
-            font-weight: 900;
-            font-size: 1.5rem;
+            color: var(--bg);
+            font-weight: 700;
+            font-size: clamp(1rem, 3vw, 1.3rem);
             text-decoration: none;
             text-transform: uppercase;
-            display: block;
             letter-spacing: -0.02em;
-        }
-        .cta-flutuante a:hover {
-            opacity: 0.9;
-        }
-        @media (max-width: 768px) {
-            .cta-flutuante a {
-                font-size: 1.3rem;
-            }
+            display: block;
         }
 
-        /* Bloco de vagas */
-        .vagas-info {
-            border: 2px solid #E63946;
-            padding: 2rem;
-            margin: 2rem auto;
-            max-width: 600px;
+        /* ============================================================
+           UTILITÁRIOS
+        ============================================================ */
+        .mt-1 { margin-top: 1rem; }
+        .mt-2 { margin-top: 2rem; }
+        .mb-1 { margin-bottom: 1rem; }
+        .mb-2 { margin-bottom: 2rem; }
+
+        /* ============================================================
+           ANIMAÇÃO DE ENTRADA (reveal)
+        ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.55s ease, transform 0.55s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================================
+           FOOTER
+        ============================================================ */
+        footer {
+            padding: 2rem var(--container-px);
+            border-top: 2px solid var(--border);
             text-align: center;
         }
-        .progress-bar {
-            background: #27272A;
-            height: 20px;
-            width: 100%;
-            margin: 1rem 0;
-            border: 1px solid #3F3F46;
+
+        footer p {
+            font-size: var(--fs-sm);
+            color: var(--text-muted);
+            line-height: 1.7;
         }
-        .progress-fill {
-            background: #E63946;
-            height: 100%;
-            width: 47%;
+
+        /* ============================================================
+           MOBILE — breakpoints consolidados
+        ============================================================ */
+        @media (max-width: 768px) {
+            :root {
+                --section-py: 2.75rem;
+            }
+
+            h2 { margin-bottom: 1.25rem; }
+
+            .hero { padding: 2.5rem 0; }
+
+            .bullet-list { gap: 0.6rem; }
+
+            .destaque-frase { padding: 1.25rem 1rem; }
+
+            .vagas-info { padding: 1.5rem 1rem; }
+
+            .garantia-destaque { padding: 1.75rem 1rem; }
+
+        
         }
-        .selo-seguranca {
+
+        @media (max-width: 480px) {
+            :root {
+                --container-px: 0.875rem;
+                --section-py: 2.25rem;
+            }
+
+            .timer-bar { font-size: 0.78rem; }
+            .timer-bar .countdown { font-size: 0.95rem; }
+
+            .card { padding: 1.25rem; }
+
+            .bandeiras { font-size: 1.6rem; gap: 1rem; }
+
+            .preco-atual { line-height: 1.1; }
+
+            .garantia-destaque h2 { font-size: clamp(1.2rem, 6vw, 1.8rem); }
+
+            footer { padding: 1.5rem var(--container-px); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .marquee-track { animation: none !important; }
+            .reveal { opacity: 1; transform: none; transition: none; }
+        }
+
+        /* ── Compra segura badge ── */
+        .cta-wrap {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.55rem;
+        }
+        .cta-seguro {
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 0.75rem;
-            margin: 1.5rem 0 1rem;
-            font-size: 1.1rem;
-            color: #CCCCCC;
-            line-height: 1.4;
+            gap: 0.45rem;
+            font-size: 0.68rem;
+            font-weight: 600;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+            color: #666;
         }
-        .selo-seguranca i {
-            color: #E63946;
-            font-size: 2rem;
-            flex-shrink: 0;
+        .cta-seguro .sep { color: #444; }
+        .cta-seguro img {
+            height: 13px;
+            width: auto;
         }
-        .selo-seguranca span {
-            text-align: center;
-            max-width: 450px;
-        }
-        .bandeiras {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1.5rem;
-            margin: 1.5rem 0 0.5rem;
-            font-size: 2.2rem;
-            color: #CCCCCC;
-            flex-wrap: wrap;
-        }
-        .bandeiras i {
-            transition: color 0.3s;
-        }
-        .bandeiras i:hover {
-            color: #E63946;
-        }
-        .vagas-timer {
-            background: #E63946;
-            border: 2px solid #FFFFFF;
-            padding: 1.5rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
-        .vagas-timer p {
-            color: #0F0F0F;
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        .vagas-timer .contador {
-            font-size: 3.5rem;
-            font-weight: 900;
-            color: #0F0F0F;
-            font-family: monospace;
-            background: #FFFFFF;
-            display: inline-block;
-            padding: 0.8rem 1.5rem;
-            border: 2px solid #0F0F0F;
-        }
-
-        /* Ajustes específicos para mobile no timer */
-        @media (max-width: 768px) {
-            .vagas-timer {
-                padding: 1rem;
-            }
-            .vagas-timer p {
-                font-size: 1.2rem;
-            }
-            .vagas-timer .contador {
-                font-size: 2.5rem;
-                padding: 0.5rem 1rem;
-                max-width: 100%;
-                white-space: nowrap;
-                overflow-x: auto;
-                display: inline-block;
-            }
-        }
-
-        strong {
-            color: #FFFFFF;
-            font-weight: 700;
-        }
+        @media (max-width: 480px) { .cta-wrap { width: 100%; } }
     </style>
 </head>
+
 <body>
 
-    <!-- Botão flutuante -->
+    <!-- ============================================================
+         BOTÃO FLUTUANTE
+    ============================================================ -->
     <div class="cta-flutuante">
-        <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer">👉 QUERO EMAGRECER AGORA</a>
+        <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer">
+            QUERO EMAGRECER AGORA
+        </a>
     </div>
 
+    <!-- ============================================================
+         TIMER BAR
+    ============================================================ -->
     <div class="timer-bar" id="timerBar">
-        ⏳ Oferta especial termina em: <span id="contador">48:00:00</span>
+        ⏳ Oferta especial termina em:
+        <span class="countdown" id="contador">48:00:00</span>
     </div>
 
+    <!-- ============================================================
+         HERO
+    ============================================================ -->
     <section class="hero">
         <div class="container">
             <div class="reveal">
                 <h1>DESTRAVE SEU METABOLISMO EM <strong>15 DIAS</strong></h1>
                 <h2 class="text-accent">COMENDO COMIDA DE VERDADE</h2>
-                
+
                 <div class="bullet-list">
-                    <div class="bullet-item"><i class="fas fa-check-circle"></i> <span>SEM PASSAR FOME</span></div>
-                    <div class="bullet-item"><i class="fas fa-check-circle"></i> <span>SEM EFEITO SANFONA</span></div>
-                    <div class="bullet-item"><i class="fas fa-check-circle"></i> <span>SEM NEUROSE</span></div>
-                    <div class="bullet-item"><i class="fas fa-check-circle"></i> <span>SEM DIETA MILAGROSA</span></div>
+                    <div class="bullet-item"><i class="fas fa-check-circle"></i><span>SEM PASSAR FOME</span></div>
+                    <div class="bullet-item"><i class="fas fa-check-circle"></i><span>SEM EFEITO SANFONA</span></div>
+                    <div class="bullet-item"><i class="fas fa-check-circle"></i><span>SEM NEUROSE</span></div>
+                    <div class="bullet-item"><i class="fas fa-check-circle"></i><span>SEM DIETA MILAGROSA</span></div>
                 </div>
 
-                <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">QUERO ENTRAR NO PROTOCOLO</a>
+                <div class="cta-wrap">
+                    <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer"
+                    class="btn btn-primary">QUERO ENTRAR NO PROTOCOLO<svg class="btn-beam-svg" aria-hidden="true"><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="1"/></svg></a>
+                    <span class="cta-seguro">COMPRA SEGURA <span class="sep">|</span> <img src="public/cakto.png" alt="Cakto"></span>
+                </div>
             </div>
+
             <div class="text-center mt-2 reveal">
-                <div class="autoridade-img" style="margin: 0 auto;">
+                <div class="autoridade-img">
                     <img src="https://i.imgur.com/reDcNsn.png" alt="Victor Gedda">
                 </div>
-                <p class="text-muted">Victor Gedda - Nutricionista (CRN1-25468)</p>
+                <p class="text-muted text-sm mt-1">Victor Gedda – Nutricionista (CRN1-25468)</p>
             </div>
         </div>
     </section>
 
-    <div class="marquee">
-        <div class="marquee-content">
-            <span>15 DIAS <i class="fas fa-circle"></i> RESET METABÓLICO <i class="fas fa-circle"></i> 4 REGRAS <i class="fas fa-circle"></i> DESINCHAR <i class="fas fa-circle"></i> DESTRAVAR <i class="fas fa-circle"></i></span>
-            <span>15 DIAS <i class="fas fa-circle"></i> RESET METABÓLICO <i class="fas fa-circle"></i> 4 REGRAS <i class="fas fa-circle"></i> DESINCHAR <i class="fas fa-circle"></i> DESTRAVAR <i class="fas fa-circle"></i></span>
+    <!-- MARQUEE 1 -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <div class="marquee-group">
+                <span>15 DIAS <i class="fas fa-circle"></i></span>
+                <span>RESET METABÓLICO <i class="fas fa-circle"></i></span>
+                <span>4 REGRAS <i class="fas fa-circle"></i></span>
+                <span>DESINCHAR <i class="fas fa-circle"></i></span>
+                <span>DESTRAVAR <i class="fas fa-circle"></i></span>
+            </div>
         </div>
     </div>
 
-    <section class="py-4">
+    <!-- ============================================================
+         SEÇÃO: O QUE VOCÊ ESTÁ SENTINDO
+    ============================================================ -->
+    <section class="section">
         <div class="container">
             <h2 class="reveal">EU JÁ SEI O QUE VOCÊ ESTÁ SENTINDO</h2>
+
             <div class="grid grid-2">
                 <div class="card reveal">
                     <i class="fas fa-weight-scale"></i>
@@ -636,7 +1234,7 @@
                 <div class="card reveal">
                     <i class="fas fa-users"></i>
                     <h3>VERGONHA DE FOTOS</h3>
-                    <p>Você sempre pede para os outros tirarem outra foto, ou pior, <strong>só aparece em fotos de grupo</strong> porque não tem jeito.</p>
+                    <p>Você sempre pede pra tirarem outra foto, ou pior, <strong>só aparece em fotos de grupo</strong> porque não tem jeito.</p>
                 </div>
                 <div class="card reveal">
                     <i class="fas fa-clock"></i>
@@ -649,16 +1247,23 @@
                     <p>Você só consegue emagrecer quando alguém te empurra, mas na primeira dificuldade, <strong>volta tudo</strong>. Falta um <strong>método real</strong>.</p>
                 </div>
             </div>
+
             <div class="destaque-frase reveal">
-                <p>Dieta milagrosa <strong>não existe</strong>. É <strong>mentira</strong> de quem quer te enganar.<br> <span class="text-accent">O que existe é um método que funciona no mundo real.</span></p>
+                <p>Dieta milagrosa <strong>não existe</strong>. É <strong>mentira</strong> de quem quer te enganar.<br>
+                    <span class="text-accent">O que existe é um método que funciona no mundo real.</span>
+                </p>
             </div>
         </div>
     </section>
 
-    <section class="py-4 border-bottom">
+    <!-- ============================================================
+         SEÇÃO: O PROTOCOLO — 4 PILARES
+    ============================================================ -->
+    <section class="section">
         <div class="container">
             <h2 class="reveal">O PROTOCOLO VIDA REAL EM 15 DIAS</h2>
-            <p class="text-muted" style="font-size: 1.4rem;">Não é jejum maluco, nem remédio disfarçado de chá. São<strong class="text-accent"> 15 dias do método Vida Real</strong> na prática baseado em 4 pilares:</p>
+            <p class="lead reveal mb-2">Não é jejum maluco, nem remédio disfarçado de chá. São <strong class="text-accent">15 dias do método Vida Real</strong> na prática, baseado em 4 pilares:</p>
+
             <div class="grid grid-4">
                 <div class="card text-center reveal">
                     <i class="fas fa-ban"></i>
@@ -684,87 +1289,192 @@
         </div>
     </section>
 
-    <section class="py-4">
+    <!-- ============================================================
+         SEÇÃO: VOCÊ LEVA TUDO ISSO
+    ============================================================ -->
+    <section class="section">
         <div class="container">
             <h2 class="reveal">VOCÊ LEVA TUDO ISSO</h2>
+
             <div class="grid grid-2">
                 <div class="card reveal">
                     <i class="fas fa-fire"></i>
-                    <h3>Guia de Execução 15D</h3>
+                    <h3>GUIA DE EXECUÇÃO 15D</h3>
                     <p>Seu mapa exato e <strong>direto ao ponto</strong>. Sem confusão.</p>
                 </div>
                 <div class="card reveal">
                     <i class="fas fa-exchange-alt"></i>
-                    <h3>Guia de Substituições Inteligentes <span class="text-accent">🎁BÔNUS</span></h3>
-                    <p><strong>Liberdade para comer</strong> o que gosta com estratégia.</p>
+                    <h3>GUIA DE SUBSTITUIÇÕES INTELIGENTES <span class="text-accent">🎁 BÔNUS</span></h3>
+                    <p><strong>Liberdade para comer</strong> o que gosta, com estratégia.</p>
                 </div>
                 <div class="card reveal">
                     <i class="fas fa-chart-line"></i>
-                    <h3>Tracker de Hábitos <span class="text-accent">🎁BÔNUS</span></h3>
-                    <p>Sistema visual para acompanhar seu <strong>progresso diário</strong>.</p>
+                    <h3>GUIA DE HÁBITOS SAUDÁVEIS <span class="text-accent">🎁 BÔNUS</span></h3>
+                    <p>Hábitos simples que vão facilitar o seu processo de <strong>queima de gordura</strong>.</p>
                 </div>
                 <div class="card reveal">
                     <i class="fab fa-whatsapp"></i>
-                    <h3>Grupo VIP no WhatsApp <span class="text-accent">🎁BÔNUS</span></h3>
+                    <h3>GRUPO VIP NO WHATSAPP <span class="text-accent">🎁 BÔNUS</span></h3>
                     <p>Áudios diários e <strong>suporte direto</strong> com Victor Gedda.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-4 border-bottom">
+    <!-- ============================================================
+         SEÇÃO: QUEM É VICTOR GEDDA
+         — sem inline styles; usa classes do sistema
+    ============================================================ -->
+    <section id="victor" class="mentor-section">
         <div class="container">
-            <h2 class="reveal">QUEM É VICTOR GEDDA?</h2>
-            <div class="autoridade reveal">
-                <div class="autoridade-img">
-                    <img src="https://i.imgur.com/reDcNsn.png" alt="Victor Gedda">
-                </div>
-                <div>
-                    <p style="font-size: 1.3rem;">Nutricionista (CRN1-25468) e referência em Trindade/Goiânia. Mais de <strong>10 anos de experiência</strong> e <strong>centenas de alunos</strong> que conquistaram <strong>resultados reais</strong> comendo comida de verdade, sem sofrimento. Criador do <strong class="text-accent">Método Vida Real</strong>.</p>
-                    <p class="text-muted" style="margin-top: 1rem;">Agora com um protocolo para te preparar para a vida real!</p>
+            <div class="mentor-card reveal">
+
+                <!-- SVG comet beam — borda neon com rastro -->
+                <svg class="beam-svg" aria-hidden="true">
+                    <!-- Beam 1 -->
+                    <rect class="beam-rect beam-rect--outer-glow" data-beam="0"/>
+                    <rect class="beam-rect beam-rect--mid-glow"   data-beam="0"/>
+                    <rect class="beam-rect beam-rect--core"       data-beam="0"/>
+                    <rect class="beam-rect beam-rect--hot"        data-beam="0"/>
+                    <!-- Beam 2 — mesmo rumo, defasado -->
+                    <rect class="beam-rect beam-rect--outer-glow" data-beam="1"/>
+                    <rect class="beam-rect beam-rect--mid-glow"   data-beam="1"/>
+                    <rect class="beam-rect beam-rect--core"       data-beam="1"/>
+                    <rect class="beam-rect beam-rect--hot"        data-beam="1"/>
+                </svg>
+
+                <div class="mentor-card__inner">
+                    <!-- FOTO (coluna esquerda no desktop / fundo no mobile) -->
+                    <div class="mentor-card__photo">
+                        <img src="https://i.imgur.com/ovBStkP.jpeg" alt="Victor Gedda – Nutricionista">
+                    </div>
+
+                    <!-- CONTEÚDO (coluna direita no desktop / sobreposto no mobile) -->
+                    <div class="mentor-card__content">
+
+                        <span class="mentor-card__role">
+                            <i class="fas fa-bolt"></i> Nutricionista
+                        </span>
+
+                        <h2 class="mentor-card__name">VICTOR GEDDA</h2>
+
+                        <p class="mentor-card__tagline">
+                            Nutricionista com <strong>10+ anos de experiência</strong> e criador do <strong class="text-accent">Protocolo Vida Real</strong> — o método para quem tem rotina corrida e quer resultado de verdade.
+                        </p>
+
+                        <ul class="mentor-card__credentials">
+                            <li><i class="fas fa-bolt"></i> CRN1-25468 · Nutricionista Clínico</li>
+                            <li><i class="fas fa-bolt"></i> Criador do Protocolo Vida Real</li>
+                            <li><i class="fas fa-bolt"></i> 10+ anos atendendo pacientes</li>
+                            <li><i class="fas fa-bolt"></i> Ex-atleta de fisiculturismo</li>
+                            <li><i class="fas fa-bolt"></i> Centenas de alunos transformados</li>
+                        </ul>
+
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <div class="marquee">
-        <div class="marquee-content">
-            <span>GARANTIA 7 DIAS <i class="fas fa-circle"></i> RISCO ZERO <i class="fas fa-circle"></i> SATISFAÇÃO TOTAL <i class="fas fa-circle"></i> DEVOLUÇÃO 100% <i class="fas fa-circle"></i></span>
-            <span>GARANTIA 7 DIAS <i class="fas fa-circle"></i> RISCO ZERO <i class="fas fa-circle"></i> SATISFAÇÃO TOTAL <i class="fas fa-circle"></i> DEVOLUÇÃO 100% <i class="fas fa-circle"></i></span>
+    <!-- ============================================================
+         SEÇÃO: RESULTADOS REAIS
+    ============================================================ -->
+    <section class="resultados-section">
+        <div class="container">
+            <h2 class="text-center reveal">RESULTADOS REAIS</h2>
+            <p class="lead text-center reveal mb-2">
+                Clientes que seguiram o protocolo e <strong>transformaram o corpo de verdade</strong>.
+            </p>
+
+            <div class="carousel-wrapper reveal">
+                <div class="carousel-track" id="carouselTrack">
+                    <div class="carousel-slide">
+                        <img src="https://i.imgur.com/YCKdLno.png" alt="Resultado Real" />
+                        <div class="slide-label">
+                            <span class="slide-badge">✅ Resultado Real</span>
+                            <span class="slide-counter">1 / 3</span>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://i.imgur.com/lfC0prn.png" alt="Resultado Real" />
+                        <div class="slide-label">
+                            <span class="slide-badge">✅ Resultado Real</span>
+                            <span class="slide-counter">2 / 3</span>
+                        </div>
+                    </div>
+                    <div class="carousel-slide">
+                        <img src="https://i.imgur.com/vDUlVUA.png" alt="Resultado Real" />
+                        <div class="slide-label">
+                            <span class="slide-badge">✅ Resultado Real</span>
+                            <span class="slide-counter">3 / 3</span>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn prev" onclick="moveCarousel(-1)">&#8249;</button>
+                <button class="carousel-btn next" onclick="moveCarousel(1)">&#8250;</button>
+            </div>
+
+            <div class="carousel-dots">
+                <div class="dot active" onclick="goToSlide(0)"></div>
+                <div class="dot" onclick="goToSlide(1)"></div>
+                <div class="dot" onclick="goToSlide(2)"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MARQUEE 2 -->
+    <div class="marquee" aria-hidden="true">
+        <div class="marquee-track">
+            <div class="marquee-group">
+                <span>GARANTIA 7 DIAS <i class="fas fa-circle"></i></span>
+                <span>RISCO ZERO <i class="fas fa-circle"></i></span>
+                <span>SATISFAÇÃO TOTAL <i class="fas fa-circle"></i></span>
+                <span>DEVOLUÇÃO 100% <i class="fas fa-circle"></i></span>
+            </div>
         </div>
     </div>
 
-    <section class="py-4 text-center">
+    <!-- ============================================================
+         SEÇÃO: PRICING
+    ============================================================ -->
+    <section class="pricing-section">
         <div class="container">
             <h2 class="reveal">O PREÇO DA MUDANÇA</h2>
-            <p class="reveal" style="font-size: 1.8rem;">Menos que uma pizza por mês para finalmente <strong>voltar a emagrecer de verdade</strong>.</p>
-            <p class="preco-original reveal">R$ 89,90</p>
-            <span class="preco-atual reveal">R$ 46,97</span>
-            <p class="reveal" style="font-size: 1.8rem; font-weight: 700;">ou 12x de R$ 4,70</p>
-            <p class="reveal text-accent" style="font-size: 1.5rem; font-weight: 700;">🔥 Você <strong>economiza R$ 42,93</strong> (mais de 50% de desconto!)</p>
-            <p class="reveal text-muted" style="max-width: 600px; margin: 2rem auto;">Menos que um lanche no fim de semana. Pra você finalmente executar algo que dê resultado.</p>
+            <p class="lead reveal mb-2">Menos que uma pizza por mês para finalmente <strong>voltar a emagrecer de verdade.</strong></p>
 
-            <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer" class="btn btn-primary reveal">👉 QUERO COMEÇAR O DESAFIO AGORA</a>
+            <p class="preco-original reveal">R$ 89,90</p>
+            <!-- FIX: era <span>, agora <div> para bloco correto -->
+            <div class="preco-atual reveal">R$ 46,97</div>
+            <p class="preco-parcelamento reveal">ou 12x de R$ 4,70</p>
+            <p class="preco-economia reveal">🔥 Você <strong>economiza R$ 42,93</strong> — mais de 50% de desconto!</p>
+
+            <p class="lead text-muted reveal" style="max-width: 560px; margin: 0 auto 1.75rem;">Menos que um lanche no fim de semana. Pra você finalmente executar algo que dê resultado.</p>
+
+            <div class="cta-wrap">
+                    <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer"
+                class="btn btn-primary reveal">QUERO COMEÇAR O DESAFIO AGORA<svg class="btn-beam-svg" aria-hidden="true"><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="1"/></svg></a>
+                <span class="cta-seguro">COMPRA SEGURA <span class="sep">|</span> <img src="public/cakto.png" alt="Cakto"></span>
+                </div>
 
             <div class="vagas-info reveal">
-                <p style="font-size: 1.3rem; font-weight: 700;">Vagas limitadas – Os próximos lotes terão preços maiores</p>
+                <p class="lead" style="font-weight: 700; color: var(--text);">Vagas limitadas – Os próximos lotes terão preços maiores</p>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: 76%;"></div>
                 </div>
-                <p style="margin: 1rem 0;"><span class="text-accent" style="font-weight: 900;">76%</span> das vagas preenchidas</p>
-                
+                <p class="lead"><span class="text-accent" style="font-weight: 700;">76%</span> das vagas preenchidas</p>
+
                 <div class="selo-seguranca">
                     <i class="fas fa-lock"></i>
                     <span>Compra <strong>100% segura</strong>! Receba seu acesso <strong>imediatamente</strong> após a confirmação do pagamento.</span>
                 </div>
-                
+
                 <div class="bandeiras">
                     <i class="fa-brands fa-pix"></i>
                     <i class="fab fa-cc-visa"></i>
                     <i class="fab fa-cc-mastercard"></i>
                     <i class="fab fa-cc-amex"></i>
                 </div>
-                <p style="font-size: 0.9rem; color: #666; margin-top: 0.5rem;">Pagamento processado com total segurança</p>
+                <p class="text-sm text-muted mt-1">Pagamento processado com total segurança</p>
 
                 <div class="vagas-timer">
                     <p>⏳ ÚLTIMAS HORAS COM ESTE PREÇO!</p>
@@ -774,7 +1484,10 @@
         </div>
     </section>
 
-    <section class="py-4">
+    <!-- ============================================================
+         SEÇÃO: GARANTIA
+    ============================================================ -->
+    <section class="section">
         <div class="container">
             <div class="garantia-destaque reveal">
                 <i class="fas fa-shield-alt"></i>
@@ -785,10 +1498,13 @@
         </div>
     </section>
 
-    <!-- FAQ -->
-    <section class="py-4">
+    <!-- ============================================================
+         SEÇÃO: FAQ
+    ============================================================ -->
+    <section class="section">
         <div class="container">
             <h2 class="reveal">PERGUNTAS FREQUENTES</h2>
+
             <div class="faq-container">
                 <div class="faq-grid">
                     <div class="faq-card">
@@ -833,7 +1549,7 @@
                             <i class="fa-solid fa-plus"></i>
                         </div>
                         <div class="faq-answer">
-                            Você terá <strong>resetado seu metabolismo</strong> e aprendido o método. Além de ganhar uma avaliação totalmente gratuita de diagnóstico exclusiva comigo!
+                            Você terá <strong>resetado seu metabolismo</strong> e aprendido o método. Além de ganhar uma avaliação de diagnóstico exclusiva e totalmente gratuita comigo!
                         </div>
                     </div>
                     <div class="faq-card">
@@ -842,7 +1558,7 @@
                             <i class="fa-solid fa-plus"></i>
                         </div>
                         <div class="faq-answer">
-                            Imediato. Após a confirmação do pagamento, você recebe no e-mail o acesso completo e o convite para o <strong>Grupo VIP no WhatsApp e os próximos passos.</strong>.
+                            Imediato. Após a confirmação do pagamento, você recebe no e-mail o acesso completo e o convite para o <strong>Grupo VIP no WhatsApp com os próximos passos</strong>.
                         </div>
                     </div>
                 </div>
@@ -850,67 +1566,329 @@
         </div>
     </section>
 
-    <section class="py-4 text-center border-bottom">
+    <!-- ============================================================
+         SEÇÃO: CTA FINAL
+    ============================================================ -->
+    <section class="section text-center">
         <div class="container">
             <h2 class="reveal">VAGAS LIMITADAS PARA O GRUPO VIP</h2>
-            <p class="reveal" style="font-size: 1.5rem;">Garanta sua vaga agora antes que o preço suba.</p>
-            <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer" class="btn btn-primary reveal">👉 QUERO ENTRAR AGORA</a>
-            <p class="text-muted mt-2 reveal">12x de R$ 4,70 | Compra segura</p>
+            <p class="lead reveal mb-2">Garanta sua vaga agora antes que o preço suba.</p>
+            <div class="cta-wrap">
+                    <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer"
+                class="btn btn-primary reveal">QUERO ENTRAR AGORA<svg class="btn-beam-svg" aria-hidden="true"><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="1"/></svg></a>
+                <span class="cta-seguro">COMPRA SEGURA <span class="sep">|</span> <img src="public/cakto.png" alt="Cakto"></span>
+                </div>
+            <p class="text-muted text-sm mt-1 reveal">12x de R$ 4,70 · Compra 100% segura</p>
         </div>
     </section>
 
+    <!-- ============================================================
+         FOOTER
+    ============================================================ -->
     <footer>
         <div class="container">
-            <p>Protocolo Vida Real em 15 Dias - Todos os direitos reservados</p>
+            <p>Protocolo Vida Real em 15 Dias – Todos os direitos reservados</p>
             <p>Este produto não substitui acompanhamento profissional. Resultados podem variar.</p>
         </div>
     </footer>
 
+    <!-- ============================================================
+         SCRIPTS
+    ============================================================ -->
     <script>
-        let tempoRestante = 48 * 60 * 60;
-        const contadorSpan = document.getElementById('contador');
-        const contadorSpan2 = document.getElementById('contador2');
+        /* ── Marquee — clona grupos até preencher 2× a tela, anima por pixels ── */
+        function setupMarquees() {
+            document.querySelectorAll('.marquee').forEach(function(marquee) {
+                var track = marquee.querySelector('.marquee-track');
+                var group = track.querySelector('.marquee-group');
+                if (!group) return;
+
+                // Clona o grupo até que a track cubra >2× a largura da janela
+                var needed = window.innerWidth * 2.5;
+                while (track.scrollWidth < needed) {
+                    var clone = group.cloneNode(true);
+                    track.appendChild(clone);
+                }
+
+                // Mede a largura do grupo original DEPOIS da renderização
+                var groupW = group.offsetWidth;
+
+                // Define a distância de translação = largura exata de 1 grupo
+                // O loop será invisível porque grupo[n] = grupo[0] visualmente
+                track.style.setProperty('--marquee-dist', '-' + groupW + 'px');
+
+                // Velocidade constante: ~45px/s independente do conteúdo
+                var dur = groupW / 45;
+                track.style.setProperty('--marquee-dur', dur + 's');
+            });
+        }
+
+        // Roda no load para garantir que os elementos já têm tamanho
+        if (document.readyState === 'complete') {
+            setupMarquees();
+        } else {
+            window.addEventListener('load', setupMarquees);
+        }
+
+        // Recalcula se a janela for redimensionada
+        var resizeTimer;
+        window.addEventListener('resize', function() {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function() {
+                document.querySelectorAll('.marquee-track').forEach(function(t) {
+                    t.style.animation = 'none';
+                });
+                setupMarquees();
+                document.querySelectorAll('.marquee-track').forEach(function(t) {
+                    t.style.animation = '';
+                });
+            }, 300);
+        });
+
+
+        const contadorEls = [
+            document.getElementById('contador'),
+            document.getElementById('contador2')
+        ];
+
+        const TIMER_KEY = 'gedda_timer_expira';
+        const DURACAO   = 48 * 60 * 60;
+
+        if (!localStorage.getItem(TIMER_KEY)) {
+            localStorage.setItem(TIMER_KEY, Date.now() + DURACAO * 1000);
+        }
+
+        function getTempoRestante() {
+            const diff = Math.floor((parseInt(localStorage.getItem(TIMER_KEY)) - Date.now()) / 1000);
+            return diff > 0 ? diff : 0;
+        }
 
         function atualizarTimer() {
-            const horas = Math.floor(tempoRestante / 3600);
-            const minutos = Math.floor((tempoRestante % 3600) / 60);
-            const segundos = tempoRestante % 60;
-            const tempoStr = `${horas.toString().padStart(2,'0')}:${minutos.toString().padStart(2,'0')}:${segundos.toString().padStart(2,'0')}`;
-            if (contadorSpan) contadorSpan.innerText = tempoStr;
-            if (contadorSpan2) contadorSpan2.innerText = tempoStr;
-
-            if (tempoRestante > 0) {
-                tempoRestante--;
-            } else {
-                clearInterval(intervalo);
-                const finalStr = '00:00:00';
-                if (contadorSpan) contadorSpan.innerText = finalStr;
-                if (contadorSpan2) contadorSpan2.innerText = finalStr;
-            }
+            const t = getTempoRestante();
+            const h = Math.floor(t / 3600).toString().padStart(2, '0');
+            const m = Math.floor((t % 3600) / 60).toString().padStart(2, '0');
+            const s = (t % 60).toString().padStart(2, '0');
+            const str = `${h}:${m}:${s}`;
+            contadorEls.forEach(el => { if (el) el.textContent = str; });
+            if (t <= 0) clearInterval(intervalo);
         }
+
+        atualizarTimer();
         const intervalo = setInterval(atualizarTimer, 1000);
 
-        // FAQ accordion
+        /* ── FAQ accordion ── */
         document.querySelectorAll('.faq-card').forEach(card => {
-            const question = card.querySelector('.faq-question');
-            question.addEventListener('click', () => {
+            card.querySelector('.faq-question').addEventListener('click', () => {
                 card.classList.toggle('active');
             });
         });
 
+        /* ── Reveal on scroll ── */
         function reveal() {
             document.querySelectorAll('.reveal').forEach(el => {
-                const rect = el.getBoundingClientRect();
-                if (rect.top < window.innerHeight - 150) el.classList.add('active');
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+                    el.classList.add('active');
+                }
             });
         }
-        window.addEventListener('scroll', reveal);
+        window.addEventListener('scroll', reveal, { passive: true });
         reveal();
 
-        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-        if (mediaQuery.matches) {
-            document.querySelectorAll('.marquee-content').forEach(el => el.style.animation = 'none');
+        /* ── Carousel ── */
+        let currentSlide = 0;
+        const totalSlides = 3;
+        const track = document.getElementById('carouselTrack');
+        const dots  = document.querySelectorAll('.dot');
+
+        function updateCarousel() {
+            track.style.transform = `translateX(-${currentSlide * 100}%)`;
+            dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
         }
+
+        function moveCarousel(dir) {
+            currentSlide = (currentSlide + dir + totalSlides) % totalSlides;
+            updateCarousel();
+        }
+
+        function goToSlide(n) {
+            currentSlide = n;
+            updateCarousel();
+        }
+
+        setInterval(() => moveCarousel(1), 5000);
+
+        /* ── SVG Comet Beam ── */
+        (function () {
+            function setupBeam() {
+                var card = document.querySelector('.mentor-card');
+                var svg  = document.querySelector('.beam-svg');
+                if (!card || !svg) return;
+
+                var w = card.offsetWidth;
+                var h = card.offsetHeight;
+
+                // Perimeter of the rect (inset by 1px for border alignment)
+                var rw  = w - 2;
+                var rh  = h - 2;
+                var per = 2 * (rw + rh);
+
+                // Tail = 28% of perimeter, capped for large screens
+                var tail = Math.min(per * 0.42, 620);
+
+                // Duration: speed ~120px/s for a slow, premium feel
+                var dur = (per / 200).toFixed(2);
+
+                // Set SVG dimensions and viewBox
+                svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+
+                // Tail fractions per layer: outer-glow has the longest tail,
+                // the hot layer has the shortest (only the very tip)
+                var tails   = [1, 1, 1, 1]; // mesmo comprimento em todas as camadas
+                var rects0  = svg.querySelectorAll('.beam-rect[data-beam="0"]');
+                var rects1  = svg.querySelectorAll('.beam-rect[data-beam="1"]');
+
+                // Defasagem exata de 50% — os dois sempre em lados opostos
+                var offset1 = (parseFloat(dur) * 0.5).toFixed(2);
+
+                [rects0, rects1].forEach(function (rects, beamIdx) {
+                    var delay = beamIdx === 0 ? '0' : '-' + offset1;
+
+                    rects.forEach(function (rect, i) {
+                        var t   = tail * tails[i];
+                        var gap = per - t;
+
+                        rect.setAttribute('x',      '1');
+                        rect.setAttribute('y',      '1');
+                        rect.setAttribute('width',  rw);
+                        rect.setAttribute('height', rh);
+                        rect.setAttribute('stroke-dasharray',  t + ' ' + gap);
+                        rect.setAttribute('stroke-dashoffset', t);
+
+                        rect.style.animation =
+                            'beam-stroke-' + i + ' ' + dur + 's linear ' + delay + 's infinite';
+                    });
+                });
+
+                // Inject keyframes into <head> — each layer travels -perimeter
+                var styleId = 'beam-kf';
+                var old = document.getElementById(styleId);
+                if (old) old.remove();
+
+                var css = '';
+                tails.forEach(function (_, i) {
+                    var t   = tail * tails[i];
+                    css +=
+                        '@keyframes beam-stroke-' + i + ' {' +
+                        '  from { stroke-dashoffset: '  + t           + ' }' +
+                        '  to   { stroke-dashoffset: ' + (t - per)   + ' }' +
+                        '}';
+                });
+
+                var s = document.createElement('style');
+                s.id  = styleId;
+                s.textContent = css;
+                document.head.appendChild(s);
+            }
+
+            // Run after layout is ready
+            if (document.readyState === 'complete') {
+                setupBeam();
+            } else {
+                window.addEventListener('load', setupBeam);
+            }
+
+            // Recalculate on resize
+            var rt;
+            window.addEventListener('resize', function () {
+                clearTimeout(rt);
+                rt = setTimeout(setupBeam, 250);
+            });
+        })();
+
+
+
+        /* ── Green Beam nos botões CTA ── */
+        (function () {
+            function setupBtnBeams() {
+                var buttons = document.querySelectorAll('.btn-primary');
+                if (!buttons.length) return;
+
+                var styleId = 'btn-beam-kf';
+                var existing = document.getElementById(styleId);
+                if (existing) existing.remove();
+
+                var kfCss = '';
+                var kfGenerated = false;
+
+                buttons.forEach(function (btn) {
+                    var svg = btn.querySelector('.btn-beam-svg');
+                    if (!svg) return;
+
+                    var w  = btn.offsetWidth;
+                    var h  = btn.offsetHeight;
+                    var rx = h / 2; // pill shape
+                    var rw = w - 2;
+                    var rh = h - 2;
+                    // Perimeter of a rounded rect: straight sides + semicircles
+                    var per = 2 * (rw - 2 * rx) + 2 * (rh - 2 * rx) + 2 * Math.PI * rx;
+
+                    var tail   = per * 0.22;
+                    var dur    = (per / 140).toFixed(2);
+                    var offset = (parseFloat(dur) * 0.5).toFixed(2);
+
+                    svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
+
+                    var rects0 = svg.querySelectorAll('.btn-beam-rect[data-beam="0"]');
+                    var rects1 = svg.querySelectorAll('.btn-beam-rect[data-beam="1"]');
+
+                    [rects0, rects1].forEach(function (rects, beamIdx) {
+                        var delay = beamIdx === 0 ? '0' : '-' + offset;
+                        rects.forEach(function (rect, i) {
+                            var gap = per - tail;
+                            rect.setAttribute('x',      '1');
+                            rect.setAttribute('y',      '1');
+                            rect.setAttribute('width',  rw);
+                            rect.setAttribute('height', rh);
+                            rect.setAttribute('rx',     rx);
+                            rect.setAttribute('ry',     rx);
+                            rect.setAttribute('stroke-dasharray',  tail + ' ' + gap);
+                            rect.setAttribute('stroke-dashoffset', tail);
+                            rect.style.animation =
+                                'btn-beam-stroke-' + i + ' ' + dur + 's linear ' + delay + 's infinite';
+                        });
+                    });
+
+                    if (!kfGenerated) {
+                        for (var i = 0; i < 4; i++) {
+                            kfCss +=
+                                '@keyframes btn-beam-stroke-' + i + ' {' +
+                                'from { stroke-dashoffset: ' + tail + ' }' +
+                                'to   { stroke-dashoffset: ' + (tail - per) + ' }' +
+                                '}';
+                        }
+                        kfGenerated = true;
+                    }
+                });
+
+                var s = document.createElement('style');
+                s.id  = styleId;
+                s.textContent = kfCss;
+                document.head.appendChild(s);
+            }
+
+            if (document.readyState === 'complete') {
+                setupBtnBeams();
+            } else {
+                window.addEventListener('load', setupBtnBeams);
+            }
+
+            var rbt;
+            window.addEventListener('resize', function () {
+                clearTimeout(rbt);
+                rbt = setTimeout(setupBtnBeams, 250);
+            });
+        })();
+
     </script>
 </body>
 </html>
