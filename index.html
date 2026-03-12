@@ -14,9 +14,153 @@
 
     <style>
         /* ============================================================
+           LOADER GLASS
+        ============================================================ */
+        #page-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 10, 10, 0.75);
+            backdrop-filter: blur(22px) saturate(1.4);
+            -webkit-backdrop-filter: blur(22px) saturate(1.4);
+            transition: opacity 0.55s ease, visibility 0.55s ease;
+        }
+
+        #page-loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .loader-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 2.75rem 3.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            box-shadow:
+                0 8px 40px rgba(0, 0, 0, 0.55),
+                inset 0 1px 0 rgba(255, 255, 255, 0.07);
+            animation: loader-appear 0.4s ease both;
+        }
+
+        @keyframes loader-appear {
+            from {
+                opacity: 0;
+                transform: translateY(14px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Spinner duplo-anel */
+        .loader-spinner {
+            position: relative;
+            width: 56px;
+            height: 56px;
+        }
+
+        .loader-spinner::before,
+        .loader-spinner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 3px solid transparent;
+        }
+
+        /* Anel externo — vermelho acento */
+        .loader-spinner::before {
+            border-top-color: #E63946;
+            border-right-color: rgba(230, 57, 70, 0.3);
+            animation: spin 0.9s linear infinite;
+        }
+
+        /* Anel interno — branco suave, sentido contrário */
+        .loader-spinner::after {
+            inset: 8px;
+            border-top-color: rgba(255, 255, 255, 0.55);
+            border-left-color: rgba(255, 255, 255, 0.15);
+            animation: spin 1.4s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Ponto central pulsante */
+        .loader-dot {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 7px;
+            height: 7px;
+            background: #E63946;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #E63946, 0 0 16px rgba(230, 57, 70, 0.4);
+            animation: pulse-dot 1.2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.45);
+                opacity: 0.6;
+            }
+        }
+
+        /* Texto e barra de progresso */
+        .loader-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .loader-bar-wrap {
+            width: 140px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .loader-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #E63946, rgba(230, 57, 70, 0.4));
+            border-radius: 999px;
+            transition: width 0.3s ease;
+        }
+
+        /* ============================================================
            RESET
         ============================================================ */
-        *, *::before, *::after {
+        *,
+        *::before,
+        *::after {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -26,22 +170,22 @@
            TOKENS — únicas fontes de verdade de cor, espaço e tipo
         ============================================================ */
         :root {
-            --accent:      #E63946;
-            --accent-dim:  rgba(230, 57, 70, 0.15);
-            --bg:          #0F0F0F;
-            --bg-2:        #1A1A1A;
-            --border:      #3F3F46;
-            --text:        #FAFAFA;
-            --text-muted:  #AAAAAA;
-            --text-body:   #CCCCCC;
+            --accent: #E63946;
+            --accent-dim: rgba(230, 57, 70, 0.15);
+            --bg: #0F0F0F;
+            --bg-2: #1A1A1A;
+            --border: #3F3F46;
+            --text: #FAFAFA;
+            --text-muted: #AAAAAA;
+            --text-body: #CCCCCC;
 
             /* Escala tipográfica — única para toda a página */
-            --fs-h1:   clamp(2.2rem, 7vw, 5rem);
-            --fs-h2:   clamp(1.6rem, 3.5vw, 2.6rem);
-            --fs-h3:   clamp(1rem,   2vw,   1.3rem);
-            --fs-lead: clamp(1rem,   1.8vw, 1.15rem);
+            --fs-h1: clamp(2.2rem, 7vw, 5rem);
+            --fs-h2: clamp(1.6rem, 3.5vw, 2.6rem);
+            --fs-h3: clamp(1rem, 2vw, 1.3rem);
+            --fs-lead: clamp(1rem, 1.8vw, 1.15rem);
             --fs-body: clamp(0.9rem, 1.6vw, 1.05rem);
-            --fs-sm:   0.825rem;
+            --fs-sm: 0.825rem;
 
             /* Espaçamento de seção — único */
             --section-py: clamp(3rem, 6vw, 5rem);
@@ -60,7 +204,8 @@
             color: var(--text);
             line-height: 1.55;
             overflow-x: hidden;
-            padding-bottom: 70px; /* espaço para botão flutuante */
+            padding-bottom: 70px;
+            /* espaço para botão flutuante */
         }
 
         /* grain overlay */
@@ -78,17 +223,31 @@
         /* ============================================================
            TIPOGRAFIA — hierarquia consistente em todo o site
         ============================================================ */
-        h1, h2, h3,
-        .btn, .faq-question {
+        h1,
+        h2,
+        h3,
+        .btn,
+        .faq-question {
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: -0.02em;
             line-height: 1.1;
         }
 
-        h1 { font-size: var(--fs-h1); margin-bottom: 1rem; }
-        h2 { font-size: var(--fs-h2); margin-bottom: 1.5rem; }
-        h3 { font-size: var(--fs-h3); margin-bottom: 0.75rem; }
+        h1 {
+            font-size: var(--fs-h1);
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: var(--fs-h2);
+            margin-bottom: 1.5rem;
+        }
+
+        h3 {
+            font-size: var(--fs-h3);
+            margin-bottom: 0.75rem;
+        }
 
         p {
             font-size: var(--fs-body);
@@ -101,13 +260,30 @@
             color: var(--text-body);
         }
 
-        .text-sm   { font-size: var(--fs-sm); }
-        .text-muted { color: var(--text-muted); }
-        .text-accent { color: var(--accent); }
-        .text-white  { color: var(--text); }
-        .text-center { text-align: center; }
+        .text-sm {
+            font-size: var(--fs-sm);
+        }
 
-        strong { color: var(--text); font-weight: 700; }
+        .text-muted {
+            color: var(--text-muted);
+        }
+
+        .text-accent {
+            color: var(--accent);
+        }
+
+        .text-white {
+            color: var(--text);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        strong {
+            color: var(--text);
+            font-weight: 700;
+        }
 
         /* ============================================================
            EYEBROW — rótulo de seção padronizado para todos os blocos
@@ -139,7 +315,9 @@
             border-bottom: 2px solid var(--border);
         }
 
-        .section:last-of-type { border-bottom: none; }
+        .section:last-of-type {
+            border-bottom: none;
+        }
 
         /* ============================================================
            BOTÕES
@@ -170,11 +348,19 @@
             font-size: clamp(1rem, 2vw, 1.15rem);
             letter-spacing: 0.04em;
             position: relative;
-            box-shadow: 0 0 12px rgba(34,197,94,0.35), 0 0 28px rgba(34,197,94,0.12);
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.35), 0 0 28px rgba(34, 197, 94, 0.12);
         }
 
-        .btn-primary:hover  { transform: scale(1.04); background: #16a34a; border-color: #16a34a; box-shadow: 0 0 18px rgba(34,197,94,0.45), 0 0 40px rgba(34,197,94,0.18); }
-        .btn-primary:active { transform: scale(0.96); }
+        .btn-primary:hover {
+            transform: scale(1.04);
+            background: #16a34a;
+            border-color: #16a34a;
+            box-shadow: 0 0 18px rgba(34, 197, 94, 0.45), 0 0 40px rgba(34, 197, 94, 0.18);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.96);
+        }
 
         /* ── Green Beam nos botões CTA ── */
         .btn-beam-svg {
@@ -224,11 +410,16 @@
         }
 
         @media (max-width: 480px) {
-            .btn-beam-svg { display: none; }
+            .btn-beam-svg {
+                display: none;
+            }
         }
 
         @media (max-width: 480px) {
-            .btn { width: 100%; text-align: center; }
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
         }
 
         /* ============================================================
@@ -254,8 +445,9 @@
         }
 
         /* Ícone menor que o h3 para hierarquia interna clara */
-        .card > i {
-            font-size: 1.6rem; /* deliberadamente menor que --fs-h3 max */
+        .card>i {
+            font-size: 1.6rem;
+            /* deliberadamente menor que --fs-h3 max */
             color: var(--accent);
             margin-bottom: 0.75rem;
             display: block;
@@ -264,17 +456,31 @@
         /* ============================================================
            GRID
         ============================================================ */
-        .grid   { display: grid; gap: 1.5rem; }
-        .grid-2 { grid-template-columns: repeat(2, 1fr); }
-        .grid-4 { grid-template-columns: repeat(4, 1fr); }
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .grid-4 {
+            grid-template-columns: repeat(4, 1fr);
+        }
 
         @media (max-width: 900px) {
-            .grid-4 { grid-template-columns: repeat(2, 1fr); }
+            .grid-4 {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         @media (max-width: 600px) {
+
             .grid-2,
-            .grid-4 { grid-template-columns: 1fr; }
+            .grid-4 {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* ============================================================
@@ -296,7 +502,9 @@
             animation: marquee-scroll var(--marquee-dur, 30s) linear infinite;
         }
 
-        .marquee:hover  { animation-play-state: paused; }
+        .marquee:hover {
+            animation-play-state: paused;
+        }
 
         .marquee-group {
             display: flex;
@@ -322,8 +530,13 @@
         }
 
         @keyframes marquee-scroll {
-            from { transform: translateX(0); }
-            to   { transform: translateX(var(--marquee-dist, -2000px)); }
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(var(--marquee-dist, -2000px));
+            }
         }
 
         /* ============================================================
@@ -367,18 +580,19 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: repeating-linear-gradient(
-                45deg,
-                rgba(230, 57, 70, 0.02) 0px,
-                rgba(230, 57, 70, 0.02) 2px,
-                transparent 2px,
-                transparent 8px
-            );
+            background: repeating-linear-gradient(45deg,
+                    rgba(230, 57, 70, 0.02) 0px,
+                    rgba(230, 57, 70, 0.02) 2px,
+                    transparent 2px,
+                    transparent 8px);
             pointer-events: none;
             z-index: 1;
         }
 
-        .hero .container { position: relative; z-index: 2; }
+        .hero .container {
+            position: relative;
+            z-index: 2;
+        }
 
         .autoridade-img {
             width: 130px;
@@ -417,10 +631,16 @@
             text-transform: uppercase;
         }
 
-        .bullet-item i { color: var(--accent); font-size: 0.9rem; }
+        .bullet-item i {
+            color: var(--accent);
+            font-size: 0.9rem;
+        }
 
         @media (max-width: 480px) {
-            .bullet-item { flex: 1 1 calc(50% - 0.75rem); justify-content: center; }
+            .bullet-item {
+                flex: 1 1 calc(50% - 0.75rem);
+                justify-content: center;
+            }
         }
 
         /* ============================================================
@@ -445,8 +665,13 @@
             background: var(--accent);
         }
 
-        .destaque-frase::before { top: 0; }
-        .destaque-frase::after  { bottom: 0; }
+        .destaque-frase::before {
+            top: 0;
+        }
+
+        .destaque-frase::after {
+            bottom: 0;
+        }
 
         .destaque-frase p {
             font-size: var(--fs-lead);
@@ -476,7 +701,7 @@
             gap: 0;
             border: 2px solid #E63946;
             box-shadow:
-                0 0 8px  2px rgba(230, 57, 70, 0.7),
+                0 0 8px 2px rgba(230, 57, 70, 0.7),
                 0 0 20px 4px rgba(230, 57, 70, 0.35),
                 inset 0 0 12px rgba(230, 57, 70, 0.08);
             overflow: visible;
@@ -543,8 +768,13 @@
         }
 
         @media (max-width: 768px) {
-            .beam-svg { display: none; }
-            .mentor-card { overflow: hidden; }
+            .beam-svg {
+                display: none;
+            }
+
+            .mentor-card {
+                overflow: hidden;
+            }
         }
 
         /* Foto — coluna esquerda */
@@ -569,11 +799,9 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(
-                to right,
-                transparent 60%,
-                var(--bg) 100%
-            );
+            background: linear-gradient(to right,
+                    transparent 60%,
+                    var(--bg) 100%);
         }
 
         /* Conteúdo — coluna direita */
@@ -673,12 +901,10 @@
 
             /* Gradiente de baixo para cima no mobile */
             .mentor-card__photo::after {
-                background: linear-gradient(
-                    to top,
-                    rgba(15,15,15,0.97) 40%,
-                    rgba(15,15,15,0.55) 75%,
-                    transparent 100%
-                );
+                background: linear-gradient(to top,
+                        rgba(15, 15, 15, 0.97) 40%,
+                        rgba(15, 15, 15, 0.55) 75%,
+                        transparent 100%);
             }
 
             /* Conteúdo fica sobre a foto */
@@ -690,9 +916,13 @@
                 gap: 1rem;
             }
 
-            .mentor-card__role { align-self: flex-start; }
+            .mentor-card__role {
+                align-self: flex-start;
+            }
 
-            .mentor-card__name { font-size: clamp(1.8rem, 8vw, 2.6rem); }
+            .mentor-card__name {
+                font-size: clamp(1.8rem, 8vw, 2.6rem);
+            }
         }
 
         /* ============================================================
@@ -709,7 +939,7 @@
             margin: 0 auto;
             overflow: hidden;
             border: 2px solid var(--accent);
-            box-shadow: 0 0 20px rgba(230,57,70,0.5), 0 0 50px rgba(230,57,70,0.2);
+            box-shadow: 0 0 20px rgba(230, 57, 70, 0.5), 0 0 50px rgba(230, 57, 70, 0.2);
         }
 
         .carousel-track {
@@ -733,7 +963,7 @@
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
             padding: 2rem 1.25rem 1rem;
             display: flex;
             justify-content: space-between;
@@ -759,7 +989,7 @@
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(230,57,70,0.9);
+            background: rgba(230, 57, 70, 0.9);
             border: none;
             color: #fff;
             width: 44px;
@@ -773,9 +1003,17 @@
             transition: background 0.2s;
         }
 
-        .carousel-btn:hover { background: var(--accent); }
-        .carousel-btn.prev  { left: 0; }
-        .carousel-btn.next  { right: 0; }
+        .carousel-btn:hover {
+            background: var(--accent);
+        }
+
+        .carousel-btn.prev {
+            left: 0;
+        }
+
+        .carousel-btn.next {
+            right: 0;
+        }
 
         .carousel-dots {
             display: flex;
@@ -793,10 +1031,16 @@
             transition: background 0.3s;
         }
 
-        .dot.active { background: var(--accent); }
+        .dot.active {
+            background: var(--accent);
+        }
 
         @media (max-width: 480px) {
-            .carousel-btn { width: 34px; height: 34px; font-size: 1.1rem; }
+            .carousel-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 1.1rem;
+            }
         }
 
         /* ============================================================
@@ -925,7 +1169,7 @@
             background: var(--bg);
             padding: clamp(1.75rem, 5vw, 3rem);
             text-align: center;
-            box-shadow: 0 0 30px rgba(230,57,70,0.25);
+            box-shadow: 0 0 30px rgba(230, 57, 70, 0.25);
         }
 
         .garantia-destaque i {
@@ -958,7 +1202,10 @@
         /* ============================================================
            FAQ
         ============================================================ */
-        .faq-container { max-width: 860px; margin: 0 auto; }
+        .faq-container {
+            max-width: 860px;
+            margin: 0 auto;
+        }
 
         .faq-grid {
             display: flex;
@@ -972,7 +1219,9 @@
             transition: border-color 0.25s;
         }
 
-        .faq-card:hover { border-color: var(--accent); }
+        .faq-card:hover {
+            border-color: var(--accent);
+        }
 
         .faq-question {
             padding: 1.25rem 1.5rem;
@@ -991,7 +1240,10 @@
             gap: 0.75rem;
         }
 
-        .faq-question i.fa-circle-question { color: var(--accent); }
+        .faq-question i.fa-circle-question {
+            color: var(--accent);
+        }
+
         .faq-question i.fa-plus {
             color: var(--accent);
             font-size: 1.1rem;
@@ -999,7 +1251,9 @@
             flex-shrink: 0;
         }
 
-        .faq-card.active .faq-question i.fa-plus { transform: rotate(45deg); }
+        .faq-card.active .faq-question i.fa-plus {
+            transform: rotate(45deg);
+        }
 
         .faq-answer {
             max-height: 0;
@@ -1030,7 +1284,7 @@
             text-align: center;
             z-index: 9999;
             border-top: 2px solid #fff;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.5);
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
         }
 
         .cta-flutuante a {
@@ -1046,10 +1300,21 @@
         /* ============================================================
            UTILITÁRIOS
         ============================================================ */
-        .mt-1 { margin-top: 1rem; }
-        .mt-2 { margin-top: 2rem; }
-        .mb-1 { margin-bottom: 1rem; }
-        .mb-2 { margin-bottom: 2rem; }
+        .mt-1 {
+            margin-top: 1rem;
+        }
+
+        .mt-2 {
+            margin-top: 2rem;
+        }
+
+        .mb-1 {
+            margin-bottom: 1rem;
+        }
+
+        .mb-2 {
+            margin-bottom: 2rem;
+        }
 
         /* ============================================================
            ANIMAÇÃO DE ENTRADA (reveal)
@@ -1088,19 +1353,31 @@
                 --section-py: 2.75rem;
             }
 
-            h2 { margin-bottom: 1.25rem; }
+            h2 {
+                margin-bottom: 1.25rem;
+            }
 
-            .hero { padding: 2.5rem 0; }
+            .hero {
+                padding: 2.5rem 0;
+            }
 
-            .bullet-list { gap: 0.6rem; }
+            .bullet-list {
+                gap: 0.6rem;
+            }
 
-            .destaque-frase { padding: 1.25rem 1rem; }
+            .destaque-frase {
+                padding: 1.25rem 1rem;
+            }
 
-            .vagas-info { padding: 1.5rem 1rem; }
+            .vagas-info {
+                padding: 1.5rem 1rem;
+            }
 
-            .garantia-destaque { padding: 1.75rem 1rem; }
+            .garantia-destaque {
+                padding: 1.75rem 1rem;
+            }
 
-        
+
         }
 
         @media (max-width: 480px) {
@@ -1109,23 +1386,46 @@
                 --section-py: 2.25rem;
             }
 
-            .timer-bar { font-size: 0.78rem; }
-            .timer-bar .countdown { font-size: 0.95rem; }
+            .timer-bar {
+                font-size: 0.78rem;
+            }
 
-            .card { padding: 1.25rem; }
+            .timer-bar .countdown {
+                font-size: 0.95rem;
+            }
 
-            .bandeiras { font-size: 1.6rem; gap: 1rem; }
+            .card {
+                padding: 1.25rem;
+            }
 
-            .preco-atual { line-height: 1.1; }
+            .bandeiras {
+                font-size: 1.6rem;
+                gap: 1rem;
+            }
 
-            .garantia-destaque h2 { font-size: clamp(1.2rem, 6vw, 1.8rem); }
+            .preco-atual {
+                line-height: 1.1;
+            }
 
-            footer { padding: 1.5rem var(--container-px); }
+            .garantia-destaque h2 {
+                font-size: clamp(1.2rem, 6vw, 1.8rem);
+            }
+
+            footer {
+                padding: 1.5rem var(--container-px);
+            }
         }
 
         @media (prefers-reduced-motion: reduce) {
-            .marquee-track { animation: none !important; }
-            .reveal { opacity: 1; transform: none; transition: none; }
+            .marquee-track {
+                animation: none !important;
+            }
+
+            .reveal {
+                opacity: 1;
+                transform: none;
+                transition: none;
+            }
         }
 
         /* ── Compra segura badge ── */
@@ -1135,6 +1435,7 @@
             align-items: center;
             gap: 0.55rem;
         }
+
         .cta-seguro {
             display: flex;
             align-items: center;
@@ -1145,16 +1446,40 @@
             text-transform: uppercase;
             color: #666;
         }
-        .cta-seguro .sep { color: #444; }
+
+        .cta-seguro .sep {
+            color: #444;
+        }
+
         .cta-seguro img {
             height: 13px;
             width: auto;
         }
-        @media (max-width: 480px) { .cta-wrap { width: 100%; } }
+
+        @media (max-width: 480px) {
+            .cta-wrap {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 
 <body>
+
+    <!-- ============================================================
+         LOADER GLASS
+    ============================================================ -->
+    <div id="page-loader" role="status" aria-label="Carregando página">
+        <div class="loader-card">
+            <div class="loader-spinner">
+                <span class="loader-dot"></span>
+            </div>
+            <div class="loader-bar-wrap">
+                <div class="loader-bar-fill" id="loaderBar"></div>
+            </div>
+            <p class="loader-text">Carregando</p>
+        </div>
+    </div>
 
     <!-- ============================================================
          BOTÃO FLUTUANTE
@@ -1191,8 +1516,18 @@
 
                 <div class="cta-wrap">
                     <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer"
-                    class="btn btn-primary">QUERO ENTRAR NO PROTOCOLO<svg class="btn-beam-svg" aria-hidden="true"><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="1"/></svg></a>
-                    <span class="cta-seguro">COMPRA SEGURA <span class="sep">|</span> <img src="public/cakto.webp" alt="Cakto"></span>
+                        class="btn btn-primary">QUERO ENTRAR NO PROTOCOLO<svg class="btn-beam-svg" aria-hidden="true">
+                            <rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0" />
+                            <rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="0" />
+                            <rect class="btn-beam-rect btn-beam-rect--core" data-beam="0" />
+                            <rect class="btn-beam-rect btn-beam-rect--hot" data-beam="0" />
+                            <rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="1" />
+                            <rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="1" />
+                            <rect class="btn-beam-rect btn-beam-rect--core" data-beam="1" />
+                            <rect class="btn-beam-rect btn-beam-rect--hot" data-beam="1" />
+                        </svg></a>
+                    <span class="cta-seguro">COMPRA SEGURA <span class="sep">|</span> <img src="public/cakto.webp"
+                            alt="Cakto"></span>
                 </div>
             </div>
 
@@ -1229,22 +1564,26 @@
                 <div class="card reveal">
                     <i class="fas fa-weight-scale"></i>
                     <h3>MEDO DA BALANÇA</h3>
-                    <p>Você <strong>evita se pesar</strong>, sabe que o número vai te frustrar. As roupas <strong>não servem mais</strong> e você se sente <strong>preso no corpo errado</strong>.</p>
+                    <p>Você <strong>evita se pesar</strong>, sabe que o número vai te frustrar. As roupas <strong>não
+                            servem mais</strong> e você se sente <strong>preso no corpo errado</strong>.</p>
                 </div>
                 <div class="card reveal">
                     <i class="fas fa-users"></i>
                     <h3>VERGONHA DE FOTOS</h3>
-                    <p>Você sempre pede pra tirarem outra foto, ou pior, <strong>só aparece em fotos de grupo</strong> porque não tem jeito.</p>
+                    <p>Você sempre pede pra tirarem outra foto, ou pior, <strong>só aparece em fotos de grupo</strong>
+                        porque não tem jeito.</p>
                 </div>
                 <div class="card reveal">
                     <i class="fas fa-clock"></i>
                     <h3>EFEITO SANFONA</h3>
-                    <p>Você começa segunda, <strong>passa fome</strong>, e no fim de semana <strong>desiste</strong>. Aí vem a <strong>culpa</strong> e a sensação de que é impossível mudar.</p>
+                    <p>Você começa segunda, <strong>passa fome</strong>, e no fim de semana <strong>desiste</strong>. Aí
+                        vem a <strong>culpa</strong> e a sensação de que é impossível mudar.</p>
                 </div>
                 <div class="card reveal">
                     <i class="fas fa-hand"></i>
                     <h3>VOCÊ COMEÇA E PARA</h3>
-                    <p>Você só consegue emagrecer quando alguém te empurra, mas na primeira dificuldade, <strong>volta tudo</strong>. Falta um <strong>método real</strong>.</p>
+                    <p>Você só consegue emagrecer quando alguém te empurra, mas na primeira dificuldade, <strong>volta
+                            tudo</strong>. Falta um <strong>método real</strong>.</p>
                 </div>
             </div>
 
@@ -1262,7 +1601,8 @@
     <section class="section">
         <div class="container">
             <h2 class="reveal">O PROTOCOLO VIDA REAL EM 15 DIAS</h2>
-            <p class="lead reveal mb-2">Não é jejum maluco, nem remédio disfarçado de chá. São <strong class="text-accent">15 dias do método Vida Real</strong> na prática, baseado em 4 pilares:</p>
+            <p class="lead reveal mb-2">Não é jejum maluco, nem remédio disfarçado de chá. São <strong
+                    class="text-accent">15 dias do método Vida Real</strong> na prática, baseado em 4 pilares:</p>
 
             <div class="grid grid-4">
                 <div class="card text-center reveal">
@@ -1332,15 +1672,15 @@
                 <!-- SVG comet beam — borda neon com rastro -->
                 <svg class="beam-svg" aria-hidden="true">
                     <!-- Beam 1 -->
-                    <rect class="beam-rect beam-rect--outer-glow" data-beam="0"/>
-                    <rect class="beam-rect beam-rect--mid-glow"   data-beam="0"/>
-                    <rect class="beam-rect beam-rect--core"       data-beam="0"/>
-                    <rect class="beam-rect beam-rect--hot"        data-beam="0"/>
+                    <rect class="beam-rect beam-rect--outer-glow" data-beam="0" />
+                    <rect class="beam-rect beam-rect--mid-glow" data-beam="0" />
+                    <rect class="beam-rect beam-rect--core" data-beam="0" />
+                    <rect class="beam-rect beam-rect--hot" data-beam="0" />
                     <!-- Beam 2 — mesmo rumo, defasado -->
-                    <rect class="beam-rect beam-rect--outer-glow" data-beam="1"/>
-                    <rect class="beam-rect beam-rect--mid-glow"   data-beam="1"/>
-                    <rect class="beam-rect beam-rect--core"       data-beam="1"/>
-                    <rect class="beam-rect beam-rect--hot"        data-beam="1"/>
+                    <rect class="beam-rect beam-rect--outer-glow" data-beam="1" />
+                    <rect class="beam-rect beam-rect--mid-glow" data-beam="1" />
+                    <rect class="beam-rect beam-rect--core" data-beam="1" />
+                    <rect class="beam-rect beam-rect--hot" data-beam="1" />
                 </svg>
 
                 <div class="mentor-card__inner">
@@ -1359,7 +1699,9 @@
                         <h2 class="mentor-card__name">VICTOR GEDDA</h2>
 
                         <p class="mentor-card__tagline">
-                            Nutricionista com <strong>10+ anos de experiência</strong> e criador do <strong class="text-accent">Protocolo Vida Real</strong> — o método para quem tem rotina corrida e quer resultado de verdade.
+                            Nutricionista com <strong>10+ anos de experiência</strong> e criador do <strong
+                                class="text-accent">Protocolo Vida Real</strong> — o método para quem tem rotina corrida
+                            e quer resultado de verdade.
                         </p>
 
                         <ul class="mentor-card__credentials">
@@ -1440,7 +1782,8 @@
     <section class="pricing-section">
         <div class="container">
             <h2 class="reveal">O PREÇO DA MUDANÇA</h2>
-            <p class="lead reveal mb-2">Menos que uma pizza por mês para finalmente <strong>voltar a emagrecer de verdade.</strong></p>
+            <p class="lead reveal mb-2">Menos que uma pizza por mês para finalmente <strong>voltar a emagrecer de
+                    verdade.</strong></p>
 
             <p class="preco-original reveal">R$ 89,90</p>
             <!-- FIX: era <span>, agora <div> para bloco correto -->
@@ -1448,16 +1791,29 @@
             <p class="preco-parcelamento reveal">ou 12x de R$ 4,70</p>
             <p class="preco-economia reveal">🔥 Você <strong>economiza R$ 42,93</strong> — mais de 50% de desconto!</p>
 
-            <p class="lead text-muted reveal" style="max-width: 560px; margin: 0 auto 1.75rem;">Menos que um lanche no fim de semana. Pra você finalmente executar algo que dê resultado.</p>
+            <p class="lead text-muted reveal" style="max-width: 560px; margin: 0 auto 1.75rem;">Menos que um lanche no
+                fim de semana. Pra você finalmente executar algo que dê resultado.</p>
 
             <div class="cta-wrap">
-                    <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer"
-                class="btn btn-primary reveal">QUERO COMEÇAR O DESAFIO AGORA<svg class="btn-beam-svg" aria-hidden="true"><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="1"/></svg></a>
-                <span class="cta-seguro">COMPRA SEGURA <span class="sep">|</span> <img src="public/cakto.webp" alt="Cakto"></span>
-                </div>
+                <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer"
+                    class="btn btn-primary reveal">QUERO COMEÇAR O DESAFIO AGORA<svg class="btn-beam-svg"
+                        aria-hidden="true">
+                        <rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0" />
+                        <rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="0" />
+                        <rect class="btn-beam-rect btn-beam-rect--core" data-beam="0" />
+                        <rect class="btn-beam-rect btn-beam-rect--hot" data-beam="0" />
+                        <rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="1" />
+                        <rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="1" />
+                        <rect class="btn-beam-rect btn-beam-rect--core" data-beam="1" />
+                        <rect class="btn-beam-rect btn-beam-rect--hot" data-beam="1" />
+                    </svg></a>
+                <span class="cta-seguro">COMPRA SEGURA <span class="sep">|</span> <img src="public/cakto.webp"
+                        alt="Cakto"></span>
+            </div>
 
             <div class="vagas-info reveal">
-                <p class="lead" style="font-weight: 700; color: var(--text);">Vagas limitadas – Os próximos lotes terão preços maiores</p>
+                <p class="lead" style="font-weight: 700; color: var(--text);">Vagas limitadas – Os próximos lotes terão
+                    preços maiores</p>
                 <div class="progress-bar">
                     <div class="progress-fill" style="width: 76%;"></div>
                 </div>
@@ -1465,7 +1821,8 @@
 
                 <div class="selo-seguranca">
                     <i class="fas fa-lock"></i>
-                    <span>Compra <strong>100% segura</strong>! Receba seu acesso <strong>imediatamente</strong> após a confirmação do pagamento.</span>
+                    <span>Compra <strong>100% segura</strong>! Receba seu acesso <strong>imediatamente</strong> após a
+                        confirmação do pagamento.</span>
                 </div>
 
                 <div class="bandeiras">
@@ -1492,7 +1849,8 @@
             <div class="garantia-destaque reveal">
                 <i class="fas fa-shield-alt"></i>
                 <h2>GARANTIA INCONDICIONAL DE 7 DIAS</h2>
-                <p>Se você seguir o protocolo por <strong>7 dias</strong> e não notar resultados, devolvemos <strong>100% do seu dinheiro</strong>. Sem perguntas, sem burocracia.</p>
+                <p>Se você seguir o protocolo por <strong>7 dias</strong> e não notar resultados, devolvemos
+                    <strong>100% do seu dinheiro</strong>. Sem perguntas, sem burocracia.</p>
                 <div class="risco-zero">O RISCO É TODO NOSSO</div>
             </div>
         </div>
@@ -1509,11 +1867,13 @@
                 <div class="faq-grid">
                     <div class="faq-card">
                         <div class="faq-question">
-                            <span><i class="fa-regular fa-circle-question"></i> NÃO TENHO TEMPO PRA COZINHAR, CONSIGO SEGUIR?</span>
+                            <span><i class="fa-regular fa-circle-question"></i> NÃO TENHO TEMPO PRA COZINHAR, CONSIGO
+                                SEGUIR?</span>
                             <i class="fa-solid fa-plus"></i>
                         </div>
                         <div class="faq-answer">
-                            Sim. O protocolo é feito para a rotina corrida. Você vai aprender <strong>substituições inteligentes</strong> e refeições simples que levam minutos para preparar.
+                            Sim. O protocolo é feito para a rotina corrida. Você vai aprender <strong>substituições
+                                inteligentes</strong> e refeições simples que levam minutos para preparar.
                         </div>
                     </div>
                     <div class="faq-card">
@@ -1522,7 +1882,8 @@
                             <i class="fa-solid fa-plus"></i>
                         </div>
                         <div class="faq-answer">
-                            Zero. A ideia é justamente acabar com a <strong>fome falsa</strong> e a ansiedade por comida. Você vai comer bem e com estratégia.
+                            Zero. A ideia é justamente acabar com a <strong>fome falsa</strong> e a ansiedade por
+                            comida. Você vai comer bem e com estratégia.
                         </div>
                     </div>
                     <div class="faq-card">
@@ -1531,7 +1892,8 @@
                             <i class="fa-solid fa-plus"></i>
                         </div>
                         <div class="faq-answer">
-                            O guia de substituições inteligentes mostra opções práticas e rápidas, inclusive com comidas prontas saudáveis. Você <strong>não vira chef de cozinha</strong>.
+                            O guia de substituições inteligentes mostra opções práticas e rápidas, inclusive com comidas
+                            prontas saudáveis. Você <strong>não vira chef de cozinha</strong>.
                         </div>
                     </div>
                     <div class="faq-card">
@@ -1540,16 +1902,19 @@
                             <i class="fa-solid fa-plus"></i>
                         </div>
                         <div class="faq-answer">
-                            Não. O movimento é pensado para ser viável: caminhadas leves e atividades simples. <strong>Nada de treino de atleta</strong>.
+                            Não. O movimento é pensado para ser viável: caminhadas leves e atividades simples.
+                            <strong>Nada de treino de atleta</strong>.
                         </div>
                     </div>
                     <div class="faq-card">
                         <div class="faq-question">
-                            <span><i class="fa-regular fa-circle-question"></i> O QUE ACONTECE DEPOIS DOS 15 DIAS?</span>
+                            <span><i class="fa-regular fa-circle-question"></i> O QUE ACONTECE DEPOIS DOS 15
+                                DIAS?</span>
                             <i class="fa-solid fa-plus"></i>
                         </div>
                         <div class="faq-answer">
-                            Você terá <strong>resetado seu metabolismo</strong> e aprendido o método. Além de ganhar uma avaliação de diagnóstico exclusiva e totalmente gratuita comigo!
+                            Você terá <strong>resetado seu metabolismo</strong> e aprendido o método. Além de ganhar uma
+                            avaliação de diagnóstico exclusiva e totalmente gratuita comigo!
                         </div>
                     </div>
                     <div class="faq-card">
@@ -1558,7 +1923,8 @@
                             <i class="fa-solid fa-plus"></i>
                         </div>
                         <div class="faq-answer">
-                            Imediato. Após a confirmação do pagamento, você recebe no e-mail o acesso completo e o convite para o <strong>Grupo VIP no WhatsApp com os próximos passos</strong>.
+                            Imediato. Após a confirmação do pagamento, você recebe no e-mail o acesso completo e o
+                            convite para o <strong>Grupo VIP no WhatsApp com os próximos passos</strong>.
                         </div>
                     </div>
                 </div>
@@ -1574,10 +1940,20 @@
             <h2 class="reveal">VAGAS LIMITADAS PARA O GRUPO VIP</h2>
             <p class="lead reveal mb-2">Garanta sua vaga agora antes que o preço suba.</p>
             <div class="cta-wrap">
-                    <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer"
-                class="btn btn-primary reveal">QUERO ENTRAR AGORA<svg class="btn-beam-svg" aria-hidden="true"><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="0"/><rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--core" data-beam="1"/><rect class="btn-beam-rect btn-beam-rect--hot" data-beam="1"/></svg></a>
-                <span class="cta-seguro">COMPRA SEGURA <span class="sep">|</span> <img src="public/cakto.webp" alt="Cakto"></span>
-                </div>
+                <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer"
+                    class="btn btn-primary reveal">QUERO ENTRAR AGORA<svg class="btn-beam-svg" aria-hidden="true">
+                        <rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0" />
+                        <rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="0" />
+                        <rect class="btn-beam-rect btn-beam-rect--core" data-beam="0" />
+                        <rect class="btn-beam-rect btn-beam-rect--hot" data-beam="0" />
+                        <rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="1" />
+                        <rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="1" />
+                        <rect class="btn-beam-rect btn-beam-rect--core" data-beam="1" />
+                        <rect class="btn-beam-rect btn-beam-rect--hot" data-beam="1" />
+                    </svg></a>
+                <span class="cta-seguro">COMPRA SEGURA <span class="sep">|</span> <img src="public/cakto.webp"
+                        alt="Cakto"></span>
+            </div>
             <p class="text-muted text-sm mt-1 reveal">12x de R$ 4,70 · Compra 100% segura</p>
         </div>
     </section>
@@ -1596,55 +1972,157 @@
          SCRIPTS
     ============================================================ -->
     <script>
+        /* ── Page Loader Glass ── */
+        (function () {
+            var loader = document.getElementById('page-loader');
+            var bar = document.getElementById('loaderBar');
+            var progress = 0;
+            var done = false;
+
+            // Bloqueia o scroll enquanto o loader está ativo
+            document.body.style.overflow = 'hidden';
+
+            // primeira foto que vai liberar o loading
+            // aqui está pegando a primeira imagem do carrossel
+            var firstImage = document.querySelector('.carousel-slide img') || document.querySelector('img');
+
+            // Rastreia quantas dependências ainda precisam carregar (imagem + Font Awesome)
+            var pending = 2;
+
+            var ticker = setInterval(function () {
+                if (done) return;
+
+                var step = progress < 60 ? 4 : progress < 85 ? 1.5 : 0.4;
+                progress = Math.min(progress + step, 92);
+
+                if (bar) {
+                    bar.style.width = progress + '%';
+                }
+            }, 80);
+
+            function tryHide() {
+                pending--;
+                if (pending <= 0) hideLoader();
+            }
+
+            function hideLoader() {
+                if (done) return;
+                done = true;
+                clearInterval(ticker);
+
+                // Libera o scroll assim que o loader começa a sair
+                document.body.style.overflow = '';
+
+                if (bar) {
+                    bar.style.width = '100%';
+                }
+
+                setTimeout(function () {
+                    if (loader) {
+                        loader.classList.add('hidden');
+                        setTimeout(function () {
+                            if (loader && loader.parentNode) {
+                                loader.parentNode.removeChild(loader);
+                            }
+                        }, 600);
+                    }
+                }, 320);
+            }
+
+            // ── Aguarda o Font Awesome carregar ──
+            var faLink = document.querySelector('link[href*="font-awesome"]');
+            if (!faLink) {
+                // stylesheet não encontrada, não bloqueia
+                tryHide();
+            } else {
+                // Verifica se já carregou verificando se as regras CSS estão disponíveis
+                function isFaLoaded() {
+                    try {
+                        var sheets = document.styleSheets;
+                        for (var i = 0; i < sheets.length; i++) {
+                            if (sheets[i].href && sheets[i].href.indexOf('font-awesome') !== -1) {
+                                return true;
+                            }
+                        }
+                    } catch (e) {}
+                    return false;
+                }
+
+                if (isFaLoaded()) {
+                    tryHide();
+                } else {
+                    faLink.addEventListener('load', tryHide, { once: true });
+                    faLink.addEventListener('error', tryHide, { once: true });
+                }
+            }
+
+            // ── Aguarda a primeira imagem ──
+            function waitFirstImage() {
+                if (!firstImage) {
+                    tryHide();
+                    return;
+                }
+
+                if (firstImage.complete && firstImage.naturalWidth > 0) {
+                    tryHide();
+                    return;
+                }
+
+                firstImage.addEventListener('load', tryHide, { once: true });
+                firstImage.addEventListener('error', tryHide, { once: true });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', waitFirstImage);
+            } else {
+                waitFirstImage();
+            }
+
+            // fallback de segurança
+            setTimeout(hideLoader, 10000);
+        })();
+
         /* ── Marquee — clona grupos até preencher 2× a tela, anima por pixels ── */
         function setupMarquees() {
-            document.querySelectorAll('.marquee').forEach(function(marquee) {
+            document.querySelectorAll('.marquee').forEach(function (marquee) {
                 var track = marquee.querySelector('.marquee-track');
                 var group = track.querySelector('.marquee-group');
                 if (!group) return;
 
-                // Clona o grupo até que a track cubra >2× a largura da janela
                 var needed = window.innerWidth * 2.5;
                 while (track.scrollWidth < needed) {
                     var clone = group.cloneNode(true);
                     track.appendChild(clone);
                 }
 
-                // Mede a largura do grupo original DEPOIS da renderização
                 var groupW = group.offsetWidth;
 
-                // Define a distância de translação = largura exata de 1 grupo
-                // O loop será invisível porque grupo[n] = grupo[0] visualmente
                 track.style.setProperty('--marquee-dist', '-' + groupW + 'px');
 
-                // Velocidade constante: ~45px/s independente do conteúdo
                 var dur = groupW / 45;
                 track.style.setProperty('--marquee-dur', dur + 's');
             });
         }
 
-        // Roda no load para garantir que os elementos já têm tamanho
         if (document.readyState === 'complete') {
             setupMarquees();
         } else {
             window.addEventListener('load', setupMarquees);
         }
 
-        // Recalcula se a janela for redimensionada
         var resizeTimer;
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
             clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function() {
-                document.querySelectorAll('.marquee-track').forEach(function(t) {
+            resizeTimer = setTimeout(function () {
+                document.querySelectorAll('.marquee-track').forEach(function (t) {
                     t.style.animation = 'none';
                 });
                 setupMarquees();
-                document.querySelectorAll('.marquee-track').forEach(function(t) {
+                document.querySelectorAll('.marquee-track').forEach(function (t) {
                     t.style.animation = '';
                 });
             }, 300);
         });
-
 
         const contadorEls = [
             document.getElementById('contador'),
@@ -1652,7 +2130,7 @@
         ];
 
         const TIMER_KEY = 'gedda_timer_expira';
-        const DURACAO   = 48 * 60 * 60;
+        const DURACAO = 48 * 60 * 60;
 
         if (!localStorage.getItem(TIMER_KEY)) {
             localStorage.setItem(TIMER_KEY, Date.now() + DURACAO * 1000);
@@ -1678,9 +2156,12 @@
 
         /* ── FAQ accordion ── */
         document.querySelectorAll('.faq-card').forEach(card => {
-            card.querySelector('.faq-question').addEventListener('click', () => {
-                card.classList.toggle('active');
-            });
+            const question = card.querySelector('.faq-question');
+            if (question) {
+                question.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                });
+            }
         });
 
         /* ── Reveal on scroll ── */
@@ -1698,9 +2179,10 @@
         let currentSlide = 0;
         const totalSlides = 3;
         const track = document.getElementById('carouselTrack');
-        const dots  = document.querySelectorAll('.dot');
+        const dots = document.querySelectorAll('.dot');
 
         function updateCarousel() {
+            if (!track) return;
             track.style.transform = `translateX(-${currentSlide * 100}%)`;
             dots.forEach((d, i) => d.classList.toggle('active', i === currentSlide));
         }
@@ -1721,47 +2203,40 @@
         (function () {
             function setupBeam() {
                 var card = document.querySelector('.mentor-card');
-                var svg  = document.querySelector('.beam-svg');
+                var svg = document.querySelector('.beam-svg');
                 if (!card || !svg) return;
 
                 var w = card.offsetWidth;
                 var h = card.offsetHeight;
 
-                // Perimeter of the rect (inset by 1px for border alignment)
-                var rw  = w - 2;
-                var rh  = h - 2;
+                var rw = w - 2;
+                var rh = h - 2;
                 var per = 2 * (rw + rh);
 
-                // Tail = 28% of perimeter, capped for large screens
                 var tail = Math.min(per * 0.42, 620);
 
-                // Duration: speed ~120px/s for a slow, premium feel
                 var dur = (per / 200).toFixed(2);
 
-                // Set SVG dimensions and viewBox
                 svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
 
-                // Tail fractions per layer: outer-glow has the longest tail,
-                // the hot layer has the shortest (only the very tip)
-                var tails   = [1, 1, 1, 1]; // mesmo comprimento em todas as camadas
-                var rects0  = svg.querySelectorAll('.beam-rect[data-beam="0"]');
-                var rects1  = svg.querySelectorAll('.beam-rect[data-beam="1"]');
+                var tails = [1, 1, 1, 1];
+                var rects0 = svg.querySelectorAll('.beam-rect[data-beam="0"]');
+                var rects1 = svg.querySelectorAll('.beam-rect[data-beam="1"]');
 
-                // Defasagem exata de 50% — os dois sempre em lados opostos
                 var offset1 = (parseFloat(dur) * 0.5).toFixed(2);
 
                 [rects0, rects1].forEach(function (rects, beamIdx) {
                     var delay = beamIdx === 0 ? '0' : '-' + offset1;
 
                     rects.forEach(function (rect, i) {
-                        var t   = tail * tails[i];
+                        var t = tail * tails[i];
                         var gap = per - t;
 
-                        rect.setAttribute('x',      '1');
-                        rect.setAttribute('y',      '1');
-                        rect.setAttribute('width',  rw);
+                        rect.setAttribute('x', '1');
+                        rect.setAttribute('y', '1');
+                        rect.setAttribute('width', rw);
                         rect.setAttribute('height', rh);
-                        rect.setAttribute('stroke-dasharray',  t + ' ' + gap);
+                        rect.setAttribute('stroke-dasharray', t + ' ' + gap);
                         rect.setAttribute('stroke-dashoffset', t);
 
                         rect.style.animation =
@@ -1769,43 +2244,38 @@
                     });
                 });
 
-                // Inject keyframes into <head> — each layer travels -perimeter
                 var styleId = 'beam-kf';
                 var old = document.getElementById(styleId);
                 if (old) old.remove();
 
                 var css = '';
                 tails.forEach(function (_, i) {
-                    var t   = tail * tails[i];
+                    var t = tail * tails[i];
                     css +=
                         '@keyframes beam-stroke-' + i + ' {' +
-                        '  from { stroke-dashoffset: '  + t           + ' }' +
-                        '  to   { stroke-dashoffset: ' + (t - per)   + ' }' +
+                        'from { stroke-dashoffset: ' + t + ' }' +
+                        'to { stroke-dashoffset: ' + (t - per) + ' }' +
                         '}';
                 });
 
                 var s = document.createElement('style');
-                s.id  = styleId;
+                s.id = styleId;
                 s.textContent = css;
                 document.head.appendChild(s);
             }
 
-            // Run after layout is ready
             if (document.readyState === 'complete') {
                 setupBeam();
             } else {
                 window.addEventListener('load', setupBeam);
             }
 
-            // Recalculate on resize
             var rt;
             window.addEventListener('resize', function () {
                 clearTimeout(rt);
                 rt = setTimeout(setupBeam, 250);
             });
         })();
-
-
 
         /* ── Green Beam nos botões CTA ── */
         (function () {
@@ -1824,16 +2294,15 @@
                     var svg = btn.querySelector('.btn-beam-svg');
                     if (!svg) return;
 
-                    var w  = btn.offsetWidth;
-                    var h  = btn.offsetHeight;
-                    var rx = h / 2; // pill shape
+                    var w = btn.offsetWidth;
+                    var h = btn.offsetHeight;
+                    var rx = h / 2;
                     var rw = w - 2;
                     var rh = h - 2;
-                    // Perimeter of a rounded rect: straight sides + semicircles
                     var per = 2 * (rw - 2 * rx) + 2 * (rh - 2 * rx) + 2 * Math.PI * rx;
 
-                    var tail   = per * 0.22;
-                    var dur    = (per / 140).toFixed(2);
+                    var tail = per * 0.22;
+                    var dur = (per / 140).toFixed(2);
                     var offset = (parseFloat(dur) * 0.5).toFixed(2);
 
                     svg.setAttribute('viewBox', '0 0 ' + w + ' ' + h);
@@ -1845,13 +2314,13 @@
                         var delay = beamIdx === 0 ? '0' : '-' + offset;
                         rects.forEach(function (rect, i) {
                             var gap = per - tail;
-                            rect.setAttribute('x',      '1');
-                            rect.setAttribute('y',      '1');
-                            rect.setAttribute('width',  rw);
+                            rect.setAttribute('x', '1');
+                            rect.setAttribute('y', '1');
+                            rect.setAttribute('width', rw);
                             rect.setAttribute('height', rh);
-                            rect.setAttribute('rx',     rx);
-                            rect.setAttribute('ry',     rx);
-                            rect.setAttribute('stroke-dasharray',  tail + ' ' + gap);
+                            rect.setAttribute('rx', rx);
+                            rect.setAttribute('ry', rx);
+                            rect.setAttribute('stroke-dasharray', tail + ' ' + gap);
                             rect.setAttribute('stroke-dashoffset', tail);
                             rect.style.animation =
                                 'btn-beam-stroke-' + i + ' ' + dur + 's linear ' + delay + 's infinite';
@@ -1863,7 +2332,7 @@
                             kfCss +=
                                 '@keyframes btn-beam-stroke-' + i + ' {' +
                                 'from { stroke-dashoffset: ' + tail + ' }' +
-                                'to   { stroke-dashoffset: ' + (tail - per) + ' }' +
+                                'to { stroke-dashoffset: ' + (tail - per) + ' }' +
                                 '}';
                         }
                         kfGenerated = true;
@@ -1871,7 +2340,7 @@
                 });
 
                 var s = document.createElement('style');
-                s.id  = styleId;
+                s.id = styleId;
                 s.textContent = kfCss;
                 document.head.appendChild(s);
             }
@@ -1888,7 +2357,7 @@
                 rbt = setTimeout(setupBtnBeams, 250);
             });
         })();
-
     </script>
 </body>
+
 </html>
