@@ -2204,8 +2204,6 @@
         const totalSlides = 3;
         const track = document.getElementById('carouselTrack');
         const dots = document.querySelectorAll('.dot');
-        let autoPlayInterval = null;
-        let isUserInteracting = false;
 
         function updateCarousel() {
             if (!track) return;
@@ -2223,72 +2221,59 @@
             updateCarousel();
         }
 
-        function startAutoPlay() {
-            stopAutoPlay();
-            autoPlayInterval = setInterval(() => {
-                if (!isUserInteracting) moveCarousel(1);
-            }, 5000);
-        }
+        setInterval(() => moveCarousel(1), 5000);
 
-        function stopAutoPlay() {
-            if (autoPlayInterval) {
-                clearInterval(autoPlayInterval);
-                autoPlayInterval = null;
-            }
-        }
-
-        /* Touch swipe support */
+        /* ── Touch swipe: detecção de gesto limpa ── */
         (function () {
             const wrapper = document.querySelector('.carousel-wrapper');
             if (!wrapper) return;
 
-            let touchStartX = 0;
-            let touchStartY = 0;
-            let isDragging = false;
+            let startX = 0;
+            let startY = 0;
+            // 'undecided' | 'horizontal' | 'vertical'
+            let gestureType = 'undecided';
 
             wrapper.addEventListener('touchstart', function (e) {
-                touchStartX = e.touches[0].clientX;
-                touchStartY = e.touches[0].clientY;
-                isDragging = false;
-                isUserInteracting = true;
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                gestureType = 'undecided';
             }, { passive: true });
 
             wrapper.addEventListener('touchmove', function (e) {
-                if (!isDragging) {
-                    const dx = Math.abs(e.touches[0].clientX - touchStartX);
-                    const dy = Math.abs(e.touches[0].clientY - touchStartY);
-                    if (dx > dy && dx > 8) {
-                        isDragging = true;
-                    } else if (dy > dx && dy > 8) {
-                        // vertical scroll — don't hijack
-                        isUserInteracting = false;
-                        return;
-                    }
+                // Uma vez decidido como vertical, NÃO muda mais
+                if (gestureType === 'vertical') return;
+
+                const dx = Math.abs(e.touches[0].clientX - startX);
+                const dy = Math.abs(e.touches[0].clientY - startY);
+
+                if (gestureType === 'undecided' && (dx > 6 || dy > 6)) {
+                    gestureType = dx > dy ? 'horizontal' : 'vertical';
                 }
-                if (isDragging) e.preventDefault();
+
+                // Só bloqueia scroll se for claramente horizontal
+                if (gestureType === 'horizontal') {
+                    e.preventDefault();
+                }
             }, { passive: false });
 
             wrapper.addEventListener('touchend', function (e) {
-                if (!isDragging) { isUserInteracting = false; return; }
-                const dx = e.changedTouches[0].clientX - touchStartX;
+                // Só processa se foi gesto horizontal confirmado
+                if (gestureType !== 'horizontal') {
+                    gestureType = 'undecided';
+                    return;
+                }
+                const dx = e.changedTouches[0].clientX - startX;
                 if (Math.abs(dx) > 40) {
                     moveCarousel(dx < 0 ? 1 : -1);
                 }
-                isDragging = false;
-                isUserInteracting = false;
-                startAutoPlay();
+                gestureType = 'undecided';
             }, { passive: true });
 
-            /* Pause auto-play on manual button clicks */
-            wrapper.querySelectorAll('.carousel-btn').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    isUserInteracting = false;
-                    startAutoPlay();
-                });
-            });
+            // Cancela toque sem mover carrossel
+            wrapper.addEventListener('touchcancel', function () {
+                gestureType = 'undecided';
+            }, { passive: true });
         })();
-
-        startAutoPlay();
 
         /* ── SVG Comet Beam ── */
         (function () {
