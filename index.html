@@ -574,25 +574,59 @@
            TIMER BAR
         ============================================================ */
         .timer-bar {
-            background: var(--bg);
-            border-bottom: 2px solid var(--accent);
-            color: var(--text);
+            background: #0a0a0a;
+            border-bottom: 1px solid rgba(230,57,70,0.3);
             text-align: center;
-            padding: 0.65rem 1rem;
+            padding: 0.6rem 1rem;
             font-weight: 700;
-            font-size: var(--fs-sm);
+            font-size: 0.72rem;
+            letter-spacing: 0.09em;
+            text-transform: uppercase;
             position: sticky;
             top: 0;
             z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem;
+            overflow: hidden;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .timer-bar::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            background: linear-gradient(90deg, rgba(230,57,70,0.07) 0%, transparent 100%);
+            animation: tbar-sweep 3.5s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+
+        @keyframes tbar-sweep {
+            from { width: 5%;  opacity: 0.5; }
+            to   { width: 55%; opacity: 1;   }
+        }
+
+        .timer-bar-pulse {
+            width: 6px; height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 7px var(--accent), 0 0 14px rgba(230,57,70,0.35);
+            animation: tpulse 1s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes tpulse {
+            0%,100% { opacity:1; transform:scale(1);   }
+            50%      { opacity:.3; transform:scale(0.55); }
         }
 
         .timer-bar .countdown {
-            display: inline-block;
-            background: var(--bg-2);
             color: var(--accent);
-            font-size: 1.1rem;
-            padding: 0.2rem 0.75rem;
-            margin-left: 0.4rem;
+            font-size: 1rem;
+            font-weight: 900;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 0.1em;
         }
 
         /* ============================================================
@@ -1207,29 +1241,104 @@
         }
 
         .vagas-timer {
-            background: var(--accent);
-            border: 2px solid #fff;
-            padding: 1.25rem;
+            background: transparent;
+            border: 1px solid rgba(230,57,70,0.25);
+            border-top: 2px solid var(--accent);
+            padding: 1.5rem 1.25rem 1.25rem;
             margin-top: 1.5rem;
             text-align: center;
+            position: relative;
+            overflow: hidden;
         }
 
-        .vagas-timer p {
-            color: var(--bg);
-            font-weight: 700;
-            font-size: var(--fs-lead);
-            margin-bottom: 0.75rem;
+        /* Glow sweep de fundo */
+        .vagas-timer::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(230,57,70,0.09) 0%, transparent 70%);
+            pointer-events: none;
         }
 
-        .vagas-timer .contador {
-            font-size: clamp(2rem, 7vw, 3.5rem);
+        .vagas-timer-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.55rem;
+            color: rgba(255,255,255,0.5);
+            font-size: 0.7rem;
             font-weight: 700;
-            color: var(--bg);
-            font-family: monospace;
-            background: #fff;
-            display: inline-block;
-            padding: 0.6rem 1.25rem;
-            border: 2px solid var(--bg);
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .vagas-timer-label-dot {
+            width: 5px; height: 5px;
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--accent);
+            animation: tpulse 1s ease-in-out infinite;
+            flex-shrink: 0;
+        }
+
+        /* Blocos separados para HH MM SS */
+        .vagas-timer-digits {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .vtd-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        .vtd-num {
+            font-size: clamp(2rem, 7vw, 3rem);
+            font-weight: 900;
+            font-variant-numeric: tabular-nums;
+            color: var(--text);
+            line-height: 1;
+            min-width: 2.2ch;
+            letter-spacing: -0.02em;
+        }
+
+        .vtd-unit {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .vtd-sep {
+            font-size: clamp(1.8rem, 6vw, 2.6rem);
+            font-weight: 900;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.9rem;
+            opacity: 0.7;
+            animation: sep-blink 1s step-end infinite;
+        }
+
+        @keyframes sep-blink {
+            0%,49% { opacity: 0.7; }
+            50%,100%{ opacity: 0.1; }
+        }
+
+        /* Flip animation quando dígito muda */
+        @keyframes digit-flip {
+            0%   { transform: translateY(-8px); opacity: 0; }
+            100% { transform: translateY(0);    opacity: 1; }
+        }
+
+        .vtd-num.flipped {
+            animation: digit-flip 0.25s ease both;
         }
 
         /* ============================================================
@@ -1350,16 +1459,16 @@
             bottom: 0;
             left: 0;
             width: 100%;
-            background: var(--accent);
+            background: #22C55E;
             padding: 0.7rem 1rem;
             text-align: center;
             z-index: 9999;
-            border-top: 2px solid #fff;
-            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.5);
+            border-top: 2px solid #16A34A;
+            box-shadow: 0 -4px 20px rgba(34, 197, 94, 0.4);
         }
 
         .cta-flutuante a {
-            color: var(--bg);
+            color: #fff;
             font-weight: 700;
             font-size: clamp(1rem, 3vw, 1.3rem);
             text-decoration: none;
@@ -1565,7 +1674,8 @@
          TIMER BAR
     ============================================================ -->
     <div class="timer-bar" id="timerBar">
-        ⏳ Oferta especial termina em:
+        <span class="timer-bar-pulse"></span>
+        Oferta encerra em
         <span class="countdown" id="contador">48:00:00</span>
     </div>
 
@@ -1627,38 +1737,180 @@
     <!-- ============================================================
          SEÇÃO: O QUE VOCÊ ESTÁ SENTINDO
     ============================================================ -->
-    <section class="section">
-        <div class="container">
-            <h2 class="reveal">EU JÁ SEI O QUE VOCÊ ESTÁ SENTINDO</h2>
+    <style>
+        .dor-section {
+            padding: var(--section-py) 0;
+            border-bottom: 2px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
 
-            <div class="grid grid-2">
-                <div class="card reveal">
-                    <i class="fas fa-weight-scale"></i>
-                    <h3>MEDO DA BALANÇA</h3>
-                    <p>Você <strong>evita se pesar</strong>, sabe que o número vai te frustrar. As roupas <strong>não
-                            servem mais</strong> e você se sente <strong>preso no corpo errado</strong>.</p>
+        .dor-eyebrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.75rem;
+        }
+
+        .dor-eyebrow-line {
+            width: 28px;
+            height: 1px;
+            background: var(--accent);
+        }
+
+        .dor-title {
+            font-size: var(--fs-h2);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+
+        .dor-subtitle {
+            color: var(--text-muted);
+            font-size: var(--fs-body);
+            margin-bottom: 3rem;
+            max-width: 520px;
+        }
+
+        /* Grid de dores */
+        .dor-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1px;
+            background: #1e1e1e;
+            border: 1px solid #1e1e1e;
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 640px) {
+            .dor-grid { grid-template-columns: 1fr; }
+        }
+
+        .dor-card {
+            background: #0f0f0f;
+            padding: 2rem 1.75rem;
+            position: relative;
+            overflow: hidden;
+            cursor: default;
+
+            /* entrada */
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.55s ease, transform 0.55s ease, background 0.3s ease;
+        }
+
+        .dor-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* stagger delays */
+        .dor-card:nth-child(1) { transition-delay: 0s;    }
+        .dor-card:nth-child(2) { transition-delay: 0.12s; }
+        .dor-card:nth-child(3) { transition-delay: 0.24s; }
+        .dor-card:nth-child(4) { transition-delay: 0.36s; }
+
+        .dor-card:hover {
+            background: #131313;
+        }
+
+        /* Linha vermelha no hover — da esquerda */
+        .dor-card::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: var(--accent);
+            transform: scaleY(0);
+            transform-origin: bottom;
+            transition: transform 0.3s ease;
+        }
+
+        .dor-card:hover::after {
+            transform: scaleY(1);
+        }
+
+        /* Ícone */
+        .dor-card-icon {
+            width: 42px; height: 42px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(230,57,70,0.1);
+            border: 1px solid rgba(230,57,70,0.2);
+            color: var(--accent);
+            font-size: 1rem;
+            margin-bottom: 1.1rem;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .dor-card:hover .dor-card-icon {
+            background: rgba(230,57,70,0.18);
+            box-shadow: 0 0 18px rgba(230,57,70,0.2);
+        }
+
+        .dor-card-title {
+            font-size: clamp(0.85rem, 1.6vw, 0.95rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text);
+            margin-bottom: 0.6rem;
+            line-height: 1.2;
+        }
+
+        .dor-card-body {
+            font-size: var(--fs-body);
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .dor-card-body strong { color: var(--text); }
+
+
+    </style>
+
+    <section class="dor-section">
+        <div class="container">
+            <h2 class="dor-title reveal">EU JÁ SEI O QUE VOCÊ ESTÁ SENTINDO</h2>
+            <p class="dor-subtitle reveal">Antes de qualquer protocolo, você precisa ser entendido. Isso aqui é sobre você.</p>
+
+            <div class="dor-grid" id="dorGrid">
+
+                <div class="dor-card">
+                    <div class="dor-card-icon"><i class="fas fa-weight-scale"></i></div>
+                    <p class="dor-card-title">Medo da Balança</p>
+                    <p class="dor-card-body">Você <strong>evita se pesar</strong> porque sabe que o número vai te frustrar. As roupas <strong>não servem mais</strong> e você se sente <strong>preso no corpo errado</strong>.</p>
                 </div>
-                <div class="card reveal">
-                    <i class="fas fa-users"></i>
-                    <h3>VERGONHA DE FOTOS</h3>
-                    <p>Você sempre pede pra tirarem outra foto, ou pior, <strong>só aparece em fotos de grupo</strong>
-                        porque não tem jeito.</p>
+
+                <div class="dor-card">
+                    <div class="dor-card-icon"><i class="fas fa-users"></i></div>
+                    <p class="dor-card-title">Vergonha de Fotos</p>
+                    <p class="dor-card-body">Você sempre pede pra tirarem outra foto, ou pior, <strong>só aparece em fotos de grupo</strong> porque esconde o corpo atrás de alguém.</p>
                 </div>
-                <div class="card reveal">
-                    <i class="fas fa-clock"></i>
-                    <h3>EFEITO SANFONA</h3>
-                    <p>Você começa segunda, <strong>passa fome</strong>, e no fim de semana <strong>desiste</strong>. Aí
-                        vem a <strong>culpa</strong> e a sensação de que é impossível mudar.</p>
+
+                <div class="dor-card">
+                    <div class="dor-card-icon"><i class="fas fa-clock"></i></div>
+                    <p class="dor-card-title">Efeito Sanfona</p>
+                    <p class="dor-card-body">Você começa segunda, <strong>passa fome</strong>, e no fim de semana <strong>desiste</strong>. Aí vem a <strong>culpa</strong> — e a sensação de que mudar é impossível pra você.</p>
                 </div>
-                <div class="card reveal">
-                    <i class="fas fa-hand"></i>
-                    <h3>VOCÊ COMEÇA E PARA</h3>
-                    <p>Você só consegue emagrecer quando alguém te empurra, mas na primeira dificuldade, <strong>volta
-                            tudo</strong>. Falta um <strong>método real</strong>.</p>
+
+                <div class="dor-card">
+                    <div class="dor-card-icon"><i class="fas fa-hand"></i></div>
+                    <p class="dor-card-title">Você Começa e Para</p>
+                    <p class="dor-card-body">Consegue emagrecer quando alguém te empurra, mas na primeira dificuldade <strong>volta tudo</strong>. O que falta não é força de vontade — é um <strong>método real</strong>.</p>
                 </div>
+
             </div>
 
-            <div class="destaque-frase reveal">
+            <div class="destaque-frase" id="dorFechamento">
                 <p>Dieta milagrosa <strong>não existe</strong>. É <strong>mentira</strong> de quem quer te enganar.<br>
                     <span class="text-accent">O que existe é um método que funciona no mundo real.</span>
                 </p>
@@ -1666,71 +1918,443 @@
         </div>
     </section>
 
+    <script>
+        /* Intersection observer para dor-cards com stagger */
+        (function () {
+            var grid = document.getElementById('dorGrid');
+            var fechamento = document.getElementById('dorFechamento');
+            if (!grid) return;
+
+            var cards = grid.querySelectorAll('.dor-card');
+
+            var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            cards.forEach(function (c) { obs.observe(c); });
+            if (fechamento) obs.observe(fechamento);
+        })();
+    </script>
+
     <!-- ============================================================
          SEÇÃO: O PROTOCOLO — 4 PILARES
     ============================================================ -->
-    <section class="section">
-        <div class="container">
-            <h2 class="reveal">O PROTOCOLO VIDA REAL EM 15 DIAS</h2>
-            <p class="lead reveal mb-2">Não é jejum maluco, nem remédio disfarçado de chá. São <strong
-                    class="text-accent">15 dias do método Vida Real</strong> na prática, baseado em 4 pilares:</p>
+    <style>
+        .pilares-section {
+            padding: var(--section-py) 0;
+            border-bottom: 2px solid var(--border);
+        }
 
-            <div class="grid grid-4">
-                <div class="card text-center reveal">
-                    <i class="fas fa-ban"></i>
-                    <h3>COMIDA NA MEDIDA</h3>
-                    <p><strong>Não é sobre cortar.</strong> É sobre aprender a comer certo.</p>
+        .pilares-intro {
+            max-width: 680px;
+            margin-bottom: 3.5rem;
+        }
+
+        .pilares-track {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+
+        /* Linha conectora entre os números */
+        .pilares-track::before {
+            content: '';
+            position: absolute;
+            top: 27px;
+            left: 13%;
+            right: 13%;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(230,57,70,0.6) 10%,
+                rgba(230,57,70,0.25) 50%,
+                rgba(230,57,70,0.6) 90%,
+                transparent 100%
+            );
+            z-index: 0;
+        }
+
+        .pilar-item {
+            position: relative;
+            padding: 0 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .pilar-num {
+            position: relative;
+            z-index: 1;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            font-size: 0.9rem;
+            font-weight: 900;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.75rem;
+            flex-shrink: 0;
+        }
+
+        .pilar-num::after {
+            content: '';
+            position: absolute;
+            inset: -5px;
+            border: 1px solid rgba(230,57,70,0.18);
+        }
+
+        .pilar-icon {
+            font-size: 1.4rem;
+            color: var(--accent);
+            margin-bottom: 0.85rem;
+            display: block;
+        }
+
+        .pilar-title {
+            font-size: clamp(0.85rem, 1.5vw, 0.95rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text);
+            margin-bottom: 0.6rem;
+            line-height: 1.2;
+        }
+
+        .pilar-desc {
+            font-size: var(--fs-body);
+            color: var(--text-muted);
+            line-height: 1.65;
+        }
+
+        .pilar-desc strong { color: var(--text); }
+
+        .pilar-item + .pilar-item {
+            border-left: 1px solid #1e1e1e;
+        }
+
+        @media (max-width: 768px) {
+            .pilares-track {
+                grid-template-columns: 1fr 1fr;
+                gap: 2.5rem 0;
+            }
+            .pilares-track::before { display: none; }
+            .pilar-item + .pilar-item { border-left: none; }
+            .pilar-item:nth-child(odd) {
+                border-right: 1px solid #1e1e1e;
+                padding-right: 1.5rem;
+            }
+            .pilar-item:nth-child(3),
+            .pilar-item:nth-child(4) {
+                border-top: 1px solid #1e1e1e;
+                padding-top: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .pilares-track { grid-template-columns: 1fr; gap: 2rem 0; }
+            .pilar-item + .pilar-item { border-left: none; border-top: 1px solid #1e1e1e; padding-top: 2rem; }
+            .pilar-item:nth-child(odd) { border-right: none; }
+        }
+    </style>
+
+    <section class="pilares-section">
+        <div class="container">
+            <div class="pilares-intro">
+                <h2 class="reveal">O PROTOCOLO VIDA REAL EM 15 DIAS</h2>
+                <p class="lead reveal">Não é jejum maluco, nem remédio disfarçado de chá. São <strong class="text-accent">15 dias do método Vida Real</strong> na prática, baseado em 4 pilares:</p>
+            </div>
+
+            <div class="pilares-track">
+                <div class="pilar-item reveal">
+                    <div class="pilar-num">01</div>
+                    <i class="fas fa-ban pilar-icon"></i>
+                    <p class="pilar-title">Comida na Medida</p>
+                    <p class="pilar-desc"><strong>Não é sobre cortar.</strong> É sobre aprender a comer certo.</p>
                 </div>
-                <div class="card text-center reveal">
-                    <i class="fas fa-tint"></i>
-                    <h3>META HÍDRICA</h3>
-                    <p>Água na medida certa para <strong>acelerar a queima</strong>.</p>
+                <div class="pilar-item reveal">
+                    <div class="pilar-num">02</div>
+                    <i class="fas fa-tint pilar-icon"></i>
+                    <p class="pilar-title">Meta Hídrica</p>
+                    <p class="pilar-desc">Água na medida certa para <strong>acelerar a queima</strong>.</p>
                 </div>
-                <div class="card text-center reveal">
-                    <i class="fas fa-walking"></i>
-                    <h3>MOVIMENTO VIÁVEL</h3>
-                    <p>Nada de treinos de atleta. Apenas o <strong>essencial</strong>.</p>
+                <div class="pilar-item reveal">
+                    <div class="pilar-num">03</div>
+                    <i class="fas fa-walking pilar-icon"></i>
+                    <p class="pilar-title">Movimento Viável</p>
+                    <p class="pilar-desc">Nada de treinos de atleta. Apenas o <strong>essencial</strong>.</p>
                 </div>
-                <div class="card text-center reveal">
-                    <i class="fas fa-bed"></i>
-                    <h3>SONO REGULADO</h3>
-                    <p>Onde a <strong>verdadeira queima de gordura</strong> acontece.</p>
+                <div class="pilar-item reveal">
+                    <div class="pilar-num">04</div>
+                    <i class="fas fa-bed pilar-icon"></i>
+                    <p class="pilar-title">Sono Regulado</p>
+                    <p class="pilar-desc">Onde a <strong>verdadeira queima de gordura</strong> acontece.</p>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+        /* Stagger reveal para pilares */
+        (function () {
+            var items = document.querySelectorAll('.pilar-item.reveal');
+            if (!items.length) return;
+            var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            items.forEach(function (el, i) {
+                el.style.transitionDelay = (i * 0.1) + 's';
+                obs.observe(el);
+            });
+            /* título e subtítulo */
+            var intros = document.querySelectorAll('.pilares-intro .reveal');
+            var obsIntro = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        obsIntro.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            intros.forEach(function (el, i) {
+                el.style.transitionDelay = (i * 0.12) + 's';
+                obsIntro.observe(el);
+            });
+        })();
+    </script>
 
     <!-- ============================================================
          SEÇÃO: VOCÊ LEVA TUDO ISSO
     ============================================================ -->
-    <section class="section">
-        <div class="container">
-            <h2 class="reveal">VOCÊ LEVA TUDO ISSO</h2>
+    <style>
+        /* ── Deliverables redesign ── */
+        .deliverables-section {
+            padding: var(--section-py) 0;
+            border-bottom: 2px solid var(--border);
+            background: var(--bg);
+        }
 
-            <div class="grid grid-2">
-                <div class="card reveal">
-                    <i class="fas fa-fire"></i>
-                    <h3>O MÉTODO VIDA REAL 15D</h3>
-                    <p>Seu mapa exato e <strong>direto ao ponto</strong>. Sem confusão.</p>
+        .deliverables-title {
+            font-size: var(--fs-h2);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 2rem;
+        }
+
+        .deliverables-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+        }
+
+        @media (max-width: 640px) {
+            .deliverables-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Grid glow — luz no centro entre os 4 cards */
+        .deliverables-grid {
+            position: relative;
+        }
+
+        .deliverables-grid::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(230, 57, 70, 0.14) 0%, transparent 70%);
+            z-index: 0;
+        }
+
+        /* Base card */
+        .dlv-card {
+            position: relative;
+            z-index: 1;
+            background: #111111;
+            border: 1px solid #252525;
+            border-radius: 0;
+            padding: 1.75rem;
+            overflow: hidden;
+            transition: border-color 0.25s ease, background 0.25s ease, opacity 0.55s ease, transform 0.55s ease;
+        }
+
+        .dlv-card:hover {
+            border-color: rgba(230, 57, 70, 0.55);
+            background: #141414;
+        }
+
+        /* Accent stripe on top */
+        .dlv-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent) 0%, transparent 75%);
+        }
+
+        /* Featured main card */
+        .dlv-card--main {
+            border-color: rgba(230, 57, 70, 0.3);
+            background: #120c0d;
+        }
+
+        .dlv-card--main::before {
+            background: var(--accent);
+            height: 2px;
+        }
+
+        /* Icon + badge row */
+        .dlv-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .dlv-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 0;
+            font-size: 1rem;
+            background: rgba(230, 57, 70, 0.1);
+            color: var(--accent);
+            border: 1px solid rgba(230, 57, 70, 0.22);
+            flex-shrink: 0;
+        }
+
+        /* BÔNUS badge — sharp, igual ao de referência */
+        .dlv-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            background: var(--accent);
+            color: #fff;
+            font-size: 0.68rem;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 0.25rem 0.65rem;
+            border-radius: 0;
+            margin-bottom: 0.7rem;
+            line-height: 1;
+        }
+
+        .dlv-badge i {
+            font-size: 0.6rem;
+        }
+
+        .dlv-card__title {
+            font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -0.01em;
+            line-height: 1.2;
+            color: var(--text);
+            margin-bottom: 0.6rem;
+        }
+
+        .dlv-card__body {
+            font-size: var(--fs-body);
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .dlv-card__body strong {
+            color: var(--text);
+        }
+    </style>
+
+    <section class="deliverables-section">
+        <div class="container">
+            <h2 class="deliverables-title reveal">VOCÊ LEVA TUDO ISSO</h2>
+
+            <div class="deliverables-grid">
+
+                <!-- Card 1 — Principal -->
+                <div class="dlv-card dlv-card--main reveal">
+                    <div class="dlv-card-top">
+                        <div class="dlv-icon"><i class="fas fa-fire"></i></div>
+                    </div>
+                    <p class="dlv-card__title">O MÉTODO VIDA REAL 15D</p>
+                    <p class="dlv-card__body">Seu mapa exato e <strong>direto ao ponto</strong>. Sem confusão.</p>
                 </div>
-                <div class="card reveal">
-                    <i class="fas fa-exchange-alt"></i>
-                    <h3>GUIA DE SUBSTITUIÇÕES INTELIGENTES <span class="text-accent">🎁 BÔNUS</span></h3>
-                    <p><strong>Liberdade para comer</strong> o que gosta, com estratégia.</p>
+
+                <!-- Card 2 — Bônus -->
+                <div class="dlv-card dlv-card--bonus reveal">
+                    <div class="dlv-card-top">
+                        <div class="dlv-icon"><i class="fas fa-exchange-alt"></i></div>
+                        <span class="dlv-badge"><i class="fas fa-bolt"></i> Bônus</span>
+                    </div>
+                    <p class="dlv-card__title">GUIA DE SUBSTITUIÇÕES INTELIGENTES</p>
+                    <p class="dlv-card__body"><strong>Liberdade para comer</strong> o que gosta, com estratégia.</p>
                 </div>
-                <div class="card reveal">
-                    <i class="fas fa-chart-line"></i>
-                    <h3>PROTOCOLO S.O.S.<span class="text-accent">🎁 BÔNUS</span></h3>
-                    <p>Errou o pé? Não jogue seus 15 dias no lixo.<strong>Aprenda a voltar para o trilho agora.</strong>.</p>
+
+                <!-- Card 3 — Bônus -->
+                <div class="dlv-card dlv-card--bonus reveal">
+                    <div class="dlv-card-top">
+                        <div class="dlv-icon"><i class="fas fa-chart-line"></i></div>
+                        <span class="dlv-badge"><i class="fas fa-bolt"></i> Bônus</span>
+                    </div>
+                    <p class="dlv-card__title">PROTOCOLO S.O.S.</p>
+                    <p class="dlv-card__body">Errou o pé? Não jogue seus 15 dias no lixo. <strong>Aprenda a voltar para o trilho agora.</strong></p>
                 </div>
-                <div class="card reveal">
-                    <i class="fab fa-whatsapp"></i>
-                    <h3>COMUNIDADE VIP NO WHATSAPP <span class="text-accent">🎁 BÔNUS</span></h3>
-                    <p>Áudios diários e <strong>suporte direto</strong> com Victor Gedda.</p>
+
+                <!-- Card 4 — Bônus -->
+                <div class="dlv-card dlv-card--bonus reveal">
+                    <div class="dlv-card-top">
+                        <div class="dlv-icon"><i class="fab fa-whatsapp"></i></div>
+                        <span class="dlv-badge"><i class="fas fa-bolt"></i> Bônus</span>
+                    </div>
+                    <p class="dlv-card__title">COMUNIDADE VIP NO WHATSAPP</p>
+                    <p class="dlv-card__body">Áudios diários e <strong>suporte direto</strong> com Victor Gedda.</p>
                 </div>
+
             </div>
         </div>
     </section>
+
+    <script>
+        /* Stagger reveal para deliverables cards */
+        (function () {
+            var title = document.querySelector('.deliverables-title.reveal');
+            var cards = document.querySelectorAll('.dlv-card.reveal');
+            var allEls = [];
+            if (title) allEls.push(title);
+            cards.forEach(function (c) { allEls.push(c); });
+            if (!allEls.length) return;
+            var obs = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        obs.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            allEls.forEach(function (el, i) {
+                el.style.transitionDelay = (i * 0.1) + 's';
+                obs.observe(el);
+            });
+        })();
+    </script>
 
     <!-- ============================================================
          SEÇÃO: QUEM É VICTOR GEDDA
@@ -1905,8 +2529,27 @@
                 <p class="text-sm text-muted mt-1">Pagamento processado com total segurança</p>
 
                 <div class="vagas-timer">
-                    <p>⏳ ÚLTIMAS HORAS COM ESTE PREÇO!</p>
-                    <div class="contador" id="contador2">48:00:00</div>
+                    <div class="vagas-timer-label">
+                        <span class="vagas-timer-label-dot"></span>
+                        Oferta encerra em
+                        <span class="vagas-timer-label-dot"></span>
+                    </div>
+                    <div class="vagas-timer-digits">
+                        <div class="vtd-block">
+                            <span class="vtd-num" id="vt-hh">48</span>
+                            <span class="vtd-unit">horas</span>
+                        </div>
+                        <span class="vtd-sep">:</span>
+                        <div class="vtd-block">
+                            <span class="vtd-num" id="vt-mm">00</span>
+                            <span class="vtd-unit">min</span>
+                        </div>
+                        <span class="vtd-sep">:</span>
+                        <div class="vtd-block">
+                            <span class="vtd-num" id="vt-ss">00</span>
+                            <span class="vtd-unit">seg</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2195,13 +2838,9 @@
             }, 300);
         });
 
-        const contadorEls = [
-            document.getElementById('contador'),
-            document.getElementById('contador2')
-        ];
-
+        /* ── Timer ── */
         const TIMER_KEY = 'gedda_timer_expira';
-        const DURACAO = 48 * 60 * 60;
+        const DURACAO   = 48 * 60 * 60;
 
         if (!localStorage.getItem(TIMER_KEY)) {
             localStorage.setItem(TIMER_KEY, Date.now() + DURACAO * 1000);
@@ -2212,13 +2851,33 @@
             return diff > 0 ? diff : 0;
         }
 
+        // Helper: update an element text + trigger flip animation if value changed
+        function setDigit(el, val) {
+            if (!el) return;
+            if (el.textContent !== val) {
+                el.textContent = val;
+                el.classList.remove('flipped');
+                void el.offsetWidth; // reflow
+                el.classList.add('flipped');
+            }
+        }
+
         function atualizarTimer() {
             const t = getTempoRestante();
             const h = Math.floor(t / 3600).toString().padStart(2, '0');
             const m = Math.floor((t % 3600) / 60).toString().padStart(2, '0');
             const s = (t % 60).toString().padStart(2, '0');
             const str = `${h}:${m}:${s}`;
-            contadorEls.forEach(el => { if (el) el.textContent = str; });
+
+            // Top bar (single string)
+            const barEl = document.getElementById('contador');
+            if (barEl) barEl.textContent = str;
+
+            // Vagas timer (split blocks)
+            setDigit(document.getElementById('vt-hh'), h);
+            setDigit(document.getElementById('vt-mm'), m);
+            setDigit(document.getElementById('vt-ss'), s);
+
             if (t <= 0) clearInterval(intervalo);
         }
 
@@ -2411,9 +3070,8 @@
                 if (existing) existing.remove();
 
                 var kfCss = '';
-                var kfGenerated = false;
 
-                buttons.forEach(function (btn) {
+                buttons.forEach(function (btn, btnIdx) {
                     var svg = btn.querySelector('.btn-beam-svg');
                     if (!svg) return;
 
@@ -2446,19 +3104,16 @@
                             rect.setAttribute('stroke-dasharray', tail + ' ' + gap);
                             rect.setAttribute('stroke-dashoffset', tail);
                             rect.style.animation =
-                                'btn-beam-stroke-' + i + ' ' + dur + 's linear ' + delay + 's infinite';
+                                'btn-beam-stroke-' + btnIdx + '-' + i + ' ' + dur + 's linear ' + delay + 's infinite';
                         });
                     });
 
-                    if (!kfGenerated) {
-                        for (var i = 0; i < 4; i++) {
-                            kfCss +=
-                                '@keyframes btn-beam-stroke-' + i + ' {' +
-                                'from { stroke-dashoffset: ' + tail + ' }' +
-                                'to { stroke-dashoffset: ' + (tail - per) + ' }' +
-                                '}';
-                        }
-                        kfGenerated = true;
+                    for (var i = 0; i < 4; i++) {
+                        kfCss +=
+                            '@keyframes btn-beam-stroke-' + btnIdx + '-' + i + ' {' +
+                            'from { stroke-dashoffset: ' + tail + ' }' +
+                            'to { stroke-dashoffset: ' + (tail - per) + ' }' +
+                            '}';
                     }
                 });
 
