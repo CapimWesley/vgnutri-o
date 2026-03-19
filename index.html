@@ -11,6 +11,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Meta Pixel Code -->
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () {
+                n.callMethod ?
+                n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+            };
+            if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+            n.queue = []; t = b.createElement(e); t.async = !0;
+            t.src = v; s = b.getElementsByTagName(e)[0];
+            s.parentNode.insertBefore(t, s);
+        }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '2330389010721955');
+        fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+            src="https://www.facebook.com/tr?id=2330389010721955&ev=PageView&noscript=1" /></noscript>
+    <!-- End Meta Pixel Code -->
 
     <style>
         /* ============================================================
@@ -429,18 +448,24 @@
         }
 
         @-webkit-keyframes btn-mobile-glow {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 14px rgba(34, 197, 94, 0.45), 0 0 30px rgba(34, 197, 94, 0.18);
             }
+
             50% {
                 box-shadow: 0 0 26px rgba(34, 197, 94, 0.75), 0 0 55px rgba(34, 197, 94, 0.35), 0 0 90px rgba(34, 197, 94, 0.12);
             }
         }
 
         @keyframes btn-mobile-glow {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow: 0 0 14px rgba(34, 197, 94, 0.45), 0 0 30px rgba(34, 197, 94, 0.18);
             }
+
             50% {
                 box-shadow: 0 0 26px rgba(34, 197, 94, 0.75), 0 0 55px rgba(34, 197, 94, 0.35), 0 0 90px rgba(34, 197, 94, 0.12);
             }
@@ -575,7 +600,7 @@
         ============================================================ */
         .timer-bar {
             background: #0a0a0a;
-            border-bottom: 1px solid rgba(230,57,70,0.3);
+            border-bottom: 1px solid rgba(230, 57, 70, 0.3);
             text-align: center;
             padding: 0.6rem 1rem;
             font-weight: 700;
@@ -590,35 +615,54 @@
             justify-content: center;
             gap: 0.8rem;
             overflow: hidden;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255, 255, 255, 0.5);
         }
 
         .timer-bar::before {
             content: '';
             position: absolute;
-            left: 0; top: 0; bottom: 0;
-            background: linear-gradient(90deg, rgba(230,57,70,0.07) 0%, transparent 100%);
+            left: 0;
+            top: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, rgba(230, 57, 70, 0.07) 0%, transparent 100%);
             animation: tbar-sweep 3.5s ease-in-out infinite alternate;
             pointer-events: none;
         }
 
         @keyframes tbar-sweep {
-            from { width: 5%;  opacity: 0.5; }
-            to   { width: 55%; opacity: 1;   }
+            from {
+                width: 5%;
+                opacity: 0.5;
+            }
+
+            to {
+                width: 55%;
+                opacity: 1;
+            }
         }
 
         .timer-bar-pulse {
-            width: 6px; height: 6px;
+            width: 6px;
+            height: 6px;
             background: var(--accent);
             border-radius: 50%;
-            box-shadow: 0 0 7px var(--accent), 0 0 14px rgba(230,57,70,0.35);
+            box-shadow: 0 0 7px var(--accent), 0 0 14px rgba(230, 57, 70, 0.35);
             animation: tpulse 1s ease-in-out infinite;
             flex-shrink: 0;
         }
 
         @keyframes tpulse {
-            0%,100% { opacity:1; transform:scale(1);   }
-            50%      { opacity:.3; transform:scale(0.55); }
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: .3;
+                transform: scale(0.55);
+            }
         }
 
         .timer-bar .countdown {
@@ -833,6 +877,7 @@
         }
 
         @media (max-width: 768px) {
+
             /* SVG beam some no mobile — substitui por CSS glow pulsante */
             .beam-svg {
                 display: none;
@@ -846,12 +891,15 @@
         }
 
         @-webkit-keyframes mentor-mobile-glow {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow:
                     0 0 8px 2px rgba(230, 57, 70, 0.7),
                     0 0 20px 4px rgba(230, 57, 70, 0.35),
                     inset 0 0 12px rgba(230, 57, 70, 0.08);
             }
+
             50% {
                 box-shadow:
                     0 0 18px 5px rgba(230, 57, 70, 0.95),
@@ -862,12 +910,15 @@
         }
 
         @keyframes mentor-mobile-glow {
-            0%, 100% {
+
+            0%,
+            100% {
                 box-shadow:
                     0 0 8px 2px rgba(230, 57, 70, 0.7),
                     0 0 20px 4px rgba(230, 57, 70, 0.35),
                     inset 0 0 12px rgba(230, 57, 70, 0.08);
             }
+
             50% {
                 box-shadow:
                     0 0 18px 5px rgba(230, 57, 70, 0.95),
@@ -1242,7 +1293,7 @@
 
         .vagas-timer {
             background: transparent;
-            border: 1px solid rgba(230,57,70,0.25);
+            border: 1px solid rgba(230, 57, 70, 0.25);
             border-top: 2px solid var(--accent);
             padding: 1.5rem 1.25rem 1.25rem;
             margin-top: 1.5rem;
@@ -1256,7 +1307,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(230,57,70,0.09) 0%, transparent 70%);
+            background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(230, 57, 70, 0.09) 0%, transparent 70%);
             pointer-events: none;
         }
 
@@ -1265,7 +1316,7 @@
             align-items: center;
             justify-content: center;
             gap: 0.55rem;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255, 255, 255, 0.5);
             font-size: 0.7rem;
             font-weight: 700;
             letter-spacing: 0.12em;
@@ -1274,7 +1325,8 @@
         }
 
         .vagas-timer-label-dot {
-            width: 5px; height: 5px;
+            width: 5px;
+            height: 5px;
             background: var(--accent);
             border-radius: 50%;
             box-shadow: 0 0 6px var(--accent);
@@ -1313,7 +1365,7 @@
             font-weight: 700;
             letter-spacing: 0.12em;
             text-transform: uppercase;
-            color: rgba(255,255,255,0.3);
+            color: rgba(255, 255, 255, 0.3);
         }
 
         .vtd-sep {
@@ -1327,14 +1379,29 @@
         }
 
         @keyframes sep-blink {
-            0%,49% { opacity: 0.7; }
-            50%,100%{ opacity: 0.1; }
+
+            0%,
+            49% {
+                opacity: 0.7;
+            }
+
+            50%,
+            100% {
+                opacity: 0.1;
+            }
         }
 
         /* Flip animation quando dígito muda */
         @keyframes digit-flip {
-            0%   { transform: translateY(-8px); opacity: 0; }
-            100% { transform: translateY(0);    opacity: 1; }
+            0% {
+                transform: translateY(-8px);
+                opacity: 0;
+            }
+
+            100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
 
         .vtd-num.flipped {
@@ -1792,7 +1859,9 @@
         }
 
         @media (max-width: 640px) {
-            .dor-grid { grid-template-columns: 1fr; }
+            .dor-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .dor-card {
@@ -1814,10 +1883,21 @@
         }
 
         /* stagger delays */
-        .dor-card:nth-child(1) { transition-delay: 0s;    }
-        .dor-card:nth-child(2) { transition-delay: 0.12s; }
-        .dor-card:nth-child(3) { transition-delay: 0.24s; }
-        .dor-card:nth-child(4) { transition-delay: 0.36s; }
+        .dor-card:nth-child(1) {
+            transition-delay: 0s;
+        }
+
+        .dor-card:nth-child(2) {
+            transition-delay: 0.12s;
+        }
+
+        .dor-card:nth-child(3) {
+            transition-delay: 0.24s;
+        }
+
+        .dor-card:nth-child(4) {
+            transition-delay: 0.36s;
+        }
 
         .dor-card:hover {
             background: #131313;
@@ -1827,7 +1907,9 @@
         .dor-card::after {
             content: '';
             position: absolute;
-            left: 0; top: 0; bottom: 0;
+            left: 0;
+            top: 0;
+            bottom: 0;
             width: 2px;
             background: var(--accent);
             transform: scaleY(0);
@@ -1841,10 +1923,13 @@
 
         /* Ícone */
         .dor-card-icon {
-            width: 42px; height: 42px;
-            display: flex; align-items: center; justify-content: center;
-            background: rgba(230,57,70,0.1);
-            border: 1px solid rgba(230,57,70,0.2);
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(230, 57, 70, 0.1);
+            border: 1px solid rgba(230, 57, 70, 0.2);
             color: var(--accent);
             font-size: 1rem;
             margin-bottom: 1.1rem;
@@ -1852,8 +1937,8 @@
         }
 
         .dor-card:hover .dor-card-icon {
-            background: rgba(230,57,70,0.18);
-            box-shadow: 0 0 18px rgba(230,57,70,0.2);
+            background: rgba(230, 57, 70, 0.18);
+            box-shadow: 0 0 18px rgba(230, 57, 70, 0.2);
         }
 
         .dor-card-title {
@@ -1872,40 +1957,48 @@
             line-height: 1.7;
         }
 
-        .dor-card-body strong { color: var(--text); }
-
-
+        .dor-card-body strong {
+            color: var(--text);
+        }
     </style>
 
     <section class="dor-section">
         <div class="container">
             <h2 class="dor-title reveal">EU JÁ SEI O QUE VOCÊ ESTÁ SENTINDO</h2>
-            <p class="dor-subtitle reveal">Antes de qualquer protocolo, você precisa ser entendido. Isso aqui é sobre você.</p>
+            <p class="dor-subtitle reveal">Antes de qualquer protocolo, você precisa ser entendido. Isso aqui é sobre
+                você.</p>
 
             <div class="dor-grid" id="dorGrid">
 
                 <div class="dor-card">
                     <div class="dor-card-icon"><i class="fas fa-weight-scale"></i></div>
                     <p class="dor-card-title">Medo da Balança</p>
-                    <p class="dor-card-body">Você <strong>evita se pesar</strong> porque sabe que o número vai te frustrar. As roupas <strong>não servem mais</strong> e você se sente <strong>preso no corpo errado</strong>.</p>
+                    <p class="dor-card-body">Você <strong>evita se pesar</strong> porque sabe que o número vai te
+                        frustrar. As roupas <strong>não servem mais</strong> e você se sente <strong>preso no corpo
+                            errado</strong>.</p>
                 </div>
 
                 <div class="dor-card">
                     <div class="dor-card-icon"><i class="fas fa-users"></i></div>
                     <p class="dor-card-title">Vergonha de Fotos</p>
-                    <p class="dor-card-body">Você sempre pede pra tirarem outra foto, ou pior, <strong>só aparece em fotos de grupo</strong> porque esconde o corpo atrás de alguém.</p>
+                    <p class="dor-card-body">Você sempre pede pra tirarem outra foto, ou pior, <strong>só aparece em
+                            fotos de grupo</strong> porque esconde o corpo atrás de alguém.</p>
                 </div>
 
                 <div class="dor-card">
                     <div class="dor-card-icon"><i class="fas fa-clock"></i></div>
                     <p class="dor-card-title">Efeito Sanfona</p>
-                    <p class="dor-card-body">Você começa segunda, <strong>passa fome</strong>, e no fim de semana <strong>desiste</strong>. Aí vem a <strong>culpa</strong> — e a sensação de que mudar é impossível pra você.</p>
+                    <p class="dor-card-body">Você começa segunda, <strong>passa fome</strong>, e no fim de semana
+                        <strong>desiste</strong>. Aí vem a <strong>culpa</strong> — e a sensação de que mudar é
+                        impossível pra você.</p>
                 </div>
 
                 <div class="dor-card">
                     <div class="dor-card-icon"><i class="fas fa-hand"></i></div>
                     <p class="dor-card-title">Você Começa e Para</p>
-                    <p class="dor-card-body">Consegue emagrecer quando alguém te empurra, mas na primeira dificuldade <strong>volta tudo</strong>. O que falta não é força de vontade — é um <strong>método real</strong>.</p>
+                    <p class="dor-card-body">Consegue emagrecer quando alguém te empurra, mas na primeira dificuldade
+                        <strong>volta tudo</strong>. O que falta não é força de vontade — é um <strong>método
+                            real</strong>.</p>
                 </div>
 
             </div>
@@ -1970,12 +2063,11 @@
             right: 13%;
             height: 1px;
             background: linear-gradient(90deg,
-                transparent 0%,
-                rgba(230,57,70,0.6) 10%,
-                rgba(230,57,70,0.25) 50%,
-                rgba(230,57,70,0.6) 90%,
-                transparent 100%
-            );
+                    transparent 0%,
+                    rgba(230, 57, 70, 0.6) 10%,
+                    rgba(230, 57, 70, 0.25) 50%,
+                    rgba(230, 57, 70, 0.6) 90%,
+                    transparent 100%);
             z-index: 0;
         }
 
@@ -2009,7 +2101,7 @@
             content: '';
             position: absolute;
             inset: -5px;
-            border: 1px solid rgba(230,57,70,0.18);
+            border: 1px solid rgba(230, 57, 70, 0.18);
         }
 
         .pilar-icon {
@@ -2035,9 +2127,11 @@
             line-height: 1.65;
         }
 
-        .pilar-desc strong { color: var(--text); }
+        .pilar-desc strong {
+            color: var(--text);
+        }
 
-        .pilar-item + .pilar-item {
+        .pilar-item+.pilar-item {
             border-left: 1px solid #1e1e1e;
         }
 
@@ -2046,12 +2140,20 @@
                 grid-template-columns: 1fr 1fr;
                 gap: 2.5rem 0;
             }
-            .pilares-track::before { display: none; }
-            .pilar-item + .pilar-item { border-left: none; }
+
+            .pilares-track::before {
+                display: none;
+            }
+
+            .pilar-item+.pilar-item {
+                border-left: none;
+            }
+
             .pilar-item:nth-child(odd) {
                 border-right: 1px solid #1e1e1e;
                 padding-right: 1.5rem;
             }
+
             .pilar-item:nth-child(3),
             .pilar-item:nth-child(4) {
                 border-top: 1px solid #1e1e1e;
@@ -2060,9 +2162,20 @@
         }
 
         @media (max-width: 480px) {
-            .pilares-track { grid-template-columns: 1fr; gap: 2rem 0; }
-            .pilar-item + .pilar-item { border-left: none; border-top: 1px solid #1e1e1e; padding-top: 2rem; }
-            .pilar-item:nth-child(odd) { border-right: none; }
+            .pilares-track {
+                grid-template-columns: 1fr;
+                gap: 2rem 0;
+            }
+
+            .pilar-item+.pilar-item {
+                border-left: none;
+                border-top: 1px solid #1e1e1e;
+                padding-top: 2rem;
+            }
+
+            .pilar-item:nth-child(odd) {
+                border-right: none;
+            }
         }
     </style>
 
@@ -2070,7 +2183,8 @@
         <div class="container">
             <div class="pilares-intro">
                 <h2 class="reveal">O PROTOCOLO VIDA REAL EM 15 DIAS</h2>
-                <p class="lead reveal">Não é jejum maluco, nem remédio disfarçado de chá. São <strong class="text-accent">15 dias do método Vida Real</strong> na prática, baseado em 4 pilares:</p>
+                <p class="lead reveal">Não é jejum maluco, nem remédio disfarçado de chá. São <strong
+                        class="text-accent">15 dias do método Vida Real</strong> na prática, baseado em 4 pilares:</p>
             </div>
 
             <div class="pilares-track">
@@ -2203,7 +2317,9 @@
         .dlv-card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0;
+            top: 0;
+            left: 0;
+            right: 0;
             height: 2px;
             background: linear-gradient(90deg, var(--accent) 0%, transparent 75%);
         }
@@ -2315,7 +2431,8 @@
                         <span class="dlv-badge"><i class="fas fa-bolt"></i> Bônus</span>
                     </div>
                     <p class="dlv-card__title">PROTOCOLO S.O.S.</p>
-                    <p class="dlv-card__body">Errou o pé? Não jogue seus 15 dias no lixo. <strong>Aprenda a voltar para o trilho agora.</strong></p>
+                    <p class="dlv-card__body">Errou o pé? Não jogue seus 15 dias no lixo. <strong>Aprenda a voltar para
+                            o trilho agora.</strong></p>
                 </div>
 
                 <!-- Card 4 — Bônus -->
@@ -2564,7 +2681,8 @@
                 <i class="fas fa-shield-alt"></i>
                 <h2>GARANTIA INCONDICIONAL DE 7 DIAS</h2>
                 <p>Se você seguir o protocolo por <strong>7 dias</strong> e não notar resultados, devolvemos
-                    <strong>100% do seu dinheiro</strong>. Sem perguntas, sem burocracia.</p>
+                    <strong>100% do seu dinheiro</strong>. Sem perguntas, sem burocracia.
+                </p>
                 <div class="risco-zero">O RISCO É TODO NOSSO</div>
             </div>
         </div>
@@ -2758,7 +2876,7 @@
                                 return true;
                             }
                         }
-                    } catch (e) {}
+                    } catch (e) { }
                     return false;
                 }
 
@@ -2840,7 +2958,7 @@
 
         /* ── Timer ── */
         const TIMER_KEY = 'gedda_timer_expira';
-        const DURACAO   = 48 * 60 * 60;
+        const DURACAO = 48 * 60 * 60;
 
         if (!localStorage.getItem(TIMER_KEY)) {
             localStorage.setItem(TIMER_KEY, Date.now() + DURACAO * 1000);
