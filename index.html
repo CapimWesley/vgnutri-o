@@ -1758,7 +1758,7 @@
                 </div>
 
                 <div class="cta-wrap">
-                    <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer"
+                    <a href="https://pay.cakto.com.br/38ob4kp_810430" target="_blank" rel="noopener noreferrer"
                         class="btn btn-primary">QUERO ENTRAR NO PROTOCOLO<svg class="btn-beam-svg" aria-hidden="true">
                             <rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0" />
                             <rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="0" />
@@ -2604,7 +2604,7 @@
                 fim de semana. Pra você finalmente executar algo que dê resultado.</p>
 
             <div class="cta-wrap">
-                <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer"
+                <a href="https://pay.cakto.com.br/38ob4kp_810430" target="_blank" rel="noopener noreferrer"
                     class="btn btn-primary reveal">QUERO COMEÇAR O DESAFIO AGORA<svg class="btn-beam-svg"
                         aria-hidden="true">
                         <rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0" />
@@ -2769,7 +2769,7 @@
             <h2 class="reveal">VAGAS LIMITADAS PARA O GRUPO VIP</h2>
             <p class="lead reveal mb-2">Garanta sua vaga agora antes que o preço suba.</p>
             <div class="cta-wrap">
-                <a href="https://www.instagram.com/geddanutri/" target="_blank" rel="noopener noreferrer"
+                <a href="https://pay.cakto.com.br/38ob4kp_810430" target="_blank" rel="noopener noreferrer"
                     class="btn btn-primary reveal">QUERO ENTRAR AGORA<svg class="btn-beam-svg" aria-hidden="true">
                         <rect class="btn-beam-rect btn-beam-rect--outer-glow" data-beam="0" />
                         <rect class="btn-beam-rect btn-beam-rect--mid-glow" data-beam="0" />
@@ -2953,17 +2953,56 @@
             }, 300);
         });
 
+        /* ── CTA Checkout + UTM passthrough ── */
+        const CHECKOUT_BASE_URL = 'https://pay.cakto.com.br/38ob4kp_810430';
+
+        function getCheckoutUrlWithUtms() {
+            const pageParams = new URLSearchParams(window.location.search);
+            const checkoutUrl = new URL(CHECKOUT_BASE_URL);
+
+            pageParams.forEach((value, key) => {
+                if (key.toLowerCase().startsWith('utm_')) {
+                    checkoutUrl.searchParams.append(key, value);
+                }
+            });
+
+            return checkoutUrl.toString();
+        }
+
+        function applyCheckoutLinks() {
+            const checkoutUrl = getCheckoutUrlWithUtms();
+            document.querySelectorAll('a.btn-primary').forEach((btn) => {
+                btn.href = checkoutUrl;
+            });
+        }
+
+        applyCheckoutLinks();
+
         /* ── Timer ── */
         const TIMER_KEY = 'gedda_timer_expira';
         const DURACAO = 48 * 60 * 60;
 
-        if (!localStorage.getItem(TIMER_KEY)) {
-            localStorage.setItem(TIMER_KEY, Date.now() + DURACAO * 1000);
+        function getNovoPrazoMs() {
+            return Date.now() + DURACAO * 1000;
+        }
+
+        function getPrazoValidoMs(nowMs) {
+            const rawValue = localStorage.getItem(TIMER_KEY);
+            const expiraEm = Number(rawValue);
+
+            if (!Number.isFinite(expiraEm) || expiraEm <= nowMs) {
+                const novoPrazo = getNovoPrazoMs();
+                localStorage.setItem(TIMER_KEY, String(novoPrazo));
+                return novoPrazo;
+            }
+
+            return expiraEm;
         }
 
         function getTempoRestante() {
-            const diff = Math.floor((parseInt(localStorage.getItem(TIMER_KEY)) - Date.now()) / 1000);
-            return diff > 0 ? diff : 0;
+            const nowMs = Date.now();
+            const expiraEm = getPrazoValidoMs(nowMs);
+            return Math.max(0, Math.floor((expiraEm - nowMs) / 1000));
         }
 
         // Helper: update an element text + trigger flip animation if value changed
@@ -2993,11 +3032,10 @@
             setDigit(document.getElementById('vt-mm'), m);
             setDigit(document.getElementById('vt-ss'), s);
 
-            if (t <= 0) clearInterval(intervalo);
         }
 
         atualizarTimer();
-        const intervalo = setInterval(atualizarTimer, 1000);
+        setInterval(atualizarTimer, 1000);
 
         /* ── FAQ accordion ── */
         document.querySelectorAll('.faq-card').forEach(card => {
