@@ -8,7 +8,7 @@
     <!-- Google Fonts: Space Grotesk — pesos usados: 400, 500, 700 apenas -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?familyz=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Google Tag Manager -->
@@ -2967,6 +2967,16 @@
                     checkoutUrl.searchParams.append(key, value);
                 }
             });
+
+            // repassa o _ga para cross-domain tracking do GA4
+            const gaCookie = document.cookie
+                .split(';')
+                .map(c => c.trim())
+                .find(c => c.startsWith('_ga='));
+
+            if (gaCookie) {
+                checkoutUrl.searchParams.append('_ga', gaCookie.split('=')[1]);
+            }
 
             return checkoutUrl.toString();
         }
